@@ -24,7 +24,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value =NullPointerException.class)
     @ResponseBody
     public Result exceptionHandler(HttpServletRequest req, NullPointerException e){
-        return Result.error(MyExceptionEnum.NOT_FIND);
+        return Result.error(MyExceptionEnum.NULL_POINTER);
     }
 
 

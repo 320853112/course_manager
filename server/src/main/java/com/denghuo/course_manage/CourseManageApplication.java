@@ -7,7 +7,8 @@ import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
 @MapperScan("com.denghuo.course_manage.dao")
-//@ComponentScan("springfox.documentation.swagger2")
+@ComponentScan("springfox.documentation.swagger2")
+@ComponentScan("com.denghuo.course_manage")
 public class CourseManageApplication {
 
     public static void main(String[] args) {

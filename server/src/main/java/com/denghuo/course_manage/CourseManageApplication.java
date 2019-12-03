@@ -6,12 +6,13 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.ComponentScan;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication
 @MapperScan("com.denghuo.course_manage.dao")
-@ComponentScan("springfox.documentation.swagger2")
-@ComponentScan("com.denghuo.course_manage")
-public class CourseManageApplication extends SpringBootServletInitializer {
+@ComponentScan(value = {"springfox.documentation.swagger2","com.denghuo.course_manage"})
+//@ComponentScan()
+public class CourseManageApplication extends SpringBootServletInitializer{
 
     public static void main(String[] args) {
         SpringApplication.run(CourseManageApplication.class, args);

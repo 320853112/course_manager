@@ -11,7 +11,6 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @SpringBootApplication
 @MapperScan("com.denghuo.course_manage.dao")
 @ComponentScan(value = {"springfox.documentation.swagger2","com.denghuo.course_manage"})
-//@ComponentScan()
 public class CourseManageApplication extends SpringBootServletInitializer{
 
     public static void main(String[] args) {

@@ -26,7 +26,7 @@ public class StudentController {
             @ApiImplicitParam( name = "id",value = "学生id", required = true, paramType = "query",dataType ="int")
     )
     public Object sendMessage(Integer id ){
-
+        System.out.println("ok");
         return Result.send(studentDAO.getStuInfo(id));
     }
 

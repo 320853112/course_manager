@@ -7,6 +7,15 @@ public class Student {
     private String college;
     private String major;
     private String class_name;
+    private String password;
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
     public Integer getId() {
         return id;

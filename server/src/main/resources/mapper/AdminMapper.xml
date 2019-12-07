@@ -13,4 +13,34 @@
         </trim>
         where id = #{id}
     </update>
+
+    <insert id="insertAdmin">
+        insert into admin
+        <trim prefix="(" suffixOverrides="," suffix=")">
+            <if test="username!=null">
+                username,
+            </if>
+            <if test="password!=null">
+                password,
+            </if>
+        </trim>
+        <trim prefix="values(" suffixOverrides="," suffix=")">
+            <if test="username!=null">
+                #{username},
+            </if>
+            <if test="password!=null">
+                #{password},
+            </if>
+        </trim>
+    </insert>
+
+    <delete id="deleteAdmin" parameterType="Integer">
+        delete from admin where id = #{id}
+    </delete>
+
+    <select id="getAdmin" parameterType="String" resultType="Admin">
+        select id,username,password from admin where username = #{username}
+    </select>
+
+
 </mapper>

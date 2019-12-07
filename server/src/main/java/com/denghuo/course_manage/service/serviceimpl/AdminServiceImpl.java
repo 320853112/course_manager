@@ -9,6 +9,8 @@ import com.denghuo.course_manage.utils.MyExceptionEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class AdminServiceImpl implements AdminService {
     @Autowired
@@ -19,11 +21,33 @@ public class AdminServiceImpl implements AdminService {
         if(admin.getPassword()!=null){
             admin.setPassword(MD5util.getMD5String(admin.getPassword()));
         }
-        if(adminDAO.updateAdmin(admin)==1){
-            return true;
-        }else {
+        if(1!=adminDAO.updateAdmin(admin)){
             throw new CustomException(MyExceptionEnum.ACCESS_FAIL);
         }
+        return true;
+    }
 
+    @Override
+    public Boolean insertAdmin(String username, String password) {
+        Admin admin = new Admin();
+        admin.setUsername(username);
+        admin.setPassword(MD5util.getMD5String(password));
+        if(1!=adminDAO.insertAdmin(admin)){
+            throw new CustomException(MyExceptionEnum.ACCESS_FAIL);
+        }
+        return true;
+    }
+
+    @Override
+    public List<Admin> getAdmin(String username) {
+       return adminDAO.getAdmin(username);
+    }
+
+    @Override
+    public Boolean deleteAdmin(Integer id) {
+        if(1!=adminDAO.deleteAdmin(id)){
+            throw new CustomException(MyExceptionEnum.ACCESS_FAIL);
+        }
+        return true;
     }
 }

@@ -6,8 +6,7 @@ public class Course {
     private String category;
     private String name;
     private String time_week;
-    private String time_data;
-    private String time_day;
+    private String time_date;
     private String score;
     private String teacher;
     private String surplus;
@@ -44,20 +43,12 @@ public class Course {
         this.time_week = time_week;
     }
 
-    public String getTime_data() {
-        return time_data;
+    public String getTime_date() {
+        return time_date;
     }
 
-    public void setTime_data(String time_data) {
-        this.time_data = time_data;
-    }
-
-    public String getTime_day() {
-        return time_day;
-    }
-
-    public void setTime_day(String time_day) {
-        this.time_day = time_day;
+    public void setTime_date(String time_date) {
+        this.time_date = time_date;
     }
 
     public String getScore() {

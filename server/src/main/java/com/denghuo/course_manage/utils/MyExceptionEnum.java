@@ -6,7 +6,8 @@ public enum MyExceptionEnum implements ExceptionInterface{
     REQUEST_FAIL(500,"request fail"),
     BAD_GATEWAY(502,"bad gateway"),
     UNKNOWN_ERROR(1001,"happen unknown error"),
-    NULL_POINTER(1002,"find a null pointer")
+    NULL_POINTER(1002,"find a null pointer"),
+    ACCESS_FAIL(1003,"data access fail")
     ;
 
 

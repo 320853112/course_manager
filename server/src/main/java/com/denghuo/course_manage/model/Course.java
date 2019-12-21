@@ -7,7 +7,7 @@ public class Course {
     private String name;
     private String time_week;
     private String time_date;
-    private String score;
+    private String credit;
     private String teacher;
     private String surplus;
 
@@ -51,12 +51,12 @@ public class Course {
         this.time_date = time_date;
     }
 
-    public String getScore() {
-        return score;
+    public String getCredit() {
+        return credit;
     }
 
-    public void setScore(String score) {
-        this.score = score;
+    public void setCredit(String credit) {
+        this.credit = credit;
     }
 
     public String getTeacher() {

@@ -75,4 +75,13 @@ public class StudentController {
     public Object insertStuInfo(Student student ){
         return Result.send(studentService.insertStuInfo(student));
     }
+
+    @RequestMapping(value = "/getStuCourse",method = RequestMethod.GET)
+    @ApiOperation("查询学生已选择的课程")
+    @ApiImplicitParams({
+            @ApiImplicitParam( name = "id",value = "学生id", required = true, paramType = "query",dataType ="int"),
+    })
+    public Object getStuCourse(Integer id ){
+        return Result.send(studentService.getStuCourse(id));
+    }
 }

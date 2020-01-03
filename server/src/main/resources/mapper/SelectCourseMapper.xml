@@ -8,4 +8,10 @@
     <update id="reduceCourse" parameterType="int">
         update course set surplus = surplus - 1 where id = #{course_id}
     </update>
+
+    <select id="getCourseByStuId" parameterType="Integer" resultType="Course">
+        SELECT * FROM sc,course where stu_id = #{stu_id} and sc.course_id = course.id
+    </select>
+
+
 </mapper>

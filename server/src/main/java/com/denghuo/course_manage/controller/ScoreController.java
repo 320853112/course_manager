@@ -1,5 +1,6 @@
 package com.denghuo.course_manage.controller;
 
+import com.denghuo.course_manage.AOP.Access;
 import com.denghuo.course_manage.model.StuToCourse;
 import com.denghuo.course_manage.service.SelectCourseService;
 import com.denghuo.course_manage.utils.Result;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @Api(value = "ScoreAPI",tags = "分数相关")
+@Access(role = 2,comment = "老师")
 public class ScoreController {
 
     @Autowired

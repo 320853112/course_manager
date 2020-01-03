@@ -1,5 +1,6 @@
 package com.denghuo.course_manage.controller;
 
+import com.denghuo.course_manage.AOP.Access;
 import com.denghuo.course_manage.dao.StudentDAO;
 import com.denghuo.course_manage.model.Student;
 import com.denghuo.course_manage.service.StudentService;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @Api(value = "studentAPI",tags = "学生相关")
+@Access(role = 1,comment = "学生")
 public class StudentController {
     @Autowired
     private StudentDAO studentDAO;
@@ -35,6 +37,7 @@ public class StudentController {
         @ApiImplicitParam( name = "major",value = "专业", required = false, paramType = "query",dataType ="String"),
         @ApiImplicitParam( name = "class_name",value = "班级名称", required = false, paramType = "query",dataType ="String")
     })
+    @Access(role = 3,comment = "学生")
     public Object getStuInfo(Student student ){
         return Result.send(studentDAO.getStuInfo(student));
     }

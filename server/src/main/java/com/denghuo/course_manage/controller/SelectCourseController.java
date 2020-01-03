@@ -1,6 +1,7 @@
 package com.denghuo.course_manage.controller;
 
 
+import com.denghuo.course_manage.AOP.Access;
 import com.denghuo.course_manage.service.SelectCourseService;
 import com.denghuo.course_manage.utils.Result;
 import io.swagger.annotations.Api;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @Api(value = "SelectCourseAPI",tags = "选课相关")
+@Access(role = 1,comment = "学生")
 public class SelectCourseController {
 
     @Autowired

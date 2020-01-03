@@ -1,5 +1,6 @@
 package com.denghuo.course_manage.controller;
 
+import com.denghuo.course_manage.AOP.Access;
 import com.denghuo.course_manage.model.Admin;
 import com.denghuo.course_manage.service.AdminService;
 import com.denghuo.course_manage.utils.Result;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @Api(value = "adminAPI",tags = "管理员相关")
+@Access(role = 3,comment = "管理员")
 public class AdminController {
 
     @Autowired

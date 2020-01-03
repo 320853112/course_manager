@@ -1,5 +1,6 @@
 package com.denghuo.course_manage.controller;
 
+import com.denghuo.course_manage.AOP.Access;
 import com.denghuo.course_manage.model.Course;
 import com.denghuo.course_manage.service.AdminService;
 import com.denghuo.course_manage.service.CourseService;
@@ -18,6 +19,7 @@ import springfox.documentation.annotations.ApiIgnore;
 
 @RestController
 @Api(value = "courseAPI",tags = "课程信息相关")
+@Access(role = 3,comment = "管理员")
 public class CourseManagerController {
 
     @Autowired

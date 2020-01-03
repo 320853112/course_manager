@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.denghuo.course_manage.dao.CourseDAO">
+    <update id="updateCourse" parameterType="Course">
+        update course
+        <trim prefix="set"  suffixOverrides=",">
+            <if test="category!=null">
+                category = #{category},
+            </if>
+            <if test="name!=null">
+                name = #{name},
+            </if>
+            <if test="time_week!=null">
+                time_week = #{time_week},
+            </if>
+            <if test="credit!=null">
+                credit = #{credit},
+            </if>
+            <if test="teacher!=null">
+                teacher  =#{teacher},
+            </if>
+            <if test="surplus!=null">
+                surplus = #{surplus},
+            </if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <insert id="insertCourse" parameterType="Course">
+        insert into course
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="category!=null">
+                category ,
+            </if>
+            <if test="name!=null">
+                name,
+            </if>
+            <if test="time_week!=null">
+                time_week,
+            </if>
+            <if test="credit!=null">
+                credit,
+            </if>
+            <if test="teacher!=null">
+                teacher,
+            </if>
+            <if test="surplus!=null">
+                surplus,
+            </if>
+        </trim>
+          <trim prefix="values(" suffix=")" suffixOverrides=",">
+              <if test="category!=null">
+                  #{category},
+              </if>
+              <if test="name!=null">
+                  #{name},
+              </if>
+              <if test="time_week!=null">
+                  #{time_week},
+              </if>
+              <if test="credit!=null">
+                  #{credit},
+              </if>
+              <if test="teacher!=null">
+                  #{teacher},
+              </if>
+              <if test="surplus!=null">
+                  #{surplus},
+              </if>
+          </trim>
+    </insert>
+
+    <delete id="deleteCourse" parameterType="int">
+        delete from course where id = #{id}
+    </delete>
+
+    <select id="getCourse" parameterType="Course" resultType="Course">
+        select * from course where
+        <trim suffixOverrides="and">
+            1=1 and
+            <if test="id!=null">
+                id = #{id} and
+            </if>
+            <if test="category!=null">
+                category = #{category} and
+            </if>
+            <if test="name!=null">
+                name = #{name} and
+            </if>
+            <if test="time_week!=null">
+                time_week = #{time_week} and
+            </if>
+            <if test="credit!=null">
+                credit = #{credit} and
+            </if>
+            <if test="teacher!=null">
+                teacher  =#{teacher} and
+            </if>
+            <if test="surplus!=null">
+                surplus = #{surplus} and
+            </if>
+        </trim>
+
+    </select>
+
+
+</mapper>

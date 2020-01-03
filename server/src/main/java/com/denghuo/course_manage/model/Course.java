@@ -6,10 +6,9 @@ public class Course {
     private String category;
     private String name;
     private String time_week;
-    private String time_date;
     private String credit;
     private String teacher;
-    private String surplus;
+    private Integer surplus;
 
     public Integer getId() {
         return id;
@@ -43,14 +42,6 @@ public class Course {
         this.time_week = time_week;
     }
 
-    public String getTime_date() {
-        return time_date;
-    }
-
-    public void setTime_date(String time_date) {
-        this.time_date = time_date;
-    }
-
     public String getCredit() {
         return credit;
     }
@@ -67,11 +58,18 @@ public class Course {
         this.teacher = teacher;
     }
 
-    public String getSurplus() {
+    public Integer getSurplus() {
         return surplus;
     }
 
-    public void setSurplus(String surplus) {
+    public void setSurplus(Integer surplus) {
         this.surplus = surplus;
+    }
+
+    public Course() {
+    }
+
+    public Course(Integer id) {
+        this.id = id;
     }
 }

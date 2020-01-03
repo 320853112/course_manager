@@ -56,4 +56,11 @@ public class Student {
     public void setClass_name(String class_name) {
         this.class_name = class_name;
     }
+
+    public Student() {
+    }
+
+    public Student(Integer id) {
+        this.id = id;
+    }
 }

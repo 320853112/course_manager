@@ -1,6 +1,7 @@
 package com.denghuo.course_manage.dao;
 
 import com.denghuo.course_manage.model.Course;
+import com.denghuo.course_manage.model.StuToCourse;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -13,4 +14,6 @@ public interface SelectCourseDAO {
     int reduceCourse(int courseId);
 
     List<Course> getCourseByStuId(Integer stu_id);
+
+    int setScoreByStu(StuToCourse stuToCourse);
 }

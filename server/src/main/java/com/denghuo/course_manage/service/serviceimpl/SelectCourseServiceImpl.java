@@ -3,6 +3,7 @@ package com.denghuo.course_manage.service.serviceimpl;
 import com.denghuo.course_manage.dao.SelectCourseDAO;
 import com.denghuo.course_manage.dao.StudentDAO;
 import com.denghuo.course_manage.model.Course;
+import com.denghuo.course_manage.model.StuToCourse;
 import com.denghuo.course_manage.model.Student;
 import com.denghuo.course_manage.service.CourseService;
 import com.denghuo.course_manage.service.SelectCourseService;
@@ -49,8 +50,14 @@ public class SelectCourseServiceImpl implements SelectCourseService {
             //选完课之后，将课程剩余量减少
             selectCourseDAO.reduceCourse(courseId);
         }
+        return true;
+    }
 
-
+    @Override
+    public boolean setScoreByStu(StuToCourse stuToCourse) {
+        if(1!=selectCourseDAO.setScoreByStu(stuToCourse)){
+            throw new CustomException(MyExceptionEnum.ACCESS_FAIL);
+        }
         return true;
     }
 }

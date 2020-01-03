@@ -13,5 +13,8 @@
         SELECT * FROM sc,course where stu_id = #{stu_id} and sc.course_id = course.id
     </select>
 
+    <update id="setScoreByStu" parameterType="StuToCourse">
+        update sc set score = #{score} where course_id = #{courseId} and stu_id  =#{stuId}
+    </update>
 
 </mapper>

@@ -2,25 +2,24 @@ package com.denghuo.course_manage.model;
 
 
 public class StuToCourse {
-    private Integer stu_id;
-    private Integer course_id;
+    private Integer stuId;
+    private Integer courseId;
     private Integer score;
 
-
-    public Integer getStu_id() {
-        return stu_id;
+    public Integer getStuId() {
+        return stuId;
     }
 
-    public void setStu_id(Integer stu_id) {
-        this.stu_id = stu_id;
+    public void setStuId(Integer stuId) {
+        this.stuId = stuId;
     }
 
-    public Integer getCourse_id() {
-        return course_id;
+    public Integer getCourseId() {
+        return courseId;
     }
 
-    public void setCourse_id(Integer course_id) {
-        this.course_id = course_id;
+    public void setCourseId(Integer courseId) {
+        this.courseId = courseId;
     }
 
     public Integer getScore() {

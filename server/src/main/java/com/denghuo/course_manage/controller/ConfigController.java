@@ -37,9 +37,6 @@ public class ConfigController {
 
     @RequestMapping(value = "/testAPI",method = RequestMethod.POST)
     public Object testAPI(String key){
-        if(!key.equals("denghuo")){
-            return Result.error() ;
-        }
         ProcessBuilder pb = new ProcessBuilder("/MyShell/test.sh");
 
         int runningStatus = 0;

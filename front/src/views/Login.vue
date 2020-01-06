@@ -37,16 +37,6 @@ export default {
     handleSubmit() {
       this.$refs.formInline.validate(valid => {
         if (valid) {
-          this.$Message.success('登录成功！')
-          localStorage.setItem('user', this.formInline.user)
-          var user = localStorage.getItem('user')
-          if (user === '111') {
-            localStorage.setItem('role', '学生')
-          } else if (user === '222') {
-            localStorage.setItem('role', '教师')
-          } else if (user === '333') {
-            localStorage.setItem('role', '管理员')
-          }
           this.$router.push('/home')
         } else {
           this.$Message.error('登录失败！')

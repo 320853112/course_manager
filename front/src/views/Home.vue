@@ -12,7 +12,7 @@
           <Breadcrumb :style="{margin: '24px 0'}">
             <BreadcrumbItem v-for="(item,index) in $route.meta.routeName" :key="index">>>&nbsp;{{item}}</BreadcrumbItem>
           </Breadcrumb>
-          <Content :style="{padding: '24px', minHeight: '280px', background: '#fff'}">
+          <Content :style="{padding: '24px', minHeight: '280px', background: '#fff'}" class="content">
             <router-view></router-view>
           </Content>
         </Layout>
@@ -35,4 +35,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.content {
+  height: calc(100vh - 200px);
+}
 </style>

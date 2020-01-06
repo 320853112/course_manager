@@ -1,76 +1,13 @@
 <template>
   <div class="pageSider">
-    <Sider breakpoint="md" collapsible :collapsed-width="78">
-      <Menu active-name="1-1" theme="light" width="auto">
-        <template v-if="isShow==='学生'">
-          <MenuItem name="1-1">
-          <router-link to="/personalCenter">
-            <Icon type="ios-person"></Icon>
-            <span>个人中心</span>
-          </router-link>
-          </MenuItem>
-          <MenuItem name="1-2">
-          <router-link to="/electiveCenter">
-            <Icon type="ios-paper"></Icon>
-            <span>选课中心</span>
-          </router-link>
-          </MenuItem>
-          <MenuItem name="1-3">
-          <router-link to="/termSchedule">
-            <Icon type="ios-copy"></Icon>
-            <span>学期课表</span>
-          </router-link>
-          </MenuItem>
-          <MenuItem name="1-4">
-          <router-link to="/scoreQuery">
-            <Icon type="ios-book"></Icon>
-            <span>成绩查询</span>
-          </router-link>
-          </MenuItem>
-        </template>
-        <template v-if="isShow==='教师'">
-          <MenuItem name="1-1">
-          <router-link to="/myCourse">
-            <Icon type="ios-people"></Icon>
-            <span>我的课程</span>
-          </router-link>
-          </MenuItem>
-          <MenuItem name="1-6">
-          <router-link to="/scoreEntry">
-            <Icon type="ios-create"></Icon>
-            <span>成绩录入</span>
-          </router-link>
-          </MenuItem>
-        </template>
-        <template v-if="isShow==='管理员'">
-          <MenuItem name="1-1">
-          <router-link to="/courseManage">
-            <Icon type="ios-people"></Icon>
-            <span>课程管理</span>
-          </router-link>
-          </MenuItem>
-          <MenuItem name="1-7">
-          <router-link to="/studentManage">
-            <Icon type="ios-create"></Icon>
-            <span>学生管理</span>
-          </router-link>
-          </MenuItem>
-          <MenuItem name="1-8">
-          <router-link to="/teacherManage">
-            <Icon type="ios-create"></Icon>
-            <span>教师管理</span>
-          </router-link>
-          </MenuItem>
-        </template>
-        <MenuItem name="1-9">
-        <router-link to="/changePassword">
-          <Icon type="ios-lock"></Icon>
-          <span>修改密码</span>
-        </router-link>
+    <Menu ref="siderBar" width="220" :active-name="activeName" :open-names="openNames" accordion>
+      <template v-for="menu in courseMenu">
+        <MenuItem :name="menu.name" :key="menu.name" :to="menu.to">
+        <Icon size="20" :type="menu.icon" />
+        {{menu.title}}
         </MenuItem>
-      </Menu>
-      <div slot="trigger"></div>
-    </Sider>
+      </template>
+    </Menu>
   </div>
 </template>
 
@@ -78,27 +15,91 @@
 export default {
   data() {
     return {
-      isShow: ''
+      activeName: 'index',
+      openNames: [],
+      courseMenu: [
+        {
+          title: '首页',
+          name: 'index',
+          icon: 'md-home',
+          to: '/index',
+          isMain: false
+        },
+        {
+          title: '课程管理',
+          name: 'courseManage',
+          icon: 'ios-people',
+          to: '/courseManage',
+          isMain: false
+        },
+        {
+          title: '学生管理',
+          name: 'studentManage',
+          icon: 'ios-create',
+          to: '/studentManage',
+          isMain: false
+        },
+        {
+          title: '教师管理',
+          name: 'teacherManage',
+          icon: 'ios-create',
+          to: '/teacherManage',
+          isMain: false
+        },
+        {
+          title: '我的课程',
+          name: 'myCourse',
+          icon: 'ios-people',
+          to: '/myCourse',
+          isMain: true
+        },
+        {
+          title: '成绩录入',
+          name: 'scoreEntry',
+          icon: 'ios-create',
+          to: '/scoreEntry',
+          isMain: false
+        },
+        {
+          title: '个人中心',
+          name: 'personalCenter',
+          icon: 'ios-person',
+          to: '/personalCenter',
+          isMain: true
+        },
+        {
+          title: '选课中心',
+          name: 'electiveCenter',
+          icon: 'ios-paper',
+          to: '/electiveCenter',
+          isMain: true
+        },
+        {
+          title: '学期课表',
+          name: 'termSchedule',
+          icon: 'ios-copy',
+          to: '/termSchedule',
+          isMain: true
+        },
+        {
+          title: '成绩查询',
+          name: 'scoreQuery',
+          icon: 'ios-book',
+          to: '/scoreQuery',
+          isMain: true
+        },
+        {
+          title: '修改密码',
+          name: 'changePassword',
+          icon: 'md-mail',
+          to: '/changePassword',
+          isMain: true
+        }
+      ]
     }
   },
-  created() {
-    this.setSilder()
-  },
-
   mounted() {},
-
-  methods: {
-    setSilder() {
-      const role = localStorage.getItem('role')
-      if (role === '学生') {
-        this.isShow = '学生'
-      } else if (role === '教师') {
-        this.isShow = '教师'
-      } else if (role === '管理员') {
-        this.isShow = '管理员'
-      }
-    }
-  }
+  methods: {}
 }
 </script>
 

@@ -31,6 +31,14 @@ const routes = [
     component: Home,
     children: [
       {
+        path: '/index',
+        name: 'index',
+        meta: {
+          routeName: ['首页']
+        },
+        component: () => import('../views/Index.vue')
+      },
+      {
         path: '/changePassword',
         name: 'ChangePassword',
         meta: {
@@ -122,25 +130,25 @@ const router = new VueRouter({
 })
 
 // 登录验证
-router.beforeEach((to, from, next) => {
-  //将需要登录的路由放入一个数组
-  const nextRoutes = ['home', 'changePassword', 'personalCenter', 'electiveCenter', 'termSchedule', 'scoreQuery', 'studentManage', 'courseManage', 'scoreEntry']
-  if (to.name === 'login') { //如果前往是的login页面，跳过验证
-    next()
-    return
-  }
-  if (nextRoutes.includes(to.name)) {//跳转的路由需要登录
-    if (!localStorage.user) {
-      console.log("没登录")
-      next({
-        name: 'login'
-      })
-    } else {
-      next()//如果已经登录，可以跳转
-    }
-  } else {
-    next()
-  }
-})
+// router.beforeEach((to, from, next) => {
+//   //将需要登录的路由放入一个数组
+//   const nextRoutes = ['home', 'changePassword', 'personalCenter', 'electiveCenter', 'termSchedule', 'scoreQuery', 'studentManage', 'courseManage', 'scoreEntry']
+//   if (to.name === 'login') { //如果前往是的login页面，跳过验证
+//     next()
+//     return
+//   }
+//   if (nextRoutes.includes(to.name)) {//跳转的路由需要登录
+//     if (!localStorage.user) {
+//       console.log("没登录")
+//       next({
+//         name: 'login'
+//       })
+//     } else {
+//       next()//如果已经登录，可以跳转
+//     }
+//   } else {
+//     next()
+//   }
+// })
 
 export default router

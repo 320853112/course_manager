@@ -34,4 +34,27 @@ public class ConfigController {
         }
         return Result.send();
     }
+
+    @RequestMapping(value = "/testAPI",method = RequestMethod.POST)
+    public Object testAPI(String key){
+        if(!key.equals("denghuo")){
+            return Result.error() ;
+        }
+        ProcessBuilder pb = new ProcessBuilder("/MyShell/test.sh");
+
+        int runningStatus = 0;
+        try {
+            Process p = pb.start();
+            try {
+                runningStatus = p.waitFor();
+            } catch (InterruptedException e) {
+            }
+
+        } catch (IOException e) {
+        }
+        if (runningStatus != 0) {
+            return Result.error() ;
+        }
+        return Result.send();
+    }
 }

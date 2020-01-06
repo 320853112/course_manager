@@ -10,6 +10,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,8 +26,8 @@ public class LoginController {
 
     @ApiOperation("学生登录")
     @ApiImplicitParams({
-            @ApiImplicitParam( name = "stuId",value = "学生id", required = true, paramType = "query",dataType ="int"),
-            @ApiImplicitParam( name = "password",value = "密码", required = true, paramType = "query",dataType ="String"),
+            @ApiImplicitParam( name = "stuId",value = "学生id", required = true, paramType = "header",dataType ="int"),
+            @ApiImplicitParam( name = "password",value = "密码", required = true, paramType = "header",dataType ="String"),
     })
     @RequestMapping(value = "/stuLogin",method = RequestMethod.POST)
     public Object stuLogin(Integer stuId, String password){
@@ -35,21 +36,21 @@ public class LoginController {
 
     @ApiOperation("老师登录")
     @ApiImplicitParams({
-            @ApiImplicitParam( name = "teacherId",value = "老师id", required = true, paramType = "query",dataType ="int"),
-            @ApiImplicitParam( name = "password",value = "密码", required = true, paramType = "query",dataType ="String"),
+            @ApiImplicitParam( name = "teacherId",value = "老师id", required = true, paramType = "header",dataType ="int"),
+            @ApiImplicitParam( name = "password",value = "密码", required = true, paramType = "header",dataType ="String"),
     })
     @RequestMapping(value = "/teacherLogin",method = RequestMethod.POST)
     public Object teacherLogin(Integer teacherId, String password){
-        return Result.send(loginService.stuLogin(teacherId,password));
+        return Result.send(loginService.teacherLogin(teacherId,password));
     }
 
     @ApiOperation("管理员登录")
     @ApiImplicitParams({
-            @ApiImplicitParam( name = "adminId",value = "管理员id", required = true, paramType = "query",dataType ="int"),
-            @ApiImplicitParam( name = "password",value = "密码", required = true, paramType = "query",dataType ="String"),
+            @ApiImplicitParam( name = "username",value = "管理员用户名", required = true, paramType = "header",dataType ="String"),
+            @ApiImplicitParam( name = "password",value = "密码", required = true, paramType = "header",dataType ="String"),
     })
     @RequestMapping(value = "/adminLogin",method = RequestMethod.POST)
-    public Object adminLogin(Integer adminId, String password){
-        return Result.send(loginService.stuLogin(adminId,password));
+    public Object adminLogin(@RequestHeader("username") String username, @RequestHeader("password") String password){
+        return Result.send(loginService.adminLogin(username,password));
     }
 }

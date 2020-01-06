@@ -57,7 +57,7 @@
 
     <update id="updateTeacher">
         update teacher set
-        <trim>
+        <trim suffixOverrides=",">
             <if test="id!=null">
                 id=#{id},
             </if>

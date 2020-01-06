@@ -41,9 +41,9 @@ public class LoginServiceImpl implements LoginService {
     }
 
     @Override
-    public Boolean adminLogin(Integer adminId, String password) {
+    public Boolean adminLogin(String username, String password) {
         password = MD5util.getMD5String(password);
-        if(loginDAO.adminLogin(adminId, password)==null){
+        if(loginDAO.adminLogin(username, password)==null){
             throw new CustomException(MyExceptionEnum.ACCESS_FAIL);
         }
         session.setAttribute("role", Role_Data.admin.getRoleNum());

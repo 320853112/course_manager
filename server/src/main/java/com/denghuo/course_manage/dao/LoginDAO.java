@@ -10,7 +10,7 @@ public interface LoginDAO {
 
     Integer teacherLogin(@Param("id") int id, @Param("password") String password);
 
-    Integer adminLogin(@Param("username") int username, @Param("password") String password);
+    Integer adminLogin(@Param("username") String username, @Param("password") String password);
 
 
 

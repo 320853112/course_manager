@@ -1,11 +1,13 @@
 package com.denghuo.course_manage.service;
 
-import com.denghuo.course_manage.model.Student;
+import com.denghuo.course_manage.model.Teacher;
+
+import java.util.List;
 
 public interface TeacherService {
 
-    Student getStuInfo(Student student);
-    Student updateStuInfo(Student student);
-    Student deleteStuInfo(Integer id);
-    Student insertStuInfo(Student student);
+    boolean updateTeacher(Teacher teacher);
+    List<Teacher> getTeacher(Teacher teacher);
+    boolean deleteTeacher(Integer id);
+    boolean insertTeacher(Teacher teacher);
 }

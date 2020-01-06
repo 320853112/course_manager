@@ -7,5 +7,5 @@ public interface LoginService {
 
     Boolean teacherLogin(Integer teacherId,String password);
 
-    Boolean adminLogin(Integer adminId,String password);
+    Boolean adminLogin(String username,String password);
 }

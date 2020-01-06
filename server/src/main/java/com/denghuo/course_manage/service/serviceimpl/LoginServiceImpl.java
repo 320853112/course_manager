@@ -56,6 +56,9 @@ public class LoginServiceImpl implements LoginService {
     @Override
     public String getUserRole(HttpSession session) {
         String roleName = (String)session.getAttribute("roleName");
+        if(roleName ==null) {
+            throw new CustomException(MyExceptionEnum.PLEASE_LOGIN);
+        }
         return roleName;
     }
 }

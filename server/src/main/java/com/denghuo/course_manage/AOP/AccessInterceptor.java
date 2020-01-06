@@ -30,7 +30,7 @@ public class AccessInterceptor {
     @Around("@within(access)")
     public Object verifyAuthority(ProceedingJoinPoint pjp,Access access) throws Throwable{
         //校验权限
-        Integer role = (Integer)session.getAttribute("role");
+        Integer role = (Integer)session.getAttribute("roleNum");
         if(role ==null) {
             throw new CustomException(MyExceptionEnum.PLEASE_LOGIN);
         }

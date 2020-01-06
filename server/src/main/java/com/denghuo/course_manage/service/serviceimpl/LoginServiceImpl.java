@@ -26,7 +26,8 @@ public class LoginServiceImpl implements LoginService {
         if(loginDAO.stuLogin(stuId, password)==null){
             throw new CustomException(MyExceptionEnum.ACCESS_FAIL);
         }
-        session.setAttribute("role", Role_Data.student.getRoleNum());
+        session.setAttribute("roleNum", Role_Data.student.getRoleNum());
+        session.setAttribute("roleName", Role_Data.student.getRoleName());
         return true;
     }
 
@@ -36,7 +37,8 @@ public class LoginServiceImpl implements LoginService {
         if(loginDAO.teacherLogin(teacherId, password)==null){
             throw new CustomException(MyExceptionEnum.ACCESS_FAIL);
         }
-        session.setAttribute("role", Role_Data.teacher.getRoleNum());
+        session.setAttribute("roleNum", Role_Data.teacher.getRoleNum());
+        session.setAttribute("roleName", Role_Data.teacher.getRoleName());
         return true;
     }
 
@@ -46,7 +48,14 @@ public class LoginServiceImpl implements LoginService {
         if(loginDAO.adminLogin(username, password)==null){
             throw new CustomException(MyExceptionEnum.ACCESS_FAIL);
         }
-        session.setAttribute("role", Role_Data.admin.getRoleNum());
+        session.setAttribute("roleNum", Role_Data.admin.getRoleNum());
+        session.setAttribute("roleName", Role_Data.admin.getRoleName());
         return true;
+    }
+
+    @Override
+    public String getUserRole(HttpSession session) {
+        String roleName = (String)session.getAttribute("roleName");
+        return roleName;
     }
 }

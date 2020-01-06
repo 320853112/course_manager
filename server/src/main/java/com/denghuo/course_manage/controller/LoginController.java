@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpSession;
+
 
 @RestController
 @Api(value = "LoginAPI",tags = "登录相关")
@@ -52,5 +54,13 @@ public class LoginController {
     @RequestMapping(value = "/adminLogin",method = RequestMethod.POST)
     public Object adminLogin(@RequestHeader("username") String username, @RequestHeader("password") String password){
         return Result.send(loginService.adminLogin(username,password));
+    }
+
+    @ApiOperation("返回用户身份")
+    @ApiImplicitParams({
+    })
+    @RequestMapping(value = "/getUserRole",method = RequestMethod.POST)
+    public Object getUserRole(HttpSession session){
+        return Result.send(loginService.getUserRole(session));
     }
 }

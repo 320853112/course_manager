@@ -25,9 +25,11 @@ public class ConfigController {
             try {
                 runningStatus = p.waitFor();
             } catch (InterruptedException e) {
+                e.printStackTrace();
             }
 
         } catch (IOException e) {
+            e.printStackTrace();
         }
         if (runningStatus != 0) {
             return Result.error() ;
@@ -45,6 +47,7 @@ public class ConfigController {
             try {
                 runningStatus = p.waitFor();
             } catch (InterruptedException e) {
+
             }
 
         } catch (IOException e) {

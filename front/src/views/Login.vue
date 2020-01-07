@@ -2,8 +2,8 @@
   <div class="login">
     <Card>
       <Form ref="formInline" :model="formInline" :rules="ruleInline" inline>
-        <FormItem prop="user">
-          <Input prefix="ios-person" type="text" v-model="formInline.user" placeholder="user" style="width: auto" />
+        <FormItem prop="username">
+          <Input prefix="ios-person" type="text" v-model="formInline.username" placeholder="user" style="width: auto" />
           </Input>
         </FormItem>
         <FormItem prop="password">
@@ -24,20 +24,26 @@ export default {
   data() {
     return {
       formInline: {
-        user: '',
+        username: '',
         password: ''
       },
       ruleInline: {
-        user: [{ required: true, message: '账号不能为空', trigger: 'blur' }],
+        username: [{ required: true, message: '账号不能为空', trigger: 'blur' }],
         password: [{ required: true, message: '密码不能为空', trigger: 'blur' }]
       }
     }
   },
   methods: {
     handleSubmit() {
-      this.$refs.formInline.validate(valid => {
+      this.$refs.formInline.validate(async valid => {
         if (valid) {
           this.$router.push('/home')
+          const result = await this.$service.login.adminLogin(this.formInline)
+          if (result.returnCode === '200') {
+            this.$Message.success('登录成功')
+          } else {
+            this.$Message.warning('登录失败！')
+          }
         } else {
           this.$Message.error('登录失败！')
         }

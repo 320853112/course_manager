@@ -16,7 +16,6 @@
             <router-view></router-view>
           </Content>
         </Layout>
-
       </Layout>
     </Layout>
   </div>

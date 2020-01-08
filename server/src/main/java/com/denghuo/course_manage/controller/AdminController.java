@@ -46,16 +46,6 @@ public class AdminController {
         return Result.send();
     }
 
-    @ApiOperation("查询管理员")
-    @ApiImplicitParams({
-            @ApiImplicitParam( name = "username",value = "用户名", required = true, paramType = "query",dataType ="String"),
-
-    })
-    @RequestMapping(value = "/getAdmin",method = RequestMethod.GET)
-    public Object getAdmin(String username){
-        return Result.send(adminService.getAdmin(username));
-    }
-
     @ApiOperation("删除管理员")
     @ApiImplicitParams({
             @ApiImplicitParam( name = "id",value = "用户名", required = true, paramType = "query",dataType ="int"),
@@ -65,5 +55,19 @@ public class AdminController {
     public Object deleteAdmin(Integer id){
         adminService.deleteAdmin(id);
         return Result.send();
+    }
+
+    @ApiOperation("查询管理员")
+    @ApiImplicitParams({
+            @ApiImplicitParam( name = "id",value = "id", required = false, paramType = "query",dataType ="String"),
+            @ApiImplicitParam( name = "username",value = "用户名", required = false, paramType = "query",dataType ="String"),
+            @ApiImplicitParam( name = "password",value = "密码", required = false, paramType = "query",dataType ="String"),
+            @ApiImplicitParam( name = "pageNum",value = "页数", required = true, paramType = "query",dataType ="Integer"),
+            @ApiImplicitParam( name = "pageSize",value = "每页记录数", required = true, paramType = "query",dataType ="Integer")
+
+    })
+    @RequestMapping(value = "/getAdmin",method = RequestMethod.GET)
+    public Object getAdmin(Admin admin,Integer pageNum,Integer pageSize){
+        return Result.send(adminService.getAdmin(admin,pageNum,pageSize));
     }
 }

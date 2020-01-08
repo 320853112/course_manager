@@ -3,6 +3,7 @@ package com.denghuo.course_manage.service;
 import com.sun.org.apache.xpath.internal.operations.Bool;
 
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
 
 public interface LoginService {
     Boolean stuLogin(Integer stuId,String password);
@@ -11,5 +12,5 @@ public interface LoginService {
 
     Boolean adminLogin(String username,String password);
 
-    String getUserRole(HttpSession session);
+    HashMap getUserRole(HttpSession session);
 }

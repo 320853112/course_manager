@@ -38,6 +38,11 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
+    public List<Student> getStuInfo(Student student, Integer pageNum, Integer pageSize) {
+        return studentDAO.getStuInfo(student,(pageNum-1)*pageSize,pageSize);
+    }
+
+    @Override
     public List<Course> getStuCourse(Integer stuId) {
         //查询选课表
         return selectCourseDAO.getCourseByStuId(stuId);

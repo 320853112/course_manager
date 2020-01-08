@@ -74,32 +74,33 @@
         delete from course where id = #{id}
     </delete>
 
-    <select id="getCourse" parameterType="Course" resultType="Course">
+    <select id="getCourse" parameterType="map" resultType="Course">
         select * from course where
         <trim suffixOverrides="and">
             1=1 and
-            <if test="id!=null">
-                id = #{id} and
+            <if test="course.id!=null">
+                id = #{course.id} and
             </if>
-            <if test="category!=null">
-                category = #{category} and
+            <if test="course.category!=null">
+                category = #{course.category} and
             </if>
-            <if test="name!=null">
-                name = #{name} and
+            <if test="course.name!=null">
+                name = #{course.name} and
             </if>
-            <if test="time_week!=null">
-                time_week = #{time_week} and
+            <if test="course.time_week!=null">
+                time_week = #{course.time_week} and
             </if>
-            <if test="credit!=null">
-                credit = #{credit} and
+            <if test="course.credit!=null">
+                credit = #{course.credit} and
             </if>
-            <if test="teacher!=null">
-                teacher  =#{teacher} and
+            <if test="course.teacher!=null">
+                teacher  =#{course.teacher} and
             </if>
-            <if test="surplus!=null">
+            <if test="course.surplus!=null">
                 surplus = #{surplus} and
             </if>
         </trim>
+        limit #{startNum},#{pageSize}
 
     </select>
 

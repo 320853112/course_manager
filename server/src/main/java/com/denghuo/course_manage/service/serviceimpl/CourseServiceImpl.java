@@ -25,8 +25,8 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public List<Course> getCourse(Course course) {
-        return courseDAO.getCourse(course);
+    public List<Course> getCourse(Course course,Integer pageNum,Integer pageSize) {
+        return courseDAO.getCourse(course,(pageNum-1)*pageSize,pageSize);
     }
 
     @Override

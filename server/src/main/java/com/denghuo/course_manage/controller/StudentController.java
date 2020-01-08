@@ -37,7 +37,7 @@ public class StudentController {
         @ApiImplicitParam( name = "major",value = "专业", required = false, paramType = "query",dataType ="String"),
         @ApiImplicitParam( name = "class_name",value = "班级名称", required = false, paramType = "query",dataType ="String"),
         @ApiImplicitParam( name = "pageNum",value = "页数", required = true, paramType = "query",dataType ="Integer"),
-        @ApiImplicitParam( name = "pageSize",value = "每页记录数", required = true, paramType = "query",dataType ="String")
+        @ApiImplicitParam( name = "pageSize",value = "每页记录数", required = true, paramType = "query",dataType ="Integer")
     })
     @Access(role = 3,comment = "学生")
     public Object getStuInfo(Student student ,Integer pageNum,Integer pageSize){

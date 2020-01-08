@@ -9,7 +9,7 @@ public interface AdminService {
 
     Boolean insertAdmin(String username,String password);
 
-    List<Admin> getAdmin(String username);
+    List<Admin> getAdmin(Admin admin,Integer pageNum,Integer pageSize);
 
     Boolean deleteAdmin(Integer id);
 

@@ -39,8 +39,8 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public List<Admin> getAdmin(String username) {
-       return adminDAO.getAdmin(username);
+    public List<Admin> getAdmin(Admin admin,Integer pageNum,Integer pageSize) {
+       return adminDAO.getAdmin(admin,(pageNum-1)*pageSize,pageSize);
     }
 
     @Override

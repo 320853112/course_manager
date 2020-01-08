@@ -85,8 +85,10 @@ public class StudentController {
     @ApiOperation("查询学生已选择的课程")
     @ApiImplicitParams({
             @ApiImplicitParam( name = "id",value = "学生id", required = true, paramType = "query",dataType ="int"),
+            @ApiImplicitParam( name = "pageNum",value = "页数", required = true, paramType = "query",dataType ="Integer"),
+            @ApiImplicitParam( name = "pageSize",value = "每页记录数", required = true, paramType = "query",dataType ="Integer")
     })
-    public Object getStuCourse(Integer id ){
-        return Result.send(studentService.getStuCourse(id));
+    public Object getStuCourse(Integer id, Integer pageNum,Integer pageSize){
+        return Result.send(studentService.getStuCourse(id,pageNum,pageSize));
     }
 }

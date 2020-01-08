@@ -6,28 +6,19 @@
     </div>
     <Divider dashed />
     <div class="add">
-      <Button type="primary" @click="addInfo">添加信息</Button>
+      <Button type="primary" @click="modal=true">添加信息</Button>
     </div>
     <div class="tableWrap">
-      <Table border :columns="columns1" :data="data1"></Table>
+      <Table border :columns="columns" :data="tableData"></Table>
     </div>
-    <!-- 编辑弹窗 -->
-    <Modal class="model" v-model="editModal" :closable="false" :footer-hide="true">
+    <!-- 编辑/添加弹窗 -->
+    <Modal class="model" v-model="modal" :closable="false" :footer-hide="true">
       <Form :model="edit" label-position="left" :label-width="100">
         <FormItem label="学号">
           <Input v-model="edit.studentID"></Input>
         </FormItem>
         <FormItem label="姓名">
           <Input v-model="edit.name"></Input>
-        </FormItem>
-        <FormItem label="性别">
-          <Select v-model="edit.sex">
-            <Option value="male">男</Option>
-            <Option value="female">女</Option>
-          </Select>
-        </FormItem>
-        <FormItem label="班级">
-          <Input v-model="edit.className"></Input>
         </FormItem>
         <FormItem label="院系">
           <Select v-model="edit.department">
@@ -42,10 +33,19 @@
             <Option value="护理学院">护理学院</Option>
           </Select>
         </FormItem>
+        <FormItem label="专业">
+          <Input v-model="edit.className"></Input>
+        </FormItem>
+        <FormItem label="班级">
+          <Input v-model="edit.className"></Input>
+        </FormItem>
+        <FormItem label="密码">
+          <Input v-model="edit.className"></Input>
+        </FormItem>
       </Form>
       <div class="btn">
-        <Button type="primary" @click="ok">确认</Button>
-        <Button type="primary" @click="cancel">取消</Button>
+        <Button type="primary" @click="handleSubmit">确认</Button>
+        <Button type="primary" @click="modal=false">取消</Button>
       </div>
     </Modal>
     <!-- 注销弹窗 -->
@@ -54,47 +54,7 @@
       <p class="model-content">确认选择注销邓藿的信息吗？</p>
       <div class="btn">
         <Button type="primary" @click="confirm">确认</Button>
-        <Button type="primary" @click="off">取消</Button>
-      </div>
-    </Modal>
-    <!-- 添加弹窗 -->
-    <Modal class="model" v-model="addModal" :closable="false" :footer-hide="true">
-      <Form :model="add" label-position="left" :label-width="100">
-        <FormItem label="学号">
-          <Input v-model="add.studentID"></Input>
-        </FormItem>
-        <FormItem label="姓名">
-          <Input v-model="add.name"></Input>
-        </FormItem>
-        <FormItem label="性别">
-          <Select v-model="add.sex">
-            <Option value="male">男</Option>
-            <Option value="female">女</Option>
-          </Select>
-        </FormItem>
-        <FormItem label="班级">
-          <Input v-model="add.className"></Input>
-        </FormItem>
-        <FormItem label="院系">
-          <Select v-model="add.department">
-            <Option value="信息工程学院">信息工程学院</Option>
-            <Option value="管理学院">管理学院</Option>
-            <Option value="艺术设计学院">艺术设计学院</Option>
-            <Option value="文化与传媒学院">文化与传媒学院</Option>
-            <Option value="土木工程学院">土木工程学院</Option>
-            <Option value="机械工程学院">机械工程学院</Option>
-            <Option value="财经学院">财经学院</Option>
-            <Option value="音乐舞蹈学院">音乐舞蹈学院</Option>
-            <Option value="护理学院">护理学院</Option>
-          </Select>
-        </FormItem>
-        <FormItem label="身份证号">
-          <Input v-model="add.IDCard"></Input>
-        </FormItem>
-      </Form>
-      <div class="btn">
-        <Button type="primary" @click="determine">确认</Button>
-        <Button type="primary" @click="remove">取消</Button>
+        <Button type="primary" @click="withdrawModal=false">取消</Button>
       </div>
     </Modal>
   </div>
@@ -105,9 +65,8 @@ export default {
   data() {
     return {
       value: '',
-      editModal: false,
+      modal: false,
       withdrawModal: false,
-      addModal: false,
       edit: {
         studentID: '',
         name: '',
@@ -115,18 +74,10 @@ export default {
         className: '',
         department: ''
       },
-      add: {
-        studentID: '',
-        name: '',
-        sex: '',
-        className: '',
-        department: '',
-        IDCard: ''
-      },
-      columns1: [
+      columns: [
         {
           title: '学号',
-          key: 'studentID',
+          key: 'id',
           align: 'center'
         },
         {
@@ -135,18 +86,23 @@ export default {
           align: 'center'
         },
         {
-          title: '性别',
-          key: 'sex',
+          title: '院系',
+          key: 'college',
+          align: 'center'
+        },
+        {
+          title: '专业',
+          key: 'major',
           align: 'center'
         },
         {
           title: '班级',
-          key: 'className',
+          key: 'class_name',
           align: 'center'
         },
         {
-          title: '院系',
-          key: 'department',
+          title: '密码',
+          key: 'password',
           align: 'center'
         },
         {
@@ -167,7 +123,7 @@ export default {
                   },
                   on: {
                     click: () => {
-                      this.editModal = true
+                      this.modal = true
                     }
                   }
                 },
@@ -191,44 +147,27 @@ export default {
           }
         }
       ],
-      data1: [
-        {
-          studentID: '2016030594',
-          name: '邓藿',
-          sex: '女',
-          className: '16本计算机2班',
-          department: '信息工程学院'
-        }
-      ]
+      tableData: []
     }
   },
+  mounted() {
+    this.getStuInfo()
+  },
   methods: {
-    ok() {
-      this.$Message.success('修改成功！')
-      this.editModal = false
+    // 返回所有学生信息
+    async getStuInfo() {
+      const result = await this.$service.student.getStuInfo()
+      if (result.status) {
+        this.tableData = result.data
+      }
     },
-    cancel() {
-      this.$Message.warning('修改失败！')
-      this.editModal = false
+    handleSubmit() {
+      this.$Message.success('操作成功！')
+      this.modal = false
     },
     confirm() {
       this.$Message.success('注销成功！')
       this.withdrawModal = false
-    },
-    off() {
-      this.$Message.warning('注销失败！')
-      this.withdrawModal = false
-    },
-    addInfo() {
-      this.addModal = true
-    },
-    determine() {
-      this.$Message.success('添加成功！')
-      this.addModal = false
-    },
-    remove() {
-      this.$Message.warning('添加失败！')
-      this.addModal = false
     }
   }
 }

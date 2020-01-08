@@ -26,7 +26,7 @@ public class LoginController {
     @ApiImplicitParams({
             @ApiImplicitParam( name = "loginIdDTO",value = "用户名和密码的json", required = true, paramType = "body", dataType = "LoginIdDTO")
     })
-    @RequestMapping(value = "/stuLogin",method = RequestMethod.POST)
+    @RequestMapping(value = "/stuLogin",method = RequestMethod.GET)
     public  Object stuLogin(@RequestBody LoginIdDTO loginIdDTO){
         Integer stuId = loginIdDTO.getId();
         String password = loginIdDTO.getPassword();
@@ -37,7 +37,7 @@ public class LoginController {
     @ApiImplicitParams({
             @ApiImplicitParam( name = "loginIdDTO",value = "用户名和密码的json", required = true, paramType = "body", dataType = "LoginIdDTO")
     })
-    @RequestMapping(value = "/teacherLogin",method = RequestMethod.POST)
+    @RequestMapping(value = "/teacherLogin",method = RequestMethod.GET)
     public Object teacherLogin(@RequestBody LoginIdDTO loginIdDTO){
         Integer teacherId = loginIdDTO.getId();
         String password = loginIdDTO.getPassword();
@@ -48,7 +48,7 @@ public class LoginController {
     @ApiImplicitParams({
             @ApiImplicitParam( name = "loginDTO",value = "用户名和密码的json", required = true, paramType = "body", dataType = "LoginUserDTO")
     })
-    @RequestMapping(value = "/adminLogin",method = RequestMethod.POST)
+    @RequestMapping(value = "/adminLogin",method = RequestMethod.GET)
     public Object adminLogin(@RequestBody LoginUserDTO loginDTO){
         String username = loginDTO.getUsername();
         String password = loginDTO.getPassword();
@@ -58,7 +58,7 @@ public class LoginController {
     @ApiOperation("返回用户身份")
     @ApiImplicitParams({
     })
-    @RequestMapping(value = "/getUserRole",method = RequestMethod.POST)
+    @RequestMapping(value = "/getUserRole",method = RequestMethod.GET)
     public Object getUserRole(HttpSession session){
         return Result.send(loginService.getUserRole(session));
     }

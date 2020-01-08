@@ -29,7 +29,7 @@ public class ScoreController {
             @ApiImplicitParam( name = "courseId",value = "课程id", required = true, paramType = "query",dataType ="int"),
             @ApiImplicitParam( name = "score",value = "分数", required = true, paramType = "query",dataType ="int"),
     })
-    @RequestMapping(value = "/setScoreByStu",method = RequestMethod.POST)
+    @RequestMapping(value = "/setScoreByStu",method = RequestMethod.GET)
     public Object setScoreByStu(StuToCourse stuToCourse){
         return Result.send(selectCourseService.setScoreByStu(stuToCourse));
     }

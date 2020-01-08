@@ -51,7 +51,7 @@ public class AdminController {
             @ApiImplicitParam( name = "username",value = "用户名", required = true, paramType = "query",dataType ="String"),
 
     })
-    @RequestMapping(value = "/getAdmin",method = RequestMethod.POST)
+    @RequestMapping(value = "/getAdmin",method = RequestMethod.GET)
     public Object getAdmin(String username){
         return Result.send(adminService.getAdmin(username));
     }

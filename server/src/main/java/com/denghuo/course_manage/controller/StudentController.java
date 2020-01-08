@@ -42,7 +42,7 @@ public class StudentController {
         return Result.send(studentDAO.getStuInfo(student));
     }
 
-    @RequestMapping(value = "/updateStuInfo",method = RequestMethod.GET)
+    @RequestMapping(value = "/updateStuInfo",method = RequestMethod.POST)
     @ApiOperation("修改学生信息")
     @ApiImplicitParams({
         @ApiImplicitParam( name = "id",value = "学生id", required = true, paramType = "query",dataType ="int"),
@@ -56,7 +56,7 @@ public class StudentController {
         return Result.send(studentDAO.updateStuInfo(student));
     }
 
-    @RequestMapping(value = "/deleteStuInfo",method = RequestMethod.GET)
+    @RequestMapping(value = "/deleteStuInfo",method = RequestMethod.POST)
     @ApiOperation("删除学生信息")
     @ApiImplicitParams(
             @ApiImplicitParam( name = "id",value = "学生id", required = true, paramType = "query",dataType ="int")
@@ -65,7 +65,7 @@ public class StudentController {
         return Result.send(studentDAO.deleteStuInfo(id));
     }
 
-    @RequestMapping(value = "/insertStuInfo",method = RequestMethod.GET)
+    @RequestMapping(value = "/insertStuInfo",method = RequestMethod.POST)
     @ApiOperation("添加学生信息")
     @ApiImplicitParams({
             @ApiImplicitParam( name = "id",value = "学生id", required = true, paramType = "query",dataType ="int"),

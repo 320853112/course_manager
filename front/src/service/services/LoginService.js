@@ -24,7 +24,7 @@ export default class LoginService extends BaseService {
     return result;
   }
 
-  // 返回用户角色
+  // 获取用户角色
   async getUserRole(data) {
     const url = this.API.login.getUserRole;
     const result = await this.get(url, data);

@@ -60,7 +60,7 @@ public class CourseManagerController {
             @ApiImplicitParam( name = "teacher",value = "老师", required = false, paramType = "query",dataType ="String"),
             @ApiImplicitParam( name = "surplus",value = "剩余量", required = false, paramType = "query",dataType ="String"),
     })
-    @RequestMapping(value = "/getCourse",method = RequestMethod.POST)
+    @RequestMapping(value = "/getCourse",method = RequestMethod.GET)
     public Object getCourse(Course course){
         return Result.send(courseService.getCourse(course));
     }

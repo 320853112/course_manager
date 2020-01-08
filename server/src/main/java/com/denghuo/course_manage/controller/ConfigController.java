@@ -13,45 +13,12 @@ import java.io.IOException;
 @Api(value = "studentAPI",tags = "配置相关")
 public class ConfigController {
     @RequestMapping(value = "/restartFont",method = RequestMethod.POST)
-    public Object restartFont(String key){
+    public Object restartFont(String key) throws Exception{
         if(!key.equals("denghuo")){
             return Result.error() ;
         }
-        ProcessBuilder pb = new ProcessBuilder("/MyShell/restart_manage_front.sh");
-
-        int runningStatus = 0;
-        try {
-            Process p = pb.start();
-            try {
-                runningStatus = p.waitFor();
-            } catch (InterruptedException e) {
-            }
-
-        } catch (IOException e) {
-        }
-        if (runningStatus != 0) {
-            return Result.error() ;
-        }
+        Process ps = Runtime.getRuntime().exec("sh /MyShell/restart_manage_front.sh");
         return Result.send();
     }
 
-    @RequestMapping(value = "/testAPI",method = RequestMethod.POST)
-    public Object testAPI(String key){
-        ProcessBuilder pb = new ProcessBuilder("/MyShell/test.sh");
-
-        int runningStatus = 0;
-        try {
-            Process p = pb.start();
-            try {
-                runningStatus = p.waitFor();
-            } catch (InterruptedException e) {
-            }
-
-        } catch (IOException e) {
-        }
-        if (runningStatus != 0) {
-            return Result.error() ;
-        }
-        return Result.send();
-    }
 }

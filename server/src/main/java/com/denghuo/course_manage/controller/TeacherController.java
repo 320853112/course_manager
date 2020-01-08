@@ -30,7 +30,7 @@ public class TeacherController {
             @ApiImplicitParam(name = "college", value = "学院", required = false, paramType = "query", dataType = "String"),
             @ApiImplicitParam(name = "password", value = "密码", required = false, paramType = "query", dataType = "String"),
     })
-    @RequestMapping(value = "/getTeacher", method = RequestMethod.POST)
+    @RequestMapping(value = "/getTeacher", method = RequestMethod.GET)
     public Object getTeacher(Teacher teacher) {
         return Result.send(teacherService.getTeacher(teacher));
     }

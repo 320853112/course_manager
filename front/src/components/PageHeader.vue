@@ -7,13 +7,13 @@
         </div>
         <div class="layout-nav">
           <MenuItem name="1">
-          <span>姓名: {{user.loginName}}</span>
+          <span>姓名: {{user.name}}</span>
           </MenuItem>
           <MenuItem name="2">
           <span>角色: {{user.role}}</span>
           </MenuItem>
           <MenuItem name="3">
-          <Button @click="logout()">退出登录</Button>
+          <Button @click="modal1 = true">退出登录</Button>
           </MenuItem>
         </div>
       </Menu>
@@ -24,8 +24,8 @@
       <p class="model-title">确认退出</p>
       <p class="model-content">确认退出系统吗？</p>
       <div class="btn">
-        <Button type="primary" @click="ok">确认</Button>
-        <Button type="primary" @click="cancel">取消</Button>
+        <Button type="primary" @click="confirm">确认</Button>
+        <Button type="primary" @click="modal1=false">取消</Button>
       </div>
     </Modal>
   </div>
@@ -36,25 +36,33 @@ export default {
   data() {
     return {
       user: {
-        loginName: '邓藿',
-        role: '学生'
+        name: '邓藿',
+        role: ''
       },
       modal1: false
     }
   },
+  mounted() {
+    this.getUserRole()
+  },
   methods: {
-    logout() {
-      this.modal1 = true
+    // 返回用户角色
+    async getUserRole() {
+      const result = await this.$service.login.getUserRole()
+      if (result.status) {
+        localStorage.setItem('role', result.data.roleName)
+        localStorage.setItem('name', result.data.userName)
+        this.user.role = result.data.roleName
+        this.user.name = result.data.userName
+      }
     },
-    ok() {
+    // 退出系统
+    confirm() {
       this.modal1 = false
-      localStorage.removeItem('user')
+      localStorage.removeItem('name')
       localStorage.removeItem('role')
       this.$Message.success('退出成功')
       this.$router.push({ path: '/login' })
-    },
-    cancel() {
-      this.modal1 = false
     }
   }
 }
@@ -80,7 +88,6 @@ export default {
   }
 }
 .layout-nav {
-  //width: 750px;
   margin: 0 auto;
   margin-right: 20px;
   float: right;

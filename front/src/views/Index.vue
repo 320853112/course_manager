@@ -19,7 +19,7 @@ export default {
   p {
     margin-top: 10%;
     font-size: 40px;
-    color: #629ddd;
+    color: rgb(45, 140, 240);
     font-weight: 600;
   }
 }

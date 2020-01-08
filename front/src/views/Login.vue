@@ -3,14 +3,14 @@
     <Card>
       <Form ref="formInline" :model="formInline" :rules="ruleInline" inline>
         <FormItem prop="username">
-          <Input prefix="ios-person" type="text" v-model="formInline.username" placeholder="user" style="width: auto" />
+          <Input prefix="ios-person" type="text" v-model="formInline.username" placeholder="请输入账号" style="width: auto" />
           </Input>
         </FormItem>
         <FormItem prop="password">
-          <Input prefix="ios-lock" type="password" v-model="formInline.password" placeholder="Enter name" style="width: auto" />
+          <Input prefix="ios-lock" type="password" v-model="formInline.password" placeholder="请输入密码" style="width: auto" />
           </Input>
         </FormItem>
-        <div class="forgetPassword" @click="forgetPassword">忘记密码</div>
+        <div class="forgetPassword" @click="$router.push({ path: '/forgetPassword' })">忘记密码</div>
         <FormItem>
           <Button type="primary" @click="handleSubmit()">登录</Button>
         </FormItem>
@@ -34,23 +34,21 @@ export default {
     }
   },
   methods: {
+    // 用户登录
     handleSubmit() {
       this.$refs.formInline.validate(async valid => {
         if (valid) {
-          this.$router.push('/home')
           const result = await this.$service.login.adminLogin(this.formInline)
-          if (result.returnCode === '200') {
+          if (result.status) {
             this.$Message.success('登录成功')
+            this.$router.push('/home')
           } else {
-            this.$Message.warning('登录失败！')
+            this.$Message.warning('登录失败')
           }
         } else {
-          this.$Message.error('登录失败！')
+          this.$Message.error('登录失败')
         }
       })
-    },
-    forgetPassword() {
-      this.$router.push('/forgetPassword')
     }
   }
 }

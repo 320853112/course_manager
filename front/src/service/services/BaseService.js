@@ -26,7 +26,6 @@ export default class {
   // eslint-disable-next-line class-methods-use-this
   async post(url, data = {}, headers = {}, params = {}, transformRequest) {
     let result = {};
-    // headers.token = localStorage.liveHappyToken;
     try {
       result = await axios(
         {

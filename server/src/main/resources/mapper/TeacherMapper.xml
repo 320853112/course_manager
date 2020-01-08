@@ -1,22 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.denghuo.course_manage.dao.TeacherDAO">
-    <select id="getTeacher" parameterType="Teacher" resultType="Teacher">
+    <select id="getTeacher" parameterType="map" resultType="Teacher">
         select * from teacher
         <trim prefix="where" suffixOverrides="and">
-            <if test="id!=null">
-                id = #{id} and
+            <if test="teacher.id!=null">
+                id = #{teacher.id} and
             </if>
-            <if test="name!=null">
-                name = #{name} and
+            <if test="teacher.name!=null">
+                name = #{teacher.name} and
             </if>
-            <if test="college!=null">
-                college = #{college} and
+            <if test="teacher.college!=null">
+                college = #{teacher.college} and
             </if>
-            <if test="password!=null">
-                password = #{password} and
+            <if test="teacher.password!=null">
+                password = #{teacher.password} and
             </if>
         </trim>
+        limit #{startNum},#{pageSize}
     </select>
 
     <insert id="insertTeacher" parameterType="Teacher">

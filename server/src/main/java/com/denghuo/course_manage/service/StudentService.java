@@ -10,5 +10,5 @@ public interface StudentService {
 
     List<Student> getStuInfo(Student student,Integer pageNum,Integer pageSize);
 
-    List<Course> getStuCourse(Integer stuId);
+    List<Course> getStuCourse(Integer stuId,Integer pageNum,Integer pageSize);
 }

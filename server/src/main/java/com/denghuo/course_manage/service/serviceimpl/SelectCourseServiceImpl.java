@@ -31,9 +31,9 @@ public class SelectCourseServiceImpl implements SelectCourseService {
     @Transactional
     public boolean pickCourse(int stuId, int courseId) {
         //先查询验证学生和课程是否都存在
-        List<Student> stuInfo = studentDAO.getStuInfo(new Student(stuId),0,1);
+        List<Student> stuInfo = studentDAO.getStuInfo(new Student(stuId),1,1);
         Course course = new Course(courseId);
-        List<Course> courses = courseService.getCourse(course);
+        List<Course> courses = courseService.getCourse(course,1,1);
         if (stuInfo.size() != 1 || courses.size() !=1) {
             throw new CustomException(MyExceptionEnum.ACCESS_FAIL);
         }

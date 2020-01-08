@@ -9,8 +9,9 @@
         update course set surplus = surplus - 1 where id = #{course_id}
     </update>
 
-    <select id="getCourseByStuId" parameterType="Integer" resultType="Course">
+    <select id="getCourseByStuId" parameterType="map" resultType="Course">
         SELECT * FROM sc,course where stu_id = #{stu_id} and sc.course_id = course.id
+        limit #{startNum},#{pageSize}
     </select>
 
     <update id="setScoreByStu" parameterType="StuToCourse">

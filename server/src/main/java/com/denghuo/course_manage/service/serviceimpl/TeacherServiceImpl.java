@@ -25,8 +25,8 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
-    public List<Teacher> getTeacher(Teacher teacher) {
-        return teacherDAO.getTeacher(teacher);
+    public List<Teacher> getTeacher(Teacher teacher,Integer pageNum,Integer pageSize) {
+        return teacherDAO.getTeacher(teacher,(pageNum-1)*pageSize,pageSize);
     }
 
     @Override

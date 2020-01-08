@@ -1,53 +1,49 @@
-import Vue from "vue";
-import axios from "axios";
-import API from "../api";
+import qs from 'qs';
+import axios from '../axios';
+import API from '../api';
 
+const queryStringFormat = data => qs.stringify(data, { indices: false });
 
-export default class BaseService {
+export default class {
   constructor() {
     this.API = API;
   }
 
+  // eslint-disable-next-line class-methods-use-this
   async get(url, data = {}) {
-    let result = await Vue.axios.get(url, {
-      params: data
-    });
-    result = result.data;
-    return result;
-  }
-
-  async post(url, data = {}, config = {}) {
-    let result = {};
+    let result = await axios.get(url, { params: data, headers: {} });
     try {
-      result = await Vue.axios.post(url, data, config, {
-        headers: {
-          "Content-Type": "x-www-form-urlencoded; charset-utf-8"
-          // 'Content-Type': 'application/json; charset-utf-8',
-        }
-      });
       result = result.data;
-    } catch (err) {
+    } catch (error) {
       result.data = {
         result: false,
-        message: err.toString()
+        message: error.toString(),
       };
     }
     return result;
   }
 
-  async jsonPost(url, data = {}) {
+  // eslint-disable-next-line class-methods-use-this
+  async post(url, data = {}, headers = {}, params = {}, transformRequest) {
     let result = {};
+    // headers.token = localStorage.liveHappyToken;
     try {
-      result = await axios.post(url, data, {
-        headers: {
-          "Content-Type": "application/json; charset-utf-8"
-        }
-      });
+      result = await axios(
+        {
+          method: 'POST',
+          url,
+          data,
+          params,
+          headers,
+          transformRequest,
+        },
+      );
       result = result.data;
     } catch (err) {
-      result.data = {
-        result: false,
-        message: err.toString()
+      result = {
+        success: false,
+        message: err.toString(),
+        returnCode: err.status,
       };
     }
     return result;

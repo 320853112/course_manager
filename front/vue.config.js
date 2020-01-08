@@ -3,7 +3,7 @@ module.exports = {
   publicPath: process.env.NODE_ENV === 'production' ? '././' : '/',
   outputDir: '../server/src/main/static',
   devServer: {
-    port: 8080,
+    port: 8888,
     proxy: {
       '/course_manage': {
         target: 'http://47.100.60.220:8888',

@@ -12,6 +12,15 @@ export default class LoginService extends BaseService {
   }
 
   // 教师登录
+  async teacherLogin(data, headers = {}, ) {
+    const url = this.API.login.teacherLogin;
+    const transformRequest = [function (data) {
+      data = JSON.stringify(data);
+      return data;
+    }];
+    const result = await this.post(url, data, headers, {}, transformRequest);
+    return result;
+  }
 
   // 学生登录
   async stuLogin(data, headers = {}, ) {

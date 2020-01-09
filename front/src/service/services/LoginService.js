@@ -12,6 +12,15 @@ export default class LoginService extends BaseService {
   }
 
   // 教师登录
+  async teacherLogin(data, headers = {}, ) {
+    const url = this.API.login.teacherLogin;
+    const transformRequest = [function (data) {
+      data = JSON.stringify(data);
+      return data;
+    }];
+    const result = await this.post(url, data, headers, {}, transformRequest);
+    return result;
+  }
 
   // 学生登录
   async stuLogin(data, headers = {}, ) {
@@ -24,7 +33,7 @@ export default class LoginService extends BaseService {
     return result;
   }
 
-  // 返回用户角色
+  // 获取用户角色
   async getUserRole(data) {
     const url = this.API.login.getUserRole;
     const result = await this.get(url, data);

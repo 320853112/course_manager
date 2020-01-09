@@ -31,7 +31,7 @@
     </div>
     <Divider dashed />
     <div class="tableWrap">
-      <Table border :columns="columns1" :data="data1"></Table>
+      <Table border :columns="columnsSelection" :data="selectionData"></Table>
     </div>
     <Divider dashed />
     <!-- 选课结果及退选折叠面板 -->
@@ -39,7 +39,7 @@
       <Panel name="1">
         选课结果及退选
         <div slot="content">
-          <Table border :columns="columns2" :data="data2"></Table>
+          <Table border :columns="columnsOut" :data="outData"></Table>
         </div>
       </Panel>
     </Collapse>
@@ -80,15 +80,30 @@ export default {
       categoryList: ['人文科学', '自然科学', '社会科学', '工程技术', '其它'],
       weekList: ['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期日'],
       festivalsList: ['1-2节', '3-4节', '5-6节', '7-8节', '9-10节'],
-      columns1: [
+      columnsSelection: [
         {
           title: '课程号',
-          key: 'courseNumber',
+          key: 'id',
           align: 'center'
         },
         {
-          title: '课程名',
-          key: 'courseName',
+          title: '课程名称',
+          key: 'name',
+          align: 'center'
+        },
+        {
+          title: '授课教师',
+          key: 'teacher',
+          align: 'center'
+        },
+        {
+          title: '上课时间',
+          key: 'time_week',
+          align: 'center'
+        },
+        {
+          title: '课程类型',
+          key: 'category',
           align: 'center'
         },
         {
@@ -97,23 +112,8 @@ export default {
           align: 'center'
         },
         {
-          title: '上课老师',
-          key: 'teacher',
-          align: 'center'
-        },
-        {
-          title: '上课时间',
-          key: 'time',
-          align: 'center'
-        },
-        {
           title: '剩余量',
           key: 'surplus',
-          align: 'center'
-        },
-        {
-          title: '类别',
-          key: 'category',
           align: 'center'
         },
         {
@@ -151,18 +151,8 @@ export default {
           }
         }
       ],
-      data1: [
-        {
-          courseNumber: '	081200',
-          courseName: '网页设计',
-          credit: 2,
-          teacher: '黄淑丽',
-          time: '9-10节',
-          surplus: '23',
-          category: '工程技术'
-        }
-      ],
-      columns2: [
+      selectionData: [],
+      columnsOut: [
         {
           title: '课程号',
           key: 'courseNumber',
@@ -255,7 +245,7 @@ export default {
           }
         }
       ],
-      data2: [
+      outData: [
         {
           courseNumber: '	081200',
           courseName: '网页设计',
@@ -268,7 +258,20 @@ export default {
       ]
     }
   },
+  mounted() {
+    this.getCourse()
+  },
   methods: {
+    // 获取所有教师信息
+    async getCourse() {
+      const result = await this.$service.course.getCourse({
+        pageNum: 1,
+        pageSize: 10
+      })
+      if (result.status) {
+        this.selectionData = result.data
+      }
+    },
     ok() {
       this.$Message.success('选课成功！')
       this.modal1 = false

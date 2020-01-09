@@ -11,7 +11,7 @@
     <div class="tableWrap">
       <Table border :columns="columns" :data="tableData"></Table>
     </div>
-    <!-- 编辑/添加弹窗 -->
+    <!-- 编辑&添加弹窗 -->
     <Modal class="model" v-model="modal" :closable="false" :footer-hide="true">
       <Form :model="edit" label-position="left" :label-width="100">
         <FormItem label="学号">
@@ -156,7 +156,10 @@ export default {
   methods: {
     // 返回所有学生信息
     async getStuInfo() {
-      const result = await this.$service.student.getStuInfo()
+      const result = await this.$service.student.getStuInfo({
+        pageNum: 1,
+        pageSize: 10
+      })
       if (result.status) {
         this.tableData = result.data
       }

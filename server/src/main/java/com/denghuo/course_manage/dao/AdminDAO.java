@@ -14,6 +14,8 @@ public interface AdminDAO {
 
     List<Admin> getAdmin(@Param("admin")Admin admin,@Param("startNum")Integer startNum, @Param("pageSize") Integer pageSize);
 
+    Double getAdminTotal(Admin admin);
+
     Integer deleteAdmin(Integer id);
 
 

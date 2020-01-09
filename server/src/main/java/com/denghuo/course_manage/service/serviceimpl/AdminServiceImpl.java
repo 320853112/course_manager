@@ -6,6 +6,7 @@ import com.denghuo.course_manage.service.AdminService;
 import com.denghuo.course_manage.utils.CustomException;
 import com.denghuo.course_manage.utils.MD5util;
 import com.denghuo.course_manage.utils.MyExceptionEnum;
+import com.denghuo.course_manage.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -39,8 +40,11 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public List<Admin> getAdmin(Admin admin,Integer pageNum,Integer pageSize) {
-       return adminDAO.getAdmin(admin,(pageNum-1)*pageSize,pageSize);
+    public Object getAdmin(Admin admin,Integer pageNum,Integer pageSize) {
+        List<Admin> adminList = adminDAO.getAdmin(admin, (pageNum - 1) * pageSize, pageSize);
+        Double total = adminDAO.getAdminTotal(admin);
+        total = Math.ceil(total/pageSize);
+        return Result.send(new String[]{"total","adminList"},total,adminList);
     }
 
     @Override

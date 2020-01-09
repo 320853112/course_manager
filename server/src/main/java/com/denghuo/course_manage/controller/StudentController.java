@@ -36,7 +36,7 @@ public class StudentController {
         @ApiImplicitParam( name = "name",value = "名称", required = false, paramType = "query",dataType ="String"),
         @ApiImplicitParam( name = "college",value = "学院", required = false, paramType = "query",dataType ="String"),
         @ApiImplicitParam( name = "major",value = "专业", required = false, paramType = "query",dataType ="String"),
-        @ApiImplicitParam( name = "class_name",value = "班级名称", required = false, paramType = "query",dataType ="String"),
+        @ApiImplicitParam( name = "className",value = "班级名称", required = false, paramType = "query",dataType ="String"),
         @ApiImplicitParam( name = "pageNum",value = "页数", required = true, paramType = "query",dataType ="Integer"),
         @ApiImplicitParam( name = "pageSize",value = "每页记录数", required = true, paramType = "query",dataType ="Integer")
     })
@@ -52,7 +52,7 @@ public class StudentController {
         @ApiImplicitParam( name = "name",value = "名称", required = false, paramType = "query",dataType ="String"),
         @ApiImplicitParam( name = "college",value = "学院", required = false, paramType = "query",dataType ="String"),
         @ApiImplicitParam( name = "major",value = "专业", required = false, paramType = "query",dataType ="String"),
-        @ApiImplicitParam( name = "class_name",value = "班级名称", required = false, paramType = "query",dataType ="String"),
+        @ApiImplicitParam( name = "className",value = "班级名称", required = false, paramType = "query",dataType ="String"),
         @ApiImplicitParam( name = "password",value = "密码", required = false, paramType = "query",dataType ="String")
     })
         public Object updateStuInfo(Student student ){
@@ -89,7 +89,7 @@ public class StudentController {
             @ApiImplicitParam( name = "name",value = "名称", required = false, paramType = "query",dataType ="String"),
             @ApiImplicitParam( name = "college",value = "学院", required = false, paramType = "query",dataType ="String"),
             @ApiImplicitParam( name = "major",value = "专业", required = false, paramType = "query",dataType ="String"),
-            @ApiImplicitParam( name = "class_name",value = "班级名称", required = false, paramType = "query",dataType ="String"),
+            @ApiImplicitParam( name = "className",value = "班级名称", required = false, paramType = "query",dataType ="String"),
             @ApiImplicitParam( name = "password",value = "密码", required = false, paramType = "query",dataType ="String")
     })
     public Object insertStuInfo(Student student ){

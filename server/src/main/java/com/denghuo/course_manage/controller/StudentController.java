@@ -31,7 +31,7 @@ public class StudentController {
     @RequestMapping(value = "/getStuInfo",method = RequestMethod.GET)
     @ApiOperation("获得学生信息")
     @ApiImplicitParams({
-        @ApiImplicitParam( name = "id",value = "学号", required = false, paramType = "query",dataType ="int"),
+        @ApiImplicitParam( name = "id",value = "学号", required = false, paramType = "query",dataType ="String"),
         @ApiImplicitParam( name = "name",value = "名称", required = false, paramType = "query",dataType ="String"),
         @ApiImplicitParam( name = "college",value = "学院", required = false, paramType = "query",dataType ="String"),
         @ApiImplicitParam( name = "major",value = "专业", required = false, paramType = "query",dataType ="String"),
@@ -47,7 +47,7 @@ public class StudentController {
     @RequestMapping(value = "/updateStuInfo",method = RequestMethod.POST)
     @ApiOperation("修改学生信息")
     @ApiImplicitParams({
-        @ApiImplicitParam( name = "id",value = "学生id", required = true, paramType = "query",dataType ="int"),
+        @ApiImplicitParam( name = "id",value = "学生id", required = true, paramType = "query",dataType ="String"),
         @ApiImplicitParam( name = "name",value = "名称", required = false, paramType = "query",dataType ="String"),
         @ApiImplicitParam( name = "college",value = "学院", required = false, paramType = "query",dataType ="String"),
         @ApiImplicitParam( name = "major",value = "专业", required = false, paramType = "query",dataType ="String"),
@@ -70,7 +70,7 @@ public class StudentController {
     @RequestMapping(value = "/insertStuInfo",method = RequestMethod.POST)
     @ApiOperation("添加学生信息")
     @ApiImplicitParams({
-            @ApiImplicitParam( name = "id",value = "学生id", required = true, paramType = "query",dataType ="int"),
+            @ApiImplicitParam( name = "id",value = "学生id", required = true, paramType = "query",dataType ="String"),
             @ApiImplicitParam( name = "name",value = "名称", required = false, paramType = "query",dataType ="String"),
             @ApiImplicitParam( name = "college",value = "学院", required = false, paramType = "query",dataType ="String"),
             @ApiImplicitParam( name = "major",value = "专业", required = false, paramType = "query",dataType ="String"),
@@ -84,11 +84,11 @@ public class StudentController {
     @RequestMapping(value = "/getStuCourse",method = RequestMethod.GET)
     @ApiOperation("查询学生已选择的课程")
     @ApiImplicitParams({
-            @ApiImplicitParam( name = "id",value = "学生id", required = true, paramType = "query",dataType ="int"),
+            @ApiImplicitParam( name = "id",value = "学生id", required = true, paramType = "query",dataType ="String"),
             @ApiImplicitParam( name = "pageNum",value = "页数", required = true, paramType = "query",dataType ="Integer"),
             @ApiImplicitParam( name = "pageSize",value = "每页记录数", required = true, paramType = "query",dataType ="Integer")
     })
-    public Object getStuCourse(Integer id, Integer pageNum,Integer pageSize){
+    public Object getStuCourse(String id, Integer pageNum,Integer pageSize){
         return Result.send(studentService.getStuCourse(id,pageNum,pageSize));
     }
 }

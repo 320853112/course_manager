@@ -2,15 +2,15 @@ package com.denghuo.course_manage.model;
 
 
 public class StuToCourse {
-    private Integer stuId;
+    private String stuId;
     private Integer courseId;
     private Integer score;
 
-    public Integer getStuId() {
+    public String getStuId() {
         return stuId;
     }
 
-    public void setStuId(Integer stuId) {
+    public void setStuId(String stuId) {
         this.stuId = stuId;
     }
 

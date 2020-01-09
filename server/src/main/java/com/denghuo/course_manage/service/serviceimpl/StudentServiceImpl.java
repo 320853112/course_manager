@@ -43,7 +43,7 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public List<Course> getStuCourse(Integer stuId, Integer pageNum,Integer pageSize) {
+    public List<Course> getStuCourse(String stuId, Integer pageNum,Integer pageSize) {
         //查询选课表
         return selectCourseDAO.getCourseByStuId(stuId,(pageNum-1)*pageSize,pageSize);
     }

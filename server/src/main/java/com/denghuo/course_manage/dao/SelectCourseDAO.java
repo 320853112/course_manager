@@ -10,11 +10,11 @@ import java.util.List;
 
 @Repository
 public interface SelectCourseDAO {
-    int pickCourse(@Param("stu_id") Integer stuId,@Param("course_id") int courseId);
+    int pickCourse(@Param("stu_id") String stuId,@Param("course_id") int courseId);
 
     int reduceCourse(Integer courseId);
 
-    List<Course> getCourseByStuId(@Param("stu_id")Integer stu_id,@Param("startNum")Integer startNum,@Param("pageSize")Integer pageSize);
+    List<Course> getCourseByStuId(@Param("stu_id")String stu_id,@Param("startNum")Integer startNum,@Param("pageSize")Integer pageSize);
 
     int setScoreByStu(StuToCourse stuToCourse);
 }

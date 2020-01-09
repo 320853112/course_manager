@@ -25,11 +25,11 @@ public class SelectCourseController {
 
     @ApiOperation("选择课程")
     @ApiImplicitParams({
-            @ApiImplicitParam( name = "stuId",value = "学生id", required = true, paramType = "query",dataType ="int"),
+            @ApiImplicitParam( name = "stuId",value = "学生id", required = true, paramType = "query",dataType ="String"),
             @ApiImplicitParam( name = "courseId",value = "课程id", required = true, paramType = "query",dataType ="int"),
     })
     @RequestMapping(value = "/selectCourse",method = RequestMethod.POST)
-    public Object selectCourse(int stuId,int courseId){
+    public Object selectCourse(String stuId,int courseId){
         return Result.send(selectCourseService.pickCourse(stuId,courseId));
     }
 }

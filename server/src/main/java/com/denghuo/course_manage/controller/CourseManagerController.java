@@ -31,7 +31,7 @@ public class CourseManagerController {
     @ApiImplicitParams({
             @ApiImplicitParam( name = "category",value = "课程类别", required = false, paramType = "query",dataType ="String"),
             @ApiImplicitParam( name = "name",value = "课程名称", required = false, paramType = "query",dataType ="String"),
-            @ApiImplicitParam( name = "time_week",value = "星期", required = false, paramType = "query",dataType ="String"),
+            @ApiImplicitParam( name = "timeWeek",value = "星期", required = false, paramType = "query",dataType ="String"),
             @ApiImplicitParam( name = "credit",value = "学分", required = false, paramType = "query",dataType ="int"),
             @ApiImplicitParam( name = "teacher",value = "老师", required = false, paramType = "query",dataType ="String"),
             @ApiImplicitParam( name = "surplus",value = "剩余量", required = false, paramType = "query",dataType ="String"),
@@ -55,10 +55,14 @@ public class CourseManagerController {
             @ApiImplicitParam( name = "id",value = "课程id", required = false, paramType = "query",dataType ="String"),
             @ApiImplicitParam( name = "category",value = "课程类别", required = false, paramType = "query",dataType ="String"),
             @ApiImplicitParam( name = "name",value = "课程名称", required = false, paramType = "query",dataType ="String"),
-            @ApiImplicitParam( name = "time_week",value = "星期", required = false, paramType = "query",dataType ="String"),
+            @ApiImplicitParam( name = "timeWeek",value = "星期", required = false, paramType = "query",dataType ="String"),
             @ApiImplicitParam( name = "credit",value = "学分", required = false, paramType = "query",dataType ="int"),
             @ApiImplicitParam( name = "teacher",value = "老师", required = false, paramType = "query",dataType ="String"),
             @ApiImplicitParam( name = "surplus",value = "剩余量", required = false, paramType = "query",dataType ="String"),
+            @ApiImplicitParam( name = "startTime",value = "开始时间", required = false, paramType = "query",dataType ="String"),
+            @ApiImplicitParam( name = "endTime",value = "结束时间", required = false, paramType = "query",dataType ="String"),
+            @ApiImplicitParam( name = "checkType",value = "考察方式", required = false, paramType = "query",dataType ="String"),
+            @ApiImplicitParam( name = "studyType",value = "课程类型", required = false, paramType = "query",dataType ="String"),
             @ApiImplicitParam( name = "pageNum",value = "页数", required = true, paramType = "query",dataType ="Integer"),
             @ApiImplicitParam( name = "pageSize",value = "每页记录数", required = true, paramType = "query",dataType ="Integer")
     })
@@ -71,7 +75,7 @@ public class CourseManagerController {
     @ApiImplicitParams({
             @ApiImplicitParam( name = "category",value = "课程类别", required = false, paramType = "query",dataType ="String"),
             @ApiImplicitParam( name = "name",value = "课程名称", required = false, paramType = "query",dataType ="String"),
-            @ApiImplicitParam( name = "time_week",value = "星期", required = false, paramType = "query",dataType ="String"),
+            @ApiImplicitParam( name = "timeWeek",value = "星期", required = false, paramType = "query",dataType ="String"),
             @ApiImplicitParam( name = "credit",value = "学分", required = false, paramType = "query",dataType ="int"),
             @ApiImplicitParam( name = "teacher",value = "老师", required = false, paramType = "query",dataType ="String"),
             @ApiImplicitParam( name = "surplus",value = "剩余量", required = false, paramType = "query",dataType ="String")

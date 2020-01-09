@@ -5,14 +5,14 @@ import lombok.Data;
 @Data
 public class CourseScoreVO {
 
-    private String start_time;
-    private String end_time;
+    private String startTime;
+    private String endTime;
     private String id;
     private String name;
     private Float score;
     private Integer credit;
-    private String check_type;
-    private String study_type;
+    private String checkType;
+    private String studyType;
     private String category;
 
 

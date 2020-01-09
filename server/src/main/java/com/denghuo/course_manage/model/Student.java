@@ -8,7 +8,7 @@ public class Student {
     private String name;
     private String college;
     private String major;
-    private String class_name;
+    private String className;
     private String password;
 
 

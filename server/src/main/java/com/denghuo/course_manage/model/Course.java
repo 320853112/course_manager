@@ -8,14 +8,14 @@ public class Course {
     private String id;
     private String category;
     private String name;
-    private String time_week;
+    private String timeWeek;
     private String credit;
     private String teacher;
     private Integer surplus;
-    private String start_time;
-    private String end_time;
-    private String check_type;
-    private String study_type;
+    private String startTime;
+    private String endTime;
+    private String checkType;
+    private String studyType;
 
     public Course() {
     }

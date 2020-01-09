@@ -25,7 +25,7 @@ public class TeacherController {
 
     @ApiOperation("查询老师")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "教师id", required = false, paramType = "query", dataType = "int"),
+            @ApiImplicitParam(name = "id", value = "教师id", required = false, paramType = "query", dataType = "String"),
             @ApiImplicitParam(name = "name", value = "姓名", required = false, paramType = "query", dataType = "String"),
             @ApiImplicitParam(name = "college", value = "学院", required = false, paramType = "query", dataType = "String"),
             @ApiImplicitParam(name = "password", value = "密码", required = false, paramType = "query", dataType = "String"),
@@ -39,7 +39,7 @@ public class TeacherController {
 
     @ApiOperation("删除老师")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "教师id", required = true, paramType = "query", dataType = "int"),
+            @ApiImplicitParam(name = "id", value = "教师id", required = true, paramType = "query", dataType = "String"),
     })
     @RequestMapping(value = "/deleteTeacher", method = RequestMethod.POST)
     public Object deleteTeacher(Integer id) {
@@ -48,7 +48,7 @@ public class TeacherController {
 
     @ApiOperation("更新老师")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "教师id", required = true, paramType = "query", dataType = "int"),
+            @ApiImplicitParam(name = "id", value = "教师id", required = true, paramType = "query", dataType = "String"),
             @ApiImplicitParam(name = "name", value = "姓名", required = false, paramType = "query", dataType = "String"),
             @ApiImplicitParam(name = "college", value = "学院", required = false, paramType = "query", dataType = "String"),
             @ApiImplicitParam(name = "password", value = "密码", required = false, paramType = "query", dataType = "String"),
@@ -60,7 +60,7 @@ public class TeacherController {
 
     @ApiOperation("插入老师")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "教师id", required = true, paramType = "query", dataType = "int"),
+            @ApiImplicitParam(name = "id", value = "教师id", required = true, paramType = "query", dataType = "String"),
             @ApiImplicitParam(name = "name", value = "姓名", required = false, paramType = "query", dataType = "String"),
             @ApiImplicitParam(name = "college", value = "学院", required = false, paramType = "query", dataType = "String"),
             @ApiImplicitParam(name = "password", value = "密码", required = false, paramType = "query", dataType = "String"),

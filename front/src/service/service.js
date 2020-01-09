@@ -3,6 +3,7 @@ import LoginService from './services/LoginService';
 import adminService from './services/adminService';
 import teacherService from './services/teacherService';
 import studentService from './services/studentService';
+import courseService from './services/courseService';
 
 export class Service {
   constructor() {
@@ -11,6 +12,7 @@ export class Service {
     this.admin = new adminService();
     this.teacher = new teacherService();
     this.student = new studentService();
+    this.course = new courseService();
   }
 }
 const services = {

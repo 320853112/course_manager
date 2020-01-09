@@ -6,13 +6,13 @@
     </div>
     <Divider dashed />
     <div class="addCourse">
-      <Button type="primary" @click="addInfo">添加课程</Button>
+      <Button type="primary" @click="modal=true">添加课程</Button>
     </div>
     <div class="tableWrap">
-      <Table border :columns="columns1" :data="data1"></Table>
+      <Table border :columns="columns" :data="tableData"></Table>
     </div>
-    <!-- 编辑弹窗 -->
-    <Modal class="model" v-model="editModal" :closable="false" :footer-hide="true">
+    <!-- 编辑&添加弹窗 -->
+    <Modal class="model" v-model="modal" :closable="false" :footer-hide="true">
       <Form :model="edit" label-position="left" :label-width="100">
         <FormItem label="课程号">
           <Input v-model="edit.courseNumber"></Input>
@@ -52,8 +52,8 @@
         </FormItem>
       </Form>
       <div class="btn">
-        <Button type="primary" @click="ok">确认</Button>
-        <Button type="primary" @click="cancel">取消</Button>
+        <Button type="primary" @click="handleSubmit">确认</Button>
+        <Button type="primary" @click="modal=false">取消</Button>
       </div>
     </Modal>
     <!-- 删除弹窗 -->
@@ -62,52 +62,7 @@
       <p class="model-content">确认选择删除吗？</p>
       <div class="btn">
         <Button type="primary" @click="confirm">确认</Button>
-        <Button type="primary" @click="off">取消</Button>
-      </div>
-    </Modal>
-    <!-- 添加弹窗 -->
-    <Modal class="model" v-model="addModal" :closable="false" :footer-hide="true">
-      <Form :model="add" label-position="left" :label-width="100">
-        <FormItem label="课程号">
-          <Input v-model="add.courseNumber"></Input>
-        </FormItem>
-        <FormItem label="课程名称">
-          <Input v-model="add.courseName"></Input>
-        </FormItem>
-        <FormItem label="授课教师">
-          <Input v-model="add.teacher"></Input>
-        </FormItem>
-        <FormItem label="上课时间">
-          <Input v-model="add.time"></Input>
-        </FormItem>
-        <FormItem label="上课地点">
-          <Input v-model="add.address"></Input>
-        </FormItem>
-        <FormItem label="周数">
-          <Select v-model="add.weeks">
-            <Option value="add">单周</Option>
-            <Option value="even">双周</Option>
-            <Option value="all">1-16周</Option>
-          </Select>
-        </FormItem>
-        <FormItem label="课程类型">
-          <Select v-model="add.type">
-            <Option value="obligatory">必修</Option>
-            <Option value="elective">选修</Option>
-          </Select>
-        </FormItem>
-        <FormItem label="学分">
-          <Select v-model="add.credit">
-            <Option value="one">1</Option>
-            <Option value="two">2</Option>
-            <Option value="three">3</Option>
-            <Option value="four">4</Option>
-          </Select>
-        </FormItem>
-      </Form>
-      <div class="btn">
-        <Button type="primary" @click="determine">确认</Button>
-        <Button type="primary" @click="remove">取消</Button>
+        <Button type="primary" @click="withdrawModal=false">取消</Button>
       </div>
     </Modal>
   </div>
@@ -118,9 +73,8 @@ export default {
   data() {
     return {
       courseName: '',
-      editModal: false,
+      modal: false,
       withdrawModal: false,
-      addModal: false,
       edit: {
         courseNumber: '',
         courseName: '',
@@ -131,25 +85,15 @@ export default {
         type: '',
         credit: ''
       },
-      add: {
-        courseNumber: '',
-        courseName: '',
-        teacher: '',
-        time: '',
-        address: '',
-        weeks: '',
-        type: '',
-        credit: ''
-      },
-      columns1: [
+      columns: [
         {
           title: '课程号',
-          key: 'courseNumber',
+          key: 'id',
           align: 'center'
         },
         {
           title: '课程名称',
-          key: 'courseName',
+          key: 'name',
           align: 'center'
         },
         {
@@ -159,22 +103,12 @@ export default {
         },
         {
           title: '上课时间',
-          key: 'time',
-          align: 'center'
-        },
-        {
-          title: '上课地点',
-          key: 'address',
-          align: 'center'
-        },
-        {
-          title: '周数',
-          key: 'weeks',
+          key: 'time_week',
           align: 'center'
         },
         {
           title: '课程类型',
-          key: 'type',
+          key: 'category',
           align: 'center'
         },
         {
@@ -200,7 +134,7 @@ export default {
                   },
                   on: {
                     click: () => {
-                      this.editModal = true
+                      this.modal = true
                     }
                   }
                 },
@@ -224,47 +158,30 @@ export default {
           }
         }
       ],
-      data1: [
-        {
-          courseNumber: '1011',
-          courseName: '数据结构',
-          teacher: '姚磊岳',
-          time: '周三',
-          address: 'J9-305',
-          weeks: '1-16周',
-          type: '必修',
-          credit: '2'
-        }
-      ]
+      tableData: []
     }
   },
+  mounted() {
+    this.getCourse()
+  },
   methods: {
-    ok() {
-      this.$Message.success('修改成功！')
-      this.editModal = false
+    // 获取所有课程信息
+    async getCourse() {
+      const result = await this.$service.course.getCourse({
+        pageNum: 1,
+        pageSize: 10
+      })
+      if (result.status) {
+        this.tableData = result.data
+      }
     },
-    cancel() {
-      this.$Message.warning('修改失败！')
-      this.editModal = false
+    handleSubmit() {
+      this.$Message.success('操作成功！')
+      this.modal = false
     },
     confirm() {
       this.$Message.success('删除成功！')
       this.withdrawModal = false
-    },
-    off() {
-      this.$Message.warning('删除失败！')
-      this.withdrawModal = false
-    },
-    addInfo() {
-      this.addModal = true
-    },
-    determine() {
-      this.$Message.success('添加成功！')
-      this.addModal = false
-    },
-    remove() {
-      this.$Message.warning('添加失败！')
-      this.addModal = false
     }
   }
 }

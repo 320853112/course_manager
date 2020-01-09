@@ -9,6 +9,9 @@ const API = {
   },
   student: {
     getStuInfo: '/course_manage/getStuInfo', // 获取所有学生信息
+  },
+  course: {
+    getCourse: '/course_manage/getCourse', // 获取所有课程信息
   }
 }
 

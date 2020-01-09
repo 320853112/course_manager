@@ -130,7 +130,10 @@ export default {
   methods: {
     // 获取所有教师信息
     async getTeacher() {
-      const result = await this.$service.teacher.getTeacher({})
+      const result = await this.$service.teacher.getTeacher({
+        pageNum: 1,
+        pageSize: 10
+      })
       if (result.status) {
         this.tableData = result.data
       }

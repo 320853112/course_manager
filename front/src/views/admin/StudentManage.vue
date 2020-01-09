@@ -156,7 +156,10 @@ export default {
   methods: {
     // 返回所有学生信息
     async getStuInfo() {
-      const result = await this.$service.student.getStuInfo({})
+      const result = await this.$service.student.getStuInfo({
+        pageNum: 1,
+        pageSize: 10
+      })
       if (result.status) {
         this.tableData = result.data
       }

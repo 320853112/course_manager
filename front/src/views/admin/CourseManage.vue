@@ -10,6 +10,7 @@
     </div>
     <div class="tableWrap">
       <Table border :columns="columns" :data="tableData"></Table>
+      <Page :transfer="true" :total="total" :current="pageIndex" v-model="pageSize" show-elevator show-total size="small" @on-change="pageChange" @on-page-size-change="pageSizeChange" />
     </div>
     <!-- 编辑&添加弹窗 -->
     <Modal class="model" v-model="modal" :closable="false" :footer-hide="true">
@@ -72,6 +73,9 @@
 export default {
   data() {
     return {
+      total: 0,
+      pageIndex: 1,
+      pageSize: 10,
       courseName: '',
       modal: false,
       withdrawModal: false,
@@ -168,12 +172,23 @@ export default {
     // 获取所有课程信息
     async getCourse() {
       const result = await this.$service.course.getCourse({
-        pageNum: 1,
-        pageSize: 10
+        pageNum: this.pageIndex,
+        pageSize: this.pageSize
       })
       if (result.status) {
+        // this.total = result.
         this.tableData = result.data
       }
+    },
+    // 分页
+    pageChange(val) {
+      this.pageIndex = val
+      this.getCourse()
+    },
+    pageSizeChange(pageSize) {
+      this.pageIndex = 1
+      this.pageSize = pageSize
+      this.getCourse()
     },
     handleSubmit() {
       this.$Message.success('操作成功！')
@@ -220,5 +235,10 @@ export default {
     color: gray;
     border: none;
   }
+}
+.ivu-page{
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-end;
 }
 </style>

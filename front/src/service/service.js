@@ -1,18 +1,18 @@
 import BaseService from './services/BaseService';
 import LoginService from './services/LoginService';
-import adminService from './services/adminService';
-import teacherService from './services/teacherService';
-import studentService from './services/studentService';
-import courseService from './services/courseService';
+import AdminService from './services/AdminService';
+import TeacherService from './services/TeacherService';
+import StudentService from './services/StudentService';
+import CourseService from './services/CourseService';
 
 export class Service {
   constructor() {
     this.base = new BaseService();
     this.login = new LoginService();
-    this.admin = new adminService();
-    this.teacher = new teacherService();
-    this.student = new studentService();
-    this.course = new courseService();
+    this.admin = new AdminService();
+    this.teacher = new TeacherService();
+    this.student = new StudentService();
+    this.course = new CourseService();
   }
 }
 const services = {

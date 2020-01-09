@@ -1,5 +1,5 @@
 import BaseService from './BaseService';
 
-export default class adminService extends BaseService {
+export default class AdminService extends BaseService {
 
 }

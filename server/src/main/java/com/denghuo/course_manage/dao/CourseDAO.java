@@ -10,6 +10,6 @@ import java.util.List;
 public interface CourseDAO {
     int updateCourse(Course course);
     List<Course> getCourse(@Param("course")Course course, @Param("startNum") Integer startNum, @Param("pageSize")Integer pageSize);
-    int deleteCourse(int id);
+    int deleteCourse(String id);
     int insertCourse(Course course);
 }

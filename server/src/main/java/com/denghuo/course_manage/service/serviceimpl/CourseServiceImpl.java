@@ -30,7 +30,7 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public boolean deleteCourse(int id) {
+    public boolean deleteCourse(String id) {
         if(1!=courseDAO.deleteCourse(id)){
             throw new CustomException(MyExceptionEnum.ACCESS_FAIL);
         }

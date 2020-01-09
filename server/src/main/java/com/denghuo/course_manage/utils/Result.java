@@ -1,6 +1,9 @@
 package com.denghuo.course_manage.utils;
 
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 public class Result {
     private boolean status = true;
     private Integer code = 200;
@@ -14,6 +17,16 @@ public class Result {
     public static Result send(Object data){
         Result result = new Result();
         result.setData(data);
+        return result;
+    }
+
+    public static Result send(String[] paraNames ,Object... data){
+        Result result = new Result();
+        HashMap resMap = new HashMap();
+        for (int i = 0; i < paraNames.length; i++) {
+            resMap.put(paraNames[i],data[i]);
+        }
+        result.setData(resMap);
         return result;
     }
 

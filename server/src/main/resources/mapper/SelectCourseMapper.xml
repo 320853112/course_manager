@@ -9,9 +9,33 @@
         update course set surplus = surplus - 1 where id = #{course_id}
     </update>
 
-    <select id="getCourseByStuId" parameterType="map" resultType="Course">
-        SELECT * FROM sc,course where stu_id = #{stu_id} and sc.course_id = course.id
+    <select id="getCourseByCondition" parameterType="map" resultType="CourseScoreVO">
+        SELECT c.id, c.name ,sc.score,c.category,c.start_time,c.end_time,c.credit,c.check_type,c.study_type
+         FROM sc,course as c where stu_id = #{courseScoreDTO.id} and sc.course_id = c.id
+        <if test="courseScoreDTO.startTime!=null">
+           and c.start_time>#{courseScoreDTO.startTime}
+        </if>
+        <if test="courseScoreDTO.category!=null">
+            and c.category=#{courseScoreDTO.category}
+        </if>
+        <if test="courseScoreDTO.name!=null">
+            and c.name like '%${courseScoreDTO.name}%'
+        </if>
         limit #{startNum},#{pageSize}
+    </select>
+
+    <select id="getCourseTotalByCondition" parameterType="map" resultType="Double">
+        SELECT count(*)
+        FROM sc,course as c where stu_id = #{courseScoreDTO.id} and sc.course_id = c.id
+        <if test="courseScoreDTO.startTime!=null">
+            and c.start_time>#{courseScoreDTO.startTime}
+        </if>
+        <if test="courseScoreDTO.category!=null">
+            and c.category=#{courseScoreDTO.category}
+        </if>
+        <if test="courseScoreDTO.name!=null">
+            and c.name like '%${courseScoreDTO.name}%'
+        </if>
     </select>
 
     <update id="setScoreByStu" parameterType="StuToCourse">

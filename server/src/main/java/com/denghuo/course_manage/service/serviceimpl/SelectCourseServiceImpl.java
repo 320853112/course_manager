@@ -29,7 +29,7 @@ public class SelectCourseServiceImpl implements SelectCourseService {
 
     @Override
     @Transactional
-    public boolean pickCourse(String stuId, int courseId) {
+    public boolean pickCourse(String stuId, String courseId) {
         //先查询验证学生和课程是否都存在
         List<Student> stuInfo = studentDAO.getStuInfo(new Student(stuId),1,1);
         Course course = new Course(courseId);

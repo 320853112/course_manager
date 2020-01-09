@@ -1,6 +1,7 @@
 package com.denghuo.course_manage.controller;
 
 import com.denghuo.course_manage.AOP.Access;
+import com.denghuo.course_manage.DTO.CourseScoreDTO;
 import com.denghuo.course_manage.dao.StudentDAO;
 import com.denghuo.course_manage.model.Student;
 import com.denghuo.course_manage.service.StudentService;
@@ -67,6 +68,20 @@ public class StudentController {
         return Result.send(studentDAO.deleteStuInfo(id));
     }
 
+    @RequestMapping(value = "/getStuCourse",method = RequestMethod.GET)
+    @ApiOperation("查询学生已选择的课程")
+    @ApiImplicitParams({
+            @ApiImplicitParam( name = "id",value = "学生id", required = true, paramType = "query",dataType ="String"),
+            @ApiImplicitParam( name = "startTime",value = "开始时间", required = false, paramType = "query",dataType ="String"),
+            @ApiImplicitParam( name = "name",value = "课程名称", required = false, paramType = "query",dataType ="String"),
+            @ApiImplicitParam( name = "category",value = "课程性质", required = false, paramType = "query",dataType ="String"),
+            @ApiImplicitParam( name = "pageNum",value = "页数", required = true, paramType = "query",dataType ="Integer"),
+            @ApiImplicitParam( name = "pageSize",value = "每页记录数", required = true, paramType = "query",dataType ="Integer")
+    })
+    public Object getStuCourse(CourseScoreDTO courseScoreDTO,Integer pageNum, Integer pageSize){
+        return studentService.getStuCourse(courseScoreDTO,pageNum,pageSize);
+    }
+
     @RequestMapping(value = "/insertStuInfo",method = RequestMethod.POST)
     @ApiOperation("添加学生信息")
     @ApiImplicitParams({
@@ -79,16 +94,5 @@ public class StudentController {
     })
     public Object insertStuInfo(Student student ){
         return Result.send(studentService.insertStuInfo(student));
-    }
-
-    @RequestMapping(value = "/getStuCourse",method = RequestMethod.GET)
-    @ApiOperation("查询学生已选择的课程")
-    @ApiImplicitParams({
-            @ApiImplicitParam( name = "id",value = "学生id", required = true, paramType = "query",dataType ="String"),
-            @ApiImplicitParam( name = "pageNum",value = "页数", required = true, paramType = "query",dataType ="Integer"),
-            @ApiImplicitParam( name = "pageSize",value = "每页记录数", required = true, paramType = "query",dataType ="Integer")
-    })
-    public Object getStuCourse(String id, Integer pageNum,Integer pageSize){
-        return Result.send(studentService.getStuCourse(id,pageNum,pageSize));
     }
 }

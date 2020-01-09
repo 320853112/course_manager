@@ -43,16 +43,16 @@ public class CourseManagerController {
 
     @ApiOperation("删除课程信息")
     @ApiImplicitParams({
-            @ApiImplicitParam( name = "id",value = "课程id", required = true, paramType = "query",dataType ="int"),
+            @ApiImplicitParam( name = "id",value = "课程id", required = true, paramType = "query",dataType ="String"),
     })
     @RequestMapping(value = "/deleteCourse",method = RequestMethod.POST)
-    public Object deleteCourse(int id){
+    public Object deleteCourse(String id){
         return Result.send(courseService.deleteCourse(id));
     }
 
     @ApiOperation("查询课程信息")
     @ApiImplicitParams({
-            @ApiImplicitParam( name = "id",value = "课程id", required = false, paramType = "query",dataType ="int"),
+            @ApiImplicitParam( name = "id",value = "课程id", required = false, paramType = "query",dataType ="String"),
             @ApiImplicitParam( name = "category",value = "课程类别", required = false, paramType = "query",dataType ="String"),
             @ApiImplicitParam( name = "name",value = "课程名称", required = false, paramType = "query",dataType ="String"),
             @ApiImplicitParam( name = "time_week",value = "星期", required = false, paramType = "query",dataType ="String"),

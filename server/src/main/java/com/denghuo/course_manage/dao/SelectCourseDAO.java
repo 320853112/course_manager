@@ -12,7 +12,7 @@ import java.util.List;
 
 @Repository
 public interface SelectCourseDAO {
-    int pickCourse(@Param("stuId") String stuId,@Param("courseId") String courseId);
+    Integer pickCourse( String stuId, String courseId);
 
     int reduceCourse(String courseId);
 

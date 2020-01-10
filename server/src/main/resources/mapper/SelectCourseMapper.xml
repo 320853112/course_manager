@@ -2,10 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.denghuo.course_manage.dao.SelectCourseDAO">
     <insert id="pickCourse">
-        insert into sc (stu_id,course_id) values(#{stu_id},#{course_id})
+        insert into sc (stu_id,course_id) values(#{stuId},#{courseId})
     </insert>
 
-    <update id="reduceCourse" parameterType="int">
+    <update id="reduceCourse" parameterType="String">
         update course set surplus = surplus - 1 where id = #{course_id}
     </update>
 

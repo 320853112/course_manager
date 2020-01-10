@@ -157,7 +157,7 @@
     </select>
 
     <select id="existCourse" parameterType="String" resultType="Course">
-        select count(*) from course where id = #{id}
+        select * from course where id = #{id}
     </select>
 
 </mapper>

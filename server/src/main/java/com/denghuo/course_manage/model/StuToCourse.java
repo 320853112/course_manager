@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class StuToCourse {
     private String stuId;
-    private Integer courseId;
+    private String courseId;
     private Float score;
 
 

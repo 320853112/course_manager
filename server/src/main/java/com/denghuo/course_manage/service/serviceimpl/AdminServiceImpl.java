@@ -42,9 +42,9 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public Object getAdmin(Admin admin,Integer pageNum,Integer pageSize) {
         List<Admin> adminList = adminDAO.getAdmin(admin, (pageNum - 1) * pageSize, pageSize);
-        Double total = adminDAO.getAdminTotal(admin);
-        total = Math.ceil(total/pageSize);
-        return Result.send(new String[]{"total","adminList"},total,adminList);
+        Double totalCount = adminDAO.getAdminTotal(admin);
+        Double totalPage = Math.ceil(totalCount/pageSize);
+        return Result.send(new String[]{"totalCount","totalPage","adminList"},totalCount,totalPage,adminList);
     }
 
     @Override

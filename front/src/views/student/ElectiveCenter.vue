@@ -155,12 +155,12 @@ export default {
       columnsOut: [
         {
           title: '课程号',
-          key: 'courseNumber',
+          key: 'id',
           align: 'center'
         },
         {
           title: '课程名',
-          key: 'courseName',
+          key: 'name',
           align: 'center'
         },
         {
@@ -170,7 +170,7 @@ export default {
         },
         {
           title: '课程属性',
-          key: 'attribute',
+          key: 'studyType',
           align: 'center'
         },
         {
@@ -245,31 +245,33 @@ export default {
           }
         }
       ],
-      outData: [
-        {
-          courseNumber: '	081200',
-          courseName: '网页设计',
-          credit: 2,
-          attribute: '必修',
-          teacher: '黄淑丽',
-          time: '3-4节',
-          place: 'J9-305'
-        }
-      ]
+      outData: []
     }
   },
   mounted() {
     this.getCourse()
+    this.getStuCourse()
   },
   methods: {
-    // 获取所有教师信息
+    // 获取所有课程信息
     async getCourse() {
       const result = await this.$service.course.getCourse({
         pageNum: 1,
         pageSize: 10
       })
       if (result.status) {
-        this.selectionData = result.data
+        this.selectionData = result.data.courseList
+      }
+    },
+    // 学生已选课程
+    async getStuCourse() {
+      const result = await this.$service.course.getStuCourse({
+        id: '2016030594',
+        pageNum: 1,
+        pageSize: 10
+      })
+      if (result.status) {
+        this.outData = result.data.courseList
       }
     },
     ok() {

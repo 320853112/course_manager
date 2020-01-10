@@ -14,42 +14,32 @@
     </div>
     <!-- 编辑&添加弹窗 -->
     <Modal class="model" v-model="modal" :closable="false" :footer-hide="true">
+      <div class="add-edit" v-if="edit.id">课程新增</div>
+      <div class="add-edit" v-else>课程编辑</div>
       <Form :model="edit" label-position="left" :label-width="100">
         <FormItem label="课程号">
-          <Input v-model="edit.courseNumber"></Input>
+          <Input v-model="edit.id"></Input>
         </FormItem>
         <FormItem label="课程名称">
-          <Input v-model="edit.courseName"></Input>
+          <Input v-model="edit.name"></Input>
         </FormItem>
         <FormItem label="授课教师">
           <Input v-model="edit.teacher"></Input>
         </FormItem>
         <FormItem label="上课时间">
-          <Input v-model="edit.time"></Input>
-        </FormItem>
-        <FormItem label="上课地点">
-          <Input v-model="edit.address"></Input>
-        </FormItem>
-        <FormItem label="周数">
-          <Select v-model="edit.weeks">
-            <Option value="add">单周</Option>
-            <Option value="even">双周</Option>
-            <Option value="all">1-16周</Option>
-          </Select>
+          <Input v-model="edit.time_week"></Input>
         </FormItem>
         <FormItem label="课程类型">
-          <Select v-model="edit.type">
+          <Select v-model="edit.category">
             <Option value="obligatory">必修</Option>
             <Option value="elective">选修</Option>
           </Select>
         </FormItem>
         <FormItem label="学分">
-          <Select v-model="edit.credit">
-            <Option value="one">1</Option>
-            <Option value="two">2</Option>
-            <Option value="three">3</Option>
-            <Option value="four">4</Option>
-          </Select>
+          <Input v-model="edit.credit"></Input>
+        </FormItem>
+        <FormItem label="剩余量">
+          <Input v-model="edit.surplus"></Input>
         </FormItem>
       </Form>
       <div class="btn">
@@ -66,6 +56,7 @@
         <Button type="primary" @click="withdrawModal=false">取消</Button>
       </div>
     </Modal>
+    <Spin v-if="loading" fix size="large"></Spin>
   </div>
 </template>
 
@@ -76,18 +67,18 @@ export default {
       total: 0,
       pageIndex: 1,
       pageSize: 10,
+      loading: false,
       courseName: '',
       modal: false,
       withdrawModal: false,
       edit: {
-        courseNumber: '',
-        courseName: '',
+        id: '',
+        name: '',
         teacher: '',
-        time: '',
-        address: '',
-        weeks: '',
-        type: '',
-        credit: ''
+        time_week: '',
+        category: '',
+        credit: '',
+        surplus: ''
       },
       columns: [
         {
@@ -121,6 +112,11 @@ export default {
           align: 'center'
         },
         {
+          title: '剩余量',
+          key: 'surplus',
+          align: 'center'
+        },
+        {
           title: '操作',
           key: 'id',
           align: 'center',
@@ -139,6 +135,8 @@ export default {
                   on: {
                     click: () => {
                       this.modal = true
+                      this.edit.id = params.row.id
+                      this.editModal(params.row)
                     }
                   }
                 },
@@ -171,14 +169,45 @@ export default {
   methods: {
     // 获取所有课程信息
     async getCourse() {
+      this.loading = true
       const result = await this.$service.course.getCourse({
         pageNum: this.pageIndex,
         pageSize: this.pageSize
       })
+      this.loading = false
       if (result.status) {
-        // this.total = result.
-        this.tableData = result.data
+        this.total = result.data.totalCount
+        this.tableData = result.data.courseList
       }
+    },
+    // 新增课程
+    async insertCourse() {
+      // this.loading = true
+      const result = await this.$service.course.insertCourse({
+        id: this.edit.id,
+        name: this.edit.name,
+        teacher: this.edit.teacher,
+        time_week: this.edit.time_week,
+        category: this.edit.category,
+        credit: this.edit.credit,
+        surplus: this.edit.surplus
+      })
+      // this.loading = false
+      if (result.status) {
+        this.getCourse()
+      } else {
+        this.$Message.warning('课程添加失败')
+      }
+    },
+    // 弹窗信息回显
+    async editModal(row) {
+      this.edit.id = row.id
+      this.edit.name = row.name
+      this.edit.teacher = row.teacher
+      this.edit.time_week = row.time_week
+      this.edit.category = row.category
+      this.edit.credit = row.credit
+      this.edit.surplus = row.surplus
     },
     // 分页
     pageChange(val) {
@@ -191,7 +220,11 @@ export default {
       this.getCourse()
     },
     handleSubmit() {
-      this.$Message.success('操作成功！')
+      if (this.edit.id) {
+        console.log('编辑')
+      } else {
+        console.log('新增')
+      }
       this.modal = false
     },
     confirm() {
@@ -211,6 +244,11 @@ export default {
   display: flex;
   justify-content: flex-end;
   margin-bottom: 20px;
+}
+.add-edit {
+  color: red;
+  text-align: center;
+  font-size: 20px;
 }
 .model-title {
   text-align: center;
@@ -236,7 +274,7 @@ export default {
     border: none;
   }
 }
-.ivu-page{
+.ivu-page {
   margin-top: 20px;
   display: flex;
   justify-content: flex-end;

@@ -10,6 +10,7 @@
     </div>
     <div class="tableWrap">
       <Table border :columns="columns" :data="tableData"></Table>
+      <Page :transfer="true" :total="total" :current="pageIndex" v-model="pageSize" show-elevator show-total size="small" @on-change="pageChange" @on-page-size-change="pageSizeChange" />
     </div>
     <!-- 编辑&添加弹窗 -->
     <Modal class="model" v-model="modal" :closable="false" :footer-hide="true">
@@ -57,6 +58,7 @@
         <Button type="primary" @click="withdrawModal=false">取消</Button>
       </div>
     </Modal>
+    <Spin v-if="loading" fix size="large"></Spin>
   </div>
 </template>
 
@@ -64,6 +66,10 @@
 export default {
   data() {
     return {
+      total: 0,
+      pageIndex: 1,
+      pageSize: 10,
+      loading: false,
       value: '',
       modal: false,
       withdrawModal: false,
@@ -156,13 +162,26 @@ export default {
   methods: {
     // 返回所有学生信息
     async getStuInfo() {
+      this.loading = true
       const result = await this.$service.student.getStuInfo({
-        pageNum: 1,
-        pageSize: 10
+        pageNum: this.pageIndex,
+        pageSize: this.pageSize
       })
+      this.loading = false
       if (result.status) {
-        this.tableData = result.data
+        this.total = result.data.totalCount
+        this.tableData = result.data.stuInfos
       }
+    },
+    // 分页
+    pageChange(val) {
+      this.pageIndex = val
+      this.getStuInfo()
+    },
+    pageSizeChange(pageSize) {
+      this.pageIndex = 1
+      this.pageSize = pageSize
+      this.getStuInfo()
     },
     handleSubmit() {
       this.$Message.success('操作成功！')
@@ -209,5 +228,10 @@ export default {
     color: gray;
     border: none;
   }
+}
+.ivu-page {
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-end;
 }
 </style>

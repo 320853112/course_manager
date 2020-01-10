@@ -28,9 +28,9 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public Object getCourse(Course course,Integer pageNum,Integer pageSize) {
         List<Course> courseList = courseDAO.getCourse(course, (pageNum - 1) * pageSize, pageSize);
-        Double total = courseDAO.getCourseTotal(course);
-        total = Math.ceil(total/pageSize);
-        return Result.send(new String[]{"total","courseList"},total,courseList);
+        Double totalCount = courseDAO.getCourseTotal(course);
+        Double totalPage = Math.ceil(totalCount/pageSize);
+        return Result.send(new String[]{"totalCount","totalPage","courseList"},totalCount,totalPage,courseList);
     }
 
 

@@ -42,10 +42,10 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public Object getStuInfo(Student student, Integer pageNum, Integer pageSize) {
-        Double total = studentDAO.getStuInfoTotal(student);
-        total = Math.ceil(total/pageSize);
+        Double totalCount = studentDAO.getStuInfoTotal(student);
+        Double totalPage = Math.ceil(totalCount/pageSize);
         List<Student> stuInfos = studentDAO.getStuInfo(student, (pageNum - 1) * pageSize, pageSize);
-        return Result.send(new String[]{"total","stuInfos"},total,stuInfos);
+        return Result.send(new String[]{"totalCount","totalPage","stuInfos"},totalCount,totalPage,stuInfos);
     }
 
     @Override
@@ -53,9 +53,9 @@ public class StudentServiceImpl implements StudentService {
         //查询课程
         List<CourseScoreVO> courseList = selectCourseDAO.getCourseByCondition(courseScoreDTO, (pageNum - 1) * pageSize, pageSize);
         //查询total
-        Double total = selectCourseDAO.getCourseTotalByCondition(courseScoreDTO);
-        total = Math.ceil(total/pageSize);
-        return Result.send(new String[]{"courseList","total"},courseList,total);
+        Double totalCount = selectCourseDAO.getCourseTotalByCondition(courseScoreDTO);
+        Double totalPage = Math.ceil(totalCount/pageSize);
+        return Result.send(new String[]{"courseList","totalCount","totalPage"},courseList,totalCount,totalPage);
 
     }
 }

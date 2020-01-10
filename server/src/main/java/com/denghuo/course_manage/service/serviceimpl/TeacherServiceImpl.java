@@ -27,10 +27,10 @@ public class TeacherServiceImpl implements TeacherService {
 
     @Override
     public Object getTeacher(Teacher teacher,Integer pageNum,Integer pageSize) {
-        Double total = teacherDAO.getTeacherTotal(teacher);
-        total = Math.ceil(total/pageSize);
+        Double totalCount = teacherDAO.getTeacherTotal(teacher);
+        Double totalPage = Math.ceil(totalCount/pageSize);
         List<Teacher> teachers = teacherDAO.getTeacher(teacher, (pageNum - 1) * pageSize, pageSize);
-        return Result.send(new String[]{"total","teachers"},total,teachers);
+        return Result.send(new String[]{"totalCount","totalPage","teachers"},totalCount,totalPage,teachers);
     }
 
     @Override

@@ -3,7 +3,9 @@ package com.denghuo.course_manage.controller;
 import com.denghuo.course_manage.AOP.Access;
 import com.denghuo.course_manage.DTO.CourseScoreDTO;
 import com.denghuo.course_manage.dao.StudentDAO;
+import com.denghuo.course_manage.model.Course;
 import com.denghuo.course_manage.model.Student;
+import com.denghuo.course_manage.service.CourseService;
 import com.denghuo.course_manage.service.StudentService;
 import com.denghuo.course_manage.utils.CustomException;
 import com.denghuo.course_manage.utils.MD5util;
@@ -27,6 +29,9 @@ public class StudentController {
 
     @Autowired
     private StudentService studentService;
+
+    @Autowired
+    private CourseService courseService;
 
 
     @RequestMapping(value = "/getStuInfo",method = RequestMethod.GET)
@@ -94,5 +99,26 @@ public class StudentController {
     })
     public Object insertStuInfo(Student student ){
         return Result.send(studentService.insertStuInfo(student));
+    }
+
+    @ApiOperation("查询课程信息")
+    @ApiImplicitParams({
+            @ApiImplicitParam( name = "id",value = "课程id", required = false, paramType = "query",dataType ="String"),
+            @ApiImplicitParam( name = "category",value = "课程类别", required = false, paramType = "query",dataType ="String"),
+            @ApiImplicitParam( name = "name",value = "课程名称", required = false, paramType = "query",dataType ="String"),
+            @ApiImplicitParam( name = "timeWeek",value = "星期", required = false, paramType = "query",dataType ="String"),
+            @ApiImplicitParam( name = "credit",value = "学分", required = false, paramType = "query",dataType ="int"),
+            @ApiImplicitParam( name = "teacher",value = "老师", required = false, paramType = "query",dataType ="String"),
+            @ApiImplicitParam( name = "surplus",value = "剩余量", required = false, paramType = "query",dataType ="String"),
+            @ApiImplicitParam( name = "startTime",value = "开始时间", required = false, paramType = "query",dataType ="String"),
+            @ApiImplicitParam( name = "endTime",value = "结束时间", required = false, paramType = "query",dataType ="String"),
+            @ApiImplicitParam( name = "checkType",value = "考察方式", required = false, paramType = "query",dataType ="String"),
+            @ApiImplicitParam( name = "studyType",value = "课程类型", required = false, paramType = "query",dataType ="String"),
+            @ApiImplicitParam( name = "pageNum",value = "页数", required = true, paramType = "query",dataType ="Integer"),
+            @ApiImplicitParam( name = "pageSize",value = "每页记录数", required = true, paramType = "query",dataType ="Integer")
+    })
+    @RequestMapping(value = "/getCourse",method = RequestMethod.GET)
+    public Object getCourse(Course course, Integer pageNum, Integer pageSize){
+        return courseService.getCourse(course,pageNum,pageSize);
     }
 }

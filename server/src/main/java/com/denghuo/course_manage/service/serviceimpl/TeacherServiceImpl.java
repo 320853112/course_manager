@@ -6,6 +6,7 @@ import com.denghuo.course_manage.service.TeacherService;
 import com.denghuo.course_manage.utils.CustomException;
 import com.denghuo.course_manage.utils.MD5util;
 import com.denghuo.course_manage.utils.MyExceptionEnum;
+import com.denghuo.course_manage.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,8 +26,11 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
-    public List<Teacher> getTeacher(Teacher teacher,Integer pageNum,Integer pageSize) {
-        return teacherDAO.getTeacher(teacher,(pageNum-1)*pageSize,pageSize);
+    public Object getTeacher(Teacher teacher,Integer pageNum,Integer pageSize) {
+        Double total = teacherDAO.getTeacherTotal(teacher);
+        total = Math.ceil(total/pageSize);
+        List<Teacher> teachers = teacherDAO.getTeacher(teacher, (pageNum - 1) * pageSize, pageSize);
+        return Result.send(new String[]{"total","teachers"},total,teachers);
     }
 
     @Override

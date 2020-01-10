@@ -12,6 +12,8 @@ public interface TeacherDAO {
 
     List<Teacher> getTeacher(@Param("teacher")Teacher teacher,@Param("startNum") Integer startNum,@Param("pageSize")Integer pageSize);
 
+    Double getTeacherTotal(Teacher teacher);
+
     int insertTeacher(Teacher teacher);
 
     int deleteTeacher(Integer id);

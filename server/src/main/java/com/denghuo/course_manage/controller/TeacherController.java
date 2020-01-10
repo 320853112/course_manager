@@ -34,8 +34,7 @@ public class TeacherController {
     })
     @RequestMapping(value = "/getTeacher", method = RequestMethod.GET)
     public Object getTeacher(Teacher teacher,Integer pageNum,Integer pageSize) {
-        //TODO
-        return Result.send(teacherService.getTeacher(teacher,pageNum,pageSize));
+        return teacherService.getTeacher(teacher,pageNum,pageSize);
     }
 
     @ApiOperation("删除老师")

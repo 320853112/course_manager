@@ -41,8 +41,11 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public List<Student> getStuInfo(Student student, Integer pageNum, Integer pageSize) {
-        return studentDAO.getStuInfo(student,(pageNum-1)*pageSize,pageSize);
+    public Object getStuInfo(Student student, Integer pageNum, Integer pageSize) {
+        Double total = studentDAO.getStuInfoTotal(student);
+        total = Math.ceil(total/pageSize);
+        List<Student> stuInfos = studentDAO.getStuInfo(student, (pageNum - 1) * pageSize, pageSize);
+        return Result.send(new String[]{"total","stuInfos"},total,stuInfos);
     }
 
     @Override

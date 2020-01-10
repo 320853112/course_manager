@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface CourseService {
     boolean updateCourse(Course course);
-    List<Course> getCourse(Course course,Integer pageNum,Integer pageSize);
+    Object getCourse(Course course,Integer pageNum,Integer pageSize);
     boolean deleteCourse(String id);
     boolean insertCourse(Course course);
 }

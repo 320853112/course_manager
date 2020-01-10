@@ -42,7 +42,7 @@ public class StudentController {
     })
     @Access(role = 3,comment = "学生")
     public Object getStuInfo(Student student ,Integer pageNum,Integer pageSize){
-        return Result.send(studentService.getStuInfo(student,pageNum,pageSize));
+        return studentService.getStuInfo(student,pageNum,pageSize);
     }
 
     @RequestMapping(value = "/updateStuInfo",method = RequestMethod.POST)

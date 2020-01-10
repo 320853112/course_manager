@@ -68,7 +68,7 @@ public class CourseManagerController {
     })
     @RequestMapping(value = "/getCourse",method = RequestMethod.GET)
     public Object getCourse(Course course,Integer pageNum,Integer pageSize){
-        return Result.send(courseService.getCourse(course,pageNum,pageSize));
+        return courseService.getCourse(course,pageNum,pageSize);
     }
 
     @ApiOperation("增加课程信息")

@@ -81,4 +81,26 @@
             </if>
         )
     </insert>
+
+    <select id="getStuInfoTotal" parameterType="Student" resultType="Double">
+        select count(*) from student
+        <trim prefix="where" prefixOverrides="and">
+            <if test="id!=null">
+                and id = #{id}
+            </if>
+            <if test="name!=null">
+                and name = #{name}
+            </if>
+            <if test="college!=null">
+                and college = #{college}
+            </if>
+            <if test="major!=null">
+                and major = #{major}
+            </if>
+            <if test="className!=null">
+                and class_name = #{className}
+            </if>
+        </trim>
+    </select>
+
 </mapper>

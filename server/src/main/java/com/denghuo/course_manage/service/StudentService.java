@@ -10,7 +10,7 @@ import java.util.List;
 public interface StudentService {
     Boolean insertStuInfo(Student student);
 
-    List<Student> getStuInfo(Student student,Integer pageNum,Integer pageSize);
+    Object getStuInfo(Student student,Integer pageNum,Integer pageSize);
 
     Object getStuCourse(CourseScoreDTO courseScoreDTO, Integer pageNum, Integer pageSize);
 }

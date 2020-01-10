@@ -12,6 +12,8 @@ import java.util.List;
 public interface StudentDAO {
     List<Student> getStuInfo(@Param("student")Student student, @Param("startNum")Integer startNum, @Param("pageSize")Integer pageSize);
 
+    Double getStuInfoTotal(Student student);
+
     Integer updateStuInfo(Student student);
 
     Integer deleteStuInfo(Integer id);

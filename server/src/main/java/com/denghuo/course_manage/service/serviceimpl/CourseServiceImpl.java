@@ -5,6 +5,7 @@ import com.denghuo.course_manage.model.Course;
 import com.denghuo.course_manage.service.CourseService;
 import com.denghuo.course_manage.utils.CustomException;
 import com.denghuo.course_manage.utils.MyExceptionEnum;
+import com.denghuo.course_manage.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,12 +26,17 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public List<Course> getCourse(Course course,Integer pageNum,Integer pageSize) {
-        return courseDAO.getCourse(course,(pageNum-1)*pageSize,pageSize);
+    public Object getCourse(Course course,Integer pageNum,Integer pageSize) {
+        List<Course> courseList = courseDAO.getCourse(course, (pageNum - 1) * pageSize, pageSize);
+        Double totalCount = courseDAO.getCourseTotal(course);
+        Double totalPage = Math.ceil(totalCount/pageSize);
+        return Result.send(new String[]{"totalCount","totalPage","courseList"},totalCount,totalPage,courseList);
     }
 
+
+
     @Override
-    public boolean deleteCourse(int id) {
+    public boolean deleteCourse(String id) {
         if(1!=courseDAO.deleteCourse(id)){
             throw new CustomException(MyExceptionEnum.ACCESS_FAIL);
         }

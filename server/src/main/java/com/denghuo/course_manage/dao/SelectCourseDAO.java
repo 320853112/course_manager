@@ -1,5 +1,7 @@
 package com.denghuo.course_manage.dao;
 
+import com.denghuo.course_manage.DTO.CourseScoreDTO;
+import com.denghuo.course_manage.VO.CourseScoreVO;
 import com.denghuo.course_manage.model.Course;
 import com.denghuo.course_manage.model.StuToCourse;
 import com.sun.org.apache.bcel.internal.generic.INEG;
@@ -10,11 +12,13 @@ import java.util.List;
 
 @Repository
 public interface SelectCourseDAO {
-    int pickCourse(@Param("stu_id") String stuId,@Param("course_id") int courseId);
+    Integer pickCourse( String stuId, String courseId);
 
-    int reduceCourse(Integer courseId);
+    int reduceCourse(String courseId);
 
-    List<Course> getCourseByStuId(@Param("stu_id")String stu_id,@Param("startNum")Integer startNum,@Param("pageSize")Integer pageSize);
+    List<CourseScoreVO> getCourseByCondition(@Param("courseScoreDTO") CourseScoreDTO courseScoreDTO, @Param("startNum")Integer startNum, @Param("pageSize")Integer pageSize);
+
+    Double getCourseTotalByCondition(@Param("courseScoreDTO") CourseScoreDTO courseScoreDTO);
 
     int setScoreByStu(StuToCourse stuToCourse);
 }

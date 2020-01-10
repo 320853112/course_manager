@@ -68,6 +68,6 @@ public class AdminController {
     })
     @RequestMapping(value = "/getAdmin",method = RequestMethod.GET)
     public Object getAdmin(Admin admin,Integer pageNum,Integer pageSize){
-        return Result.send(adminService.getAdmin(admin,pageNum,pageSize));
+        return adminService.getAdmin(admin,pageNum,pageSize);
     }
 }

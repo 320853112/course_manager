@@ -74,4 +74,22 @@
         </trim>
         where id=#{id}
     </update>
+
+    <select id="getTeacherTotal" parameterType="Teacher" resultType="Double">
+        select count(*) from teacher
+        <trim prefix="where" suffixOverrides="and">
+            <if test="id!=null">
+                id = #{id} and
+            </if>
+            <if test="name!=null">
+                name = #{name} and
+            </if>
+            <if test="college!=null">
+                college = #{college} and
+            </if>
+            <if test="password!=null">
+                password = #{password} and
+            </if>
+        </trim>
+    </select>
 </mapper>

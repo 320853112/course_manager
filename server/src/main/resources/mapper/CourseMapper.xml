@@ -10,8 +10,8 @@
             <if test="name!=null">
                 name = #{name},
             </if>
-            <if test="time_week!=null">
-                time_week = #{time_week},
+            <if test="timeWeek!=null">
+                time_week = #{timeWeek},
             </if>
             <if test="credit!=null">
                 credit = #{credit},
@@ -35,7 +35,7 @@
             <if test="name!=null">
                 name,
             </if>
-            <if test="time_week!=null">
+            <if test="timeWeek!=null">
                 time_week,
             </if>
             <if test="credit!=null">
@@ -55,7 +55,7 @@
               <if test="name!=null">
                   #{name},
               </if>
-              <if test="time_week!=null">
+              <if test="timeWeek!=null">
                   #{time_week},
               </if>
               <if test="credit!=null">
@@ -87,8 +87,8 @@
             <if test="course.name!=null">
                 name = #{course.name} and
             </if>
-            <if test="course.time_week!=null">
-                time_week = #{course.time_week} and
+            <if test="course.timeWeek!=null">
+                time_week = #{course.timeWeek} and
             </if>
             <if test="course.credit!=null">
                 credit = #{course.credit} and
@@ -97,12 +97,67 @@
                 teacher  =#{course.teacher} and
             </if>
             <if test="course.surplus!=null">
-                surplus = #{surplus} and
+                surplus = #{course.surplus} and
+            </if>
+            <if test="course.startTime!=null">
+                start_time = #{course.startTime} and
+            </if>
+            <if test="course.endTime!=null">
+                end_time = #{course.endTime} and
+            </if>
+            <if test="course.checkType!=null">
+                check_Type = #{course.checkType} and
+            </if>
+            <if test="course.studyType!=null">
+                study_Type = #{course.studyType} and
             </if>
         </trim>
         limit #{startNum},#{pageSize}
 
     </select>
 
+    <select id="getCourseTotal" parameterType="Course" resultType="Double">
+        select count(*) from course where
+        <trim suffixOverrides="and">
+            1=1 and
+            <if test="id!=null">
+                id = #{id} and
+            </if>
+            <if test="category!=null">
+                category = #{category} and
+            </if>
+            <if test="name!=null">
+                name = #{name} and
+            </if>
+            <if test="timeWeek!=null">
+                time_week = #{timeWeek} and
+            </if>
+            <if test="credit!=null">
+                credit = #{credit} and
+            </if>
+            <if test="teacher!=null">
+                teacher  =#{teacher} and
+            </if>
+            <if test="surplus!=null">
+                surplus = #{surplus} and
+            </if>
+            <if test="startTime!=null">
+                start_time = #{startTime} and
+            </if>
+            <if test="endTime!=null">
+                end_time = #{endTime} and
+            </if>
+            <if test="checkType!=null">
+                check_Type = #{checkType} and
+            </if>
+            <if test="studyType!=null">
+                study_Type = #{studyType} and
+            </if>
+        </trim>
+    </select>
+
+    <select id="existCourse" parameterType="String" resultType="Course">
+        select * from course where id = #{id}
+    </select>
 
 </mapper>

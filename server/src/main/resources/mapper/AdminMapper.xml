@@ -54,5 +54,18 @@
         delete from admin where id = #{id}
     </delete>
 
+    <select id="getAdminTotal" parameterType="Admin" resultType="Double">
+        select count(*) from admin where
+        1=1
+        <if test="id!=null">
+            and id = #{id}
+        </if>
+        <if test="username!=null">
+            and username = #{username}
+        </if>
+        <if test="password!=null">
+            and password = #{password}
+        </if>
+    </select>
 
 </mapper>

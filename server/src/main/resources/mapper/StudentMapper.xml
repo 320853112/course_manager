@@ -16,8 +16,8 @@
             <if test="student.major!=null">
                 and major = #{student.major}
             </if>
-            <if test="student.class_name!=null">
-                and class_name = #{student.class_name}
+            <if test="student.className!=null">
+                and class_name = #{student.className}
             </if>
         </trim>
         limit #{startNum},#{pageSize}
@@ -34,8 +34,8 @@
             <if test="major!=null">
                 , major = #{major}
             </if>
-            <if test="class_name!=null">
-                , class_name = #{class_name}
+            <if test="className!=null">
+                , class_name = #{className}
             </if>
         </trim>
     </update>
@@ -56,8 +56,8 @@
         <if test="major!=null">
             ,major
         </if>
-        <if test="class_name!=null">
-            ,class_name
+        <if test="className!=null">
+            ,className
         </if>
         <if test="password!=null">
             ,password
@@ -73,12 +73,34 @@
             <if test="major!=null">
                 ,#{major}
             </if>
-            <if test="class_name!=null">
-                ,#{class_name}
+            <if test="className!=null">
+                ,#{className}
             </if>
             <if test="password!=null">
                 ,#{password}
             </if>
         )
     </insert>
+
+    <select id="getStuInfoTotal" parameterType="Student" resultType="Double">
+        select count(*) from student
+        <trim prefix="where" prefixOverrides="and">
+            <if test="id!=null">
+                and id = #{id}
+            </if>
+            <if test="name!=null">
+                and name = #{name}
+            </if>
+            <if test="college!=null">
+                and college = #{college}
+            </if>
+            <if test="major!=null">
+                and major = #{major}
+            </if>
+            <if test="className!=null">
+                and class_name = #{className}
+            </if>
+        </trim>
+    </select>
+
 </mapper>

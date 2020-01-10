@@ -31,7 +31,7 @@ public class CourseManagerController {
     @ApiImplicitParams({
             @ApiImplicitParam( name = "category",value = "课程类别", required = false, paramType = "query",dataType ="String"),
             @ApiImplicitParam( name = "name",value = "课程名称", required = false, paramType = "query",dataType ="String"),
-            @ApiImplicitParam( name = "time_week",value = "星期", required = false, paramType = "query",dataType ="String"),
+            @ApiImplicitParam( name = "timeWeek",value = "星期", required = false, paramType = "query",dataType ="String"),
             @ApiImplicitParam( name = "credit",value = "学分", required = false, paramType = "query",dataType ="int"),
             @ApiImplicitParam( name = "teacher",value = "老师", required = false, paramType = "query",dataType ="String"),
             @ApiImplicitParam( name = "surplus",value = "剩余量", required = false, paramType = "query",dataType ="String"),
@@ -43,35 +43,20 @@ public class CourseManagerController {
 
     @ApiOperation("删除课程信息")
     @ApiImplicitParams({
-            @ApiImplicitParam( name = "id",value = "课程id", required = true, paramType = "query",dataType ="int"),
+            @ApiImplicitParam( name = "id",value = "课程id", required = true, paramType = "query",dataType ="String"),
     })
     @RequestMapping(value = "/deleteCourse",method = RequestMethod.POST)
-    public Object deleteCourse(int id){
+    public Object deleteCourse(String id){
         return Result.send(courseService.deleteCourse(id));
     }
 
-    @ApiOperation("查询课程信息")
-    @ApiImplicitParams({
-            @ApiImplicitParam( name = "id",value = "课程id", required = false, paramType = "query",dataType ="int"),
-            @ApiImplicitParam( name = "category",value = "课程类别", required = false, paramType = "query",dataType ="String"),
-            @ApiImplicitParam( name = "name",value = "课程名称", required = false, paramType = "query",dataType ="String"),
-            @ApiImplicitParam( name = "time_week",value = "星期", required = false, paramType = "query",dataType ="String"),
-            @ApiImplicitParam( name = "credit",value = "学分", required = false, paramType = "query",dataType ="int"),
-            @ApiImplicitParam( name = "teacher",value = "老师", required = false, paramType = "query",dataType ="String"),
-            @ApiImplicitParam( name = "surplus",value = "剩余量", required = false, paramType = "query",dataType ="String"),
-            @ApiImplicitParam( name = "pageNum",value = "页数", required = true, paramType = "query",dataType ="Integer"),
-            @ApiImplicitParam( name = "pageSize",value = "每页记录数", required = true, paramType = "query",dataType ="Integer")
-    })
-    @RequestMapping(value = "/getCourse",method = RequestMethod.GET)
-    public Object getCourse(Course course,Integer pageNum,Integer pageSize){
-        return Result.send(courseService.getCourse(course,pageNum,pageSize));
-    }
+
 
     @ApiOperation("增加课程信息")
     @ApiImplicitParams({
             @ApiImplicitParam( name = "category",value = "课程类别", required = false, paramType = "query",dataType ="String"),
             @ApiImplicitParam( name = "name",value = "课程名称", required = false, paramType = "query",dataType ="String"),
-            @ApiImplicitParam( name = "time_week",value = "星期", required = false, paramType = "query",dataType ="String"),
+            @ApiImplicitParam( name = "timeWeek",value = "星期", required = false, paramType = "query",dataType ="String"),
             @ApiImplicitParam( name = "credit",value = "学分", required = false, paramType = "query",dataType ="int"),
             @ApiImplicitParam( name = "teacher",value = "老师", required = false, paramType = "query",dataType ="String"),
             @ApiImplicitParam( name = "surplus",value = "剩余量", required = false, paramType = "query",dataType ="String")

@@ -7,7 +7,7 @@ import java.util.List;
 public interface TeacherService {
 
     boolean updateTeacher(Teacher teacher);
-    List<Teacher> getTeacher(Teacher teacher,Integer pageNum,Integer pageSize);
+    Object getTeacher(Teacher teacher,Integer pageNum,Integer pageSize);
     boolean deleteTeacher(Integer id);
     boolean insertTeacher(Teacher teacher);
 }

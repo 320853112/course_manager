@@ -1,12 +1,12 @@
 <template>
   <div class="teacherManage">
     <div class="queryWrap">
-      <Input v-model="name" placeholder="请输入姓名或工号" style="width: 300px" />
-      <Button type="primary">查询</Button>
+      <Input v-model="name" placeholder="请输入教师姓名" style="width: 300px" />
+      <Button type="primary" @click="searchTeacher">查询</Button>
     </div>
     <Divider dashed />
     <div class="add">
-      <Button type="primary" @click="modal=true">添加信息</Button>
+      <Button type="primary" @click="showTeacher()">添加信息</Button>
     </div>
     <div class="tableWrap">
       <Table border :columns="columns" :data="tableData"></Table>
@@ -14,18 +14,17 @@
     </div>
     <!-- 编辑&添加弹窗 -->
     <Modal class="model" v-model="modal" :closable="false" :footer-hide="true">
-      <Form :model="edit" label-position="left" :label-width="100">
-        <FormItem label="工号">
-          <Input v-model="edit.jobNumber"></Input>
+      <p v-if="formValidate.id" class="form-title">教师编辑</p>
+      <p v-else class="form-title">教师新增</p>
+      <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" label-position="left" :label-width="100">
+        <FormItem label="工号" prop="id">
+          <Input v-model="formValidate.id"></Input>
         </FormItem>
-        <FormItem label="姓名">
-          <Input v-model="edit.name"></Input>
+        <FormItem label="姓名" prop="name">
+          <Input v-model="formValidate.name"></Input>
         </FormItem>
-        <FormItem label="院系">
-          <Input v-model="edit.className"></Input>
-        </FormItem>
-        <FormItem label="密码">
-          <Input v-model="edit.className"></Input>
+        <FormItem label="院系" prop="college">
+          <Input v-model="formValidate.college"></Input>
         </FormItem>
       </Form>
       <div class="btn">
@@ -36,9 +35,9 @@
     <!-- 注销弹窗 -->
     <Modal class="model" v-model="withdrawModal" :closable="false" :footer-hide="true">
       <p class="model-title">注销提醒</p>
-      <p class="model-content">确认选择注销黄淑丽的信息吗？</p>
+      <p class="model-content">确认选择注销{{this.formValidate.name}}的信息吗？</p>
       <div class="btn">
-        <Button type="primary" @click="confirm">确认</Button>
+        <Button type="primary" @click="deleteTeacher()">确认</Button>
         <Button type="primary" @click="withdrawModal=false">取消</Button>
       </div>
     </Modal>
@@ -57,12 +56,15 @@ export default {
       name: '',
       modal: false,
       withdrawModal: false,
-      edit: {
-        jobNumber: '',
+      formValidate: {
+        id: '',
         name: '',
-        sex: '',
-        courseName: '',
-        className: ''
+        college: ''
+      },
+      ruleValidate: {
+        id: [{ required: true, message: '工号不能为空', trigger: 'blur' }],
+        name: [{ required: true, message: '名字不能为空', trigger: 'blur' }],
+        college: [{ required: true, message: '学院不能为空', trigger: 'blur' }]
       },
       columns: [
         {
@@ -80,11 +82,7 @@ export default {
           key: 'college',
           align: 'center'
         },
-        {
-          title: '密码',
-          key: 'password',
-          align: 'center'
-        },
+
         {
           title: '操作',
           key: 'id',
@@ -103,7 +101,7 @@ export default {
                   },
                   on: {
                     click: () => {
-                      this.modal = true
+                      this.showTeacher(params.row.id, params.row.name, params.row.college)
                     }
                   }
                 },
@@ -118,6 +116,8 @@ export default {
                   on: {
                     click: () => {
                       this.withdrawModal = true
+                      this.formValidate.id = params.row.id
+                      this.formValidate.name = params.row.name
                     }
                   }
                 },
@@ -147,6 +147,73 @@ export default {
         this.tableData = result.data.teachers
       }
     },
+    // 检索
+    async searchTeacher() {
+      this.loading = true
+      const result = await this.$service.teacher.getTeacher({
+        pageNum: this.pageIndex,
+        pageSize: this.pageSize,
+        name: this.name
+      })
+      this.loading = false
+      if (result.status) {
+        this.total = result.data.totalCount
+        this.tableData = result.data.teachers
+        this.name = ''
+      }
+    },
+    // 编辑弹窗信息回显
+    showTeacher(id, name, college) {
+      this.getTeacher()
+      this.modal = true
+      this.formValidate.id = ''
+      this.formValidate.name = ''
+      this.formValidate.college = ''
+      if (id) {
+        this.formValidate.id = id
+        this.formValidate.name = name
+        this.formValidate.college = college
+      } else {
+        this.formValidate.id = ''
+      }
+    },
+    // 新增&编辑教师信息
+    async handleSubmit() {
+      this.$refs.formValidate.validate(async valid => {
+        if (valid) {
+          if (this.formValidate.id) {
+            alert('新增')
+          } else {
+            alert('编辑')
+            const result = await this.$service.teacher.insertTeacher({
+              id: this.formValidate.id,
+              name: this.formValidate.name,
+              college: this.formValidate.college
+            })
+            if (result.status) {
+              this.getTeacher()
+              this.$Message.success('新增成功！')
+              this.modal = false
+            }
+          }
+        }
+      })
+    },
+    // 删除教师信息
+    async deleteTeacher() {
+      const result = await this.$service.teacher.deleteTeacher({
+        id: this.formValidate.id
+      })
+
+      if (result.status) {
+        this.getTeacher()
+        this.$Message.success('注销成功！')
+        this.withdrawModal = false
+      } else {
+        this.$Message.warning('注销失败！')
+        this.withdrawModal = false
+      }
+    },
     // 分页
     pageChange(val) {
       this.pageIndex = val
@@ -156,14 +223,6 @@ export default {
       this.pageIndex = 1
       this.pageSize = pageSize
       this.getStuInfo()
-    },
-    handleSubmit() {
-      this.$Message.success('修改成功！')
-      this.modal = false
-    },
-    confirm() {
-      this.$Message.success('注销成功！')
-      this.withdrawModal = false
     }
   }
 }
@@ -208,5 +267,10 @@ export default {
   margin-top: 20px;
   display: flex;
   justify-content: flex-end;
+}
+.form-title {
+  text-align: center;
+  font-size: 18px;
+  margin-bottom: 10px;
 }
 </style>

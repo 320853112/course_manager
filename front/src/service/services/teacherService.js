@@ -7,4 +7,18 @@ export default class TeacherService extends BaseService {
     const result = await this.get(url, data);
     return result;
   }
+
+  // 新增教师信息
+  async insertTeacher(data = {}) {
+    const url = this.API.teacher.insertTeacher;
+    const result = await this.post(url, {}, {}, data);
+    return result;
+  }
+
+  // 删除教师信息
+  async deleteTeacher(data = {}) {
+    const url = this.API.teacher.deleteTeacher;
+    const result = await this.post(url, {}, {}, data);
+    return result;
+  }
 }

@@ -6,7 +6,9 @@ const API = {
     getUserRole: '/course_manage/getUserRole' // 获取用户角色
   },
   teacher: {
-    getTeacher: '/course_manage/getTeacher' // 获取所有教师信息
+    getTeacher: '/course_manage/getTeacher', // 获取所有教师信息
+    insertTeacher: '/course_manage/insertTeacher', // 新增教师信息
+    deleteTeacher: '/course_manage/deleteTeacher' // 删除教师信息
   },
   student: {
     getStuInfo: '/course_manage/getStuInfo' // 获取所有学生信息

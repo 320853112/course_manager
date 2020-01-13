@@ -35,7 +35,7 @@
     <!-- 注销弹窗 -->
     <Modal class="model" v-model="withdrawModal" :closable="false" :footer-hide="true">
       <p class="model-title">注销提醒</p>
-      <p class="model-content">确认选择注销{{this.formValidate.name}}的信息吗？</p>
+      <p class="model-content">确认选择注销{{formValidate.name}}的信息吗？</p>
       <div class="btn">
         <Button type="primary" @click="deleteTeacher()">确认</Button>
         <Button type="primary" @click="withdrawModal=false">取消</Button>
@@ -148,6 +148,7 @@ export default {
       }
     },
     // 检索
+    searchTeacher() {},
     async searchTeacher() {
       this.loading = true
       const result = await this.$service.teacher.getTeacher({
@@ -182,9 +183,9 @@ export default {
       this.$refs.formValidate.validate(async valid => {
         if (valid) {
           if (this.formValidate.id) {
-            alert('新增')
-          } else {
             alert('编辑')
+          } else {
+            alert('新增')
             const result = await this.$service.teacher.insertTeacher({
               id: this.formValidate.id,
               name: this.formValidate.name,
@@ -204,7 +205,6 @@ export default {
       const result = await this.$service.teacher.deleteTeacher({
         id: this.formValidate.id
       })
-
       if (result.status) {
         this.getTeacher()
         this.$Message.success('注销成功！')
@@ -217,17 +217,16 @@ export default {
     // 分页
     pageChange(val) {
       this.pageIndex = val
-      this.getStuInfo()
+      this.getTeacher()
     },
     pageSizeChange(pageSize) {
       this.pageIndex = 1
       this.pageSize = pageSize
-      this.getStuInfo()
+      this.getTeacher()
     }
   }
 }
 </script>
-
 
 <style lang="less" scoped>
 .queryWrap {

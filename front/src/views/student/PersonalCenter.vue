@@ -15,7 +15,7 @@
           <Input v-model="formInline.major" disabled></Input>
         </FormItem>
         <FormItem label="班级名称:">
-          <Input v-model="formInline.class_name" disabled></Input>
+          <Input v-model="formInline.className" disabled></Input>
         </FormItem>
       </Form>
     </Card>
@@ -41,7 +41,7 @@ export default {
         pageSize: 10
       })
       if (result.status) {
-        this.formInline = result.data[0]
+        this.formInline = result.data.stuInfos[0]
       }
     }
   }

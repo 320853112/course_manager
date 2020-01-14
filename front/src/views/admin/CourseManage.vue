@@ -1,12 +1,12 @@
 <template>
   <div class="courseManage">
     <div class="queryWrap">
-      <Input v-model="courseName" placeholder="请输入课程号或课程名称" style="width: 300px" />
-      <Button type="primary">查询</Button>
+      <Input v-model="courseName" placeholder="请输入课程名称" style="width: 300px" />
+      <Button type="primary" @click="searchCourse()">查询</Button>
     </div>
     <Divider dashed />
     <div class="addCourse">
-      <Button type="primary" @click="modal=true">添加课程</Button>
+      <Button type="primary" @click="showCourse()">添加课程</Button>
     </div>
     <div class="tableWrap">
       <Table border :columns="columns" :data="tableData"></Table>
@@ -14,42 +14,32 @@
     </div>
     <!-- 编辑&添加弹窗 -->
     <Modal class="model" v-model="modal" :closable="false" :footer-hide="true">
-      <Form :model="edit" label-position="left" :label-width="100">
-        <FormItem label="课程号">
-          <Input v-model="edit.courseNumber"></Input>
+      <div class="form-title" v-if="formValidate.id">课程编辑</div>
+      <div class="form-title" v-else>课程新增</div>
+      <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" label-position="left" :label-width="100">
+        <FormItem label="课程号" prop="id">
+          <Input v-model="formValidate.id"></Input>
         </FormItem>
-        <FormItem label="课程名称">
-          <Input v-model="edit.courseName"></Input>
+        <FormItem label="课程名称" prop="name">
+          <Input v-model="formValidate.name"></Input>
         </FormItem>
-        <FormItem label="授课教师">
-          <Input v-model="edit.teacher"></Input>
+        <FormItem label="授课教师" prop="teacher">
+          <Input v-model="formValidate.teacher"></Input>
         </FormItem>
-        <FormItem label="上课时间">
-          <Input v-model="edit.time"></Input>
+        <FormItem label="上课时间" prop="timeWeek">
+          <Input v-model="formValidate.timeWeek"></Input>
         </FormItem>
-        <FormItem label="上课地点">
-          <Input v-model="edit.address"></Input>
-        </FormItem>
-        <FormItem label="周数">
-          <Select v-model="edit.weeks">
-            <Option value="add">单周</Option>
-            <Option value="even">双周</Option>
-            <Option value="all">1-16周</Option>
-          </Select>
-        </FormItem>
-        <FormItem label="课程类型">
-          <Select v-model="edit.type">
+        <FormItem label="课程类型" prop="category">
+          <Select v-model="formValidate.category">
             <Option value="obligatory">必修</Option>
             <Option value="elective">选修</Option>
           </Select>
         </FormItem>
-        <FormItem label="学分">
-          <Select v-model="edit.credit">
-            <Option value="one">1</Option>
-            <Option value="two">2</Option>
-            <Option value="three">3</Option>
-            <Option value="four">4</Option>
-          </Select>
+        <FormItem label="学分" prop="credit">
+          <Input v-model="formValidate.credit"></Input>
+        </FormItem>
+        <FormItem label="剩余量" prop="surplus">
+          <Input v-model="formValidate.surplus"></Input>
         </FormItem>
       </Form>
       <div class="btn">
@@ -66,6 +56,7 @@
         <Button type="primary" @click="withdrawModal=false">取消</Button>
       </div>
     </Modal>
+    <Spin v-if="loading" fix size="large"></Spin>
   </div>
 </template>
 
@@ -76,18 +67,27 @@ export default {
       total: 0,
       pageIndex: 1,
       pageSize: 10,
+      loading: false,
       courseName: '',
       modal: false,
       withdrawModal: false,
-      edit: {
-        courseNumber: '',
-        courseName: '',
+      formValidate: {
+        id: '',
+        name: '',
         teacher: '',
-        time: '',
-        address: '',
-        weeks: '',
-        type: '',
-        credit: ''
+        time_week: '',
+        category: '',
+        credit: '',
+        surplus: ''
+      },
+      ruleValidate: {
+        id: [{ required: true, message: '课程号不能为空', trigger: 'blur' }],
+        name: [{ required: true, message: '课程名称不能为空', trigger: 'blur' }],
+        teacher: [{ required: true, message: '授课教师不能为空', trigger: 'blur' }],
+        time_week: [{ required: true, message: '上课时间不能为空', trigger: 'blur' }],
+        category: [{ required: true, message: '课程类型不能为空', trigger: 'change' }],
+        credit: [{ required: true, message: '学分不能为空', trigger: 'blur' }],
+        surplus: [{ required: true, message: '剩余量不能为空', trigger: 'blur' }]
       },
       columns: [
         {
@@ -107,7 +107,7 @@ export default {
         },
         {
           title: '上课时间',
-          key: 'time_week',
+          key: 'timeWeek',
           align: 'center'
         },
         {
@@ -118,6 +118,11 @@ export default {
         {
           title: '学分',
           key: 'credit',
+          align: 'center'
+        },
+        {
+          title: '剩余量',
+          key: 'surplus',
           align: 'center'
         },
         {
@@ -138,7 +143,15 @@ export default {
                   },
                   on: {
                     click: () => {
-                      this.modal = true
+                      this.showCourse(
+                        params.row.id,
+                        params.row.name,
+                        params.row.teacher,
+                        params.row.timeWeek,
+                        params.row.category,
+                        params.row.credit,
+                        params.row.surplus
+                      )
                     }
                   }
                 },
@@ -171,14 +184,66 @@ export default {
   methods: {
     // 获取所有课程信息
     async getCourse() {
+      this.loading = true
       const result = await this.$service.course.getCourse({
         pageNum: this.pageIndex,
         pageSize: this.pageSize
       })
+      this.loading = false
       if (result.status) {
-        // this.total = result.
-        this.tableData = result.data
+        this.total = result.data.totalCount
+        this.tableData = result.data.courseList
       }
+    },
+    // 检索
+    async searchCourse() {
+      this.loading = true
+      const result = await this.$service.course.getCourse({
+        pageNum: this.pageIndex,
+        pageSize: this.pageSize,
+        name: this.courseName
+      })
+      this.loading = false
+      if (result.status) {
+        this.total = result.data.totalCount
+        this.tableData = result.data.courseList
+        this.courseName = ''
+      }
+    },
+    // 编辑弹窗信息回显
+    showCourse(id, name, teacher, timeWeek, category, credit, surplus) {
+      this.getCourse()
+      this.modal = true
+      this.formValidate.id = ''
+      this.formValidate.name = ''
+      this.formValidate.teacher = ''
+      this.formValidate.timeWeek = ''
+      this.formValidate.category = ''
+      this.formValidate.credit = ''
+      this.formValidate.surplus = ''
+      if (id) {
+        this.formValidate.id = id
+        this.formValidate.name = name
+        this.formValidate.teacher = teacher
+        this.formValidate.timeWeek = timeWeek
+        this.formValidate.category = category
+        this.formValidate.credit = credit
+        this.formValidate.surplus = surplus
+      } else {
+        this.formValidate.id = ''
+      }
+    },
+    // 新增&编辑课程信息
+    async handleSubmit() {
+      this.$refs.formValidate.validate(async valid => {
+        if (valid) {
+          if (this.formValidate.id) {
+            alert('新增')
+          } else {
+            alert('编辑')
+          }
+        }
+      })
     },
     // 分页
     pageChange(val) {
@@ -190,10 +255,7 @@ export default {
       this.pageSize = pageSize
       this.getCourse()
     },
-    handleSubmit() {
-      this.$Message.success('操作成功！')
-      this.modal = false
-    },
+
     confirm() {
       this.$Message.success('删除成功！')
       this.withdrawModal = false
@@ -236,9 +298,14 @@ export default {
     border: none;
   }
 }
-.ivu-page{
+.ivu-page {
   margin-top: 20px;
   display: flex;
   justify-content: flex-end;
+}
+.form-title {
+  text-align: center;
+  font-size: 18px;
+  margin-bottom: 10px;
 }
 </style>

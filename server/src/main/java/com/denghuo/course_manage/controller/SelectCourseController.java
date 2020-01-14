@@ -32,4 +32,14 @@ public class SelectCourseController {
     public Object selectCourse(String stuId,String courseId){
         return Result.send(selectCourseService.pickCourse(stuId,courseId));
     }
+
+    @ApiOperation("退选课程")
+    @ApiImplicitParams({
+            @ApiImplicitParam( name = "stuId",value = "学生id", required = true, paramType = "query",dataType ="String"),
+            @ApiImplicitParam( name = "courseId",value = "课程id", required = true, paramType = "query",dataType ="String"),
+    })
+    @RequestMapping(value = "/removeCourse",method = RequestMethod.POST)
+    public Object removeCourse(String stuId,String courseId){
+        return Result.send(selectCourseService.removeCourse(stuId,courseId));
+    }
 }

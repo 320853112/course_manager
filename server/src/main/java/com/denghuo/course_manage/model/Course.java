@@ -16,6 +16,7 @@ public class Course {
     private String endTime;
     private String checkType;
     private String studyType;
+    private String place;
 
     public Course() {
     }

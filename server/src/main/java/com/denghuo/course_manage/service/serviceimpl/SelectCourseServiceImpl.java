@@ -58,10 +58,28 @@ public class SelectCourseServiceImpl implements SelectCourseService {
     }
 
     @Override
+    public boolean removeCourse(String stuId, String courseId) {
+        //查询学生是否已经选择了这个课程
+        StuToCourse stc = new StuToCourse();
+        stc.setStuId(stuId);
+        stc.setCourseId(courseId);
+        if(selectCourseDAO.setScoreByStu(stc)!=1){
+            throw new CustomException(MyExceptionEnum.ACCESS_FAIL);
+        }
+        //退选
+        if(selectCourseDAO.removeCourse(stc)!=1){
+            throw new CustomException(MyExceptionEnum.ACCESS_FAIL);
+        }
+        return true;
+    }
+
+    @Override
     public boolean setScoreByStu(StuToCourse stuToCourse) {
         if(1!=selectCourseDAO.setScoreByStu(stuToCourse)){
             throw new CustomException(MyExceptionEnum.ACCESS_FAIL);
         }
         return true;
     }
+
+
 }

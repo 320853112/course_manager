@@ -10,7 +10,7 @@
     </update>
 
     <select id="getCourseByCondition" parameterType="map" resultType="CourseScoreVO">
-        SELECT c.id, c.name ,sc.score,c.category,c.start_time,c.end_time,c.credit,c.check_type,c.study_type
+        SELECT c.id, c.name ,sc.score,c.category,c.start_time,c.end_time,c.credit,c.check_type,c.study_type,c.teacher,c.place,c.time_week
          FROM sc,course as c where stu_id = #{courseScoreDTO.id} and sc.course_id = c.id
         <if test="courseScoreDTO.startTime!=null">
            and c.start_time>#{courseScoreDTO.startTime}
@@ -41,5 +41,9 @@
     <update id="setScoreByStu" parameterType="StuToCourse">
         update sc set score = #{score} where course_id = #{courseId} and stu_id  =#{stuId}
     </update>
+
+    <delete id="removeCourse" parameterType="StuToCourse">
+        delete from sc where stu_id = #{stuId} and course_id = #{courseId}
+    </delete>
 
 </mapper>

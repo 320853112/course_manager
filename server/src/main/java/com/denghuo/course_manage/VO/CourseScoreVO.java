@@ -14,6 +14,9 @@ public class CourseScoreVO {
     private String checkType;
     private String studyType;
     private String category;
+    private String teacher;
+    private String timeWeek;
+    private String place;
 
 
 

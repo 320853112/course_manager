@@ -21,4 +21,8 @@ public interface SelectCourseDAO {
     Double getCourseTotalByCondition(@Param("courseScoreDTO") CourseScoreDTO courseScoreDTO);
 
     int setScoreByStu(StuToCourse stuToCourse);
+
+    int removeCourse(StuToCourse stuToCourse);
+
+
 }

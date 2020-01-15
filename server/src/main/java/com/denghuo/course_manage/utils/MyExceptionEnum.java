@@ -9,7 +9,8 @@ public enum MyExceptionEnum implements ExceptionInterface{
     NULL_POINTER(1002,"find a null pointer"),
     ACCESS_FAIL(1003,"data access fail"),
     AUTHORITY_LACK(1004,"authority is lack"),
-    PLEASE_LOGIN(1005,"please login first")
+    PLEASE_LOGIN(1005,"please login first"),
+    param_error(1006,"param error")
     ;
 
 

@@ -57,10 +57,13 @@
             ,major
         </if>
         <if test="className!=null">
-            ,className
+            ,class_name
         </if>
         <if test="password!=null">
             ,password
+        </if>
+        <if test="gender!=null">
+            ,gender
         </if>
         )
         values(#{id}
@@ -79,6 +82,9 @@
             <if test="password!=null">
                 ,#{password}
             </if>
+        <if test="gender!=null">
+            ,#{gender}
+        </if>
         )
     </insert>
 

@@ -27,6 +27,12 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public Boolean insertStuInfo(Student student) {
+        String gender = student.getGender();
+        if(!gender.equals("男")&&!gender.equals("女")){
+            throw new CustomException(MyExceptionEnum.param_error);
+        }
+        gender = gender.equals("男")?"male":"female";
+        student.setGender(gender);
         if(student.getPassword()==null){
             student.setPassword(MD5util.getMD5String(student.getId().toString()));
         }else{

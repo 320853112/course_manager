@@ -62,7 +62,7 @@
                   #{name},
               </if>
               <if test="timeWeek!=null">
-                  #{time_week},
+                  #{timeWeek},
               </if>
               <if test="credit!=null">
                   #{credit},

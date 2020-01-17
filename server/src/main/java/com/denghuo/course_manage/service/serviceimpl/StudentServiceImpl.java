@@ -34,7 +34,7 @@ public class StudentServiceImpl implements StudentService {
         gender = gender.equals("男")?"male":"female";
         student.setGender(gender);
         if(student.getPassword()==null){
-            student.setPassword(MD5util.getMD5String(student.getId().toString()));
+            student.setPassword(MD5util.getMD5String(student.getId()));
         }else{
             student.setPassword(MD5util.getMD5String(student.getPassword()));
         }

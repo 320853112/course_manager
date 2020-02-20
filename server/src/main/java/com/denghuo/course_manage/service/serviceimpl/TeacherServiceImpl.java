@@ -1,5 +1,6 @@
 package com.denghuo.course_manage.service.serviceimpl;
 
+import com.denghuo.course_manage.VO.TeacherVO;
 import com.denghuo.course_manage.dao.CourseDAO;
 import com.denghuo.course_manage.dao.TeacherDAO;
 import com.denghuo.course_manage.model.Course;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -37,7 +39,11 @@ public class TeacherServiceImpl implements TeacherService {
         Double totalPage = Math.ceil(totalCount/pageSize);
         List<Teacher> teachers = teacherDAO.getTeacher(teacher, (pageNum - 1) * pageSize, pageSize);
         Object userId = session.getAttribute("userId");
-        return Result.send(new String[]{"totalCount","totalPage","teachers","userId"},totalCount,totalPage,teachers,userId);
+        List<TeacherVO> teacherVOs = new ArrayList<>();
+        for (Teacher t : teachers) {
+            teacherVOs.add(t.toTeacherVO(userId));
+        }
+        return Result.send(new String[]{"totalCount","totalPage","teacherVOs"},totalCount,totalPage,teacherVOs);
     }
 
     @Override

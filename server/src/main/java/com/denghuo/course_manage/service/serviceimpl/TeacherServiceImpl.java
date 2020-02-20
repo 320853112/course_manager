@@ -28,6 +28,10 @@ public class TeacherServiceImpl implements TeacherService {
 
     @Override
     public Object getTeacher(Teacher teacher, Integer pageNum, Integer pageSize, HttpSession session) {
+        String name = teacher.getName();
+        if(name!=null&&teacher.getName().equals("")){
+            teacher.setName(null);
+        }
         Double totalCount = teacherDAO.getTeacherTotal(teacher);
         Double totalPage = Math.ceil(totalCount/pageSize);
         List<Teacher> teachers = teacherDAO.getTeacher(teacher, (pageNum - 1) * pageSize, pageSize);

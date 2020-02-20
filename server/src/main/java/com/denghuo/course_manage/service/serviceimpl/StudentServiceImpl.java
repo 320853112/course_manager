@@ -48,6 +48,10 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public Object getStuInfo(Student student, Integer pageNum, Integer pageSize) {
+        String name = student.getName();
+        if(name!=null&&name.equals("")){
+            student.setName(null);
+        }
         Double totalCount = studentDAO.getStuInfoTotal(student);
         Double totalPage = Math.ceil(totalCount/pageSize);
         List<Student> stuInfos = studentDAO.getStuInfo(student, (pageNum - 1) * pageSize, pageSize);

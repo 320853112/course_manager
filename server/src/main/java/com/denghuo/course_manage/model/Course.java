@@ -17,6 +17,7 @@ public class Course {
     private String checkType;
     private String studyType;
     private String place;
+    private String teacherId;
 
     public Course() {
     }

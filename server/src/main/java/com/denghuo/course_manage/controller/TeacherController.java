@@ -72,4 +72,18 @@ public class TeacherController {
     public Object insertTeacher(Teacher teacher) {
         return Result.send(teacherService.insertTeacher(teacher));
     }
+
+    @ApiOperation("获取自己所教授的课程")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "教师id", required = false, paramType = "query", dataType = "String"),
+            @ApiImplicitParam(name = "name", value = "姓名", required = false, paramType = "query", dataType = "String"),
+            @ApiImplicitParam(name = "college", value = "学院", required = false, paramType = "query", dataType = "String"),
+            @ApiImplicitParam(name = "password", value = "密码", required = false, paramType = "query", dataType = "String"),
+            @ApiImplicitParam( name = "pageNum",value = "页数", required = true, paramType = "query",dataType ="Integer"),
+            @ApiImplicitParam( name = "pageSize",value = "每页记录数", required = true, paramType = "query",dataType ="Integer")
+    })
+    @RequestMapping(value = "/getTeacherCourse", method = RequestMethod.GET)
+    public Object getTeacherCourse(Integer pageNum,Integer pageSize, HttpSession session) {
+        return teacherService.getTeacherCourse(pageNum,pageSize, session);
+    }
 }

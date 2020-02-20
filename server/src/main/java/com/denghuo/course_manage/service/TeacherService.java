@@ -11,4 +11,5 @@ public interface TeacherService {
     Object getTeacher(Teacher teacher,Integer pageNum,Integer pageSize, HttpSession session);
     boolean deleteTeacher(Integer id);
     boolean insertTeacher(Teacher teacher);
+    Object getTeacherCourse(Integer pageNum,Integer pageSize, HttpSession session);
 }

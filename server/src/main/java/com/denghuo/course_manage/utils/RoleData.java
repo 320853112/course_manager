@@ -1,6 +1,6 @@
 package com.denghuo.course_manage.utils;
 
-public enum Role_Data {
+public enum RoleData {
 
     admin(3,"admin")
     ,teacher(2,"teacher")
@@ -10,7 +10,7 @@ public enum Role_Data {
     private Integer roleNum;
     private String roleName;
 
-    Role_Data(Integer roleNum, String roleName) {
+    RoleData(Integer roleNum, String roleName) {
         this.roleNum = roleNum;
         this.roleName = roleName;
     }

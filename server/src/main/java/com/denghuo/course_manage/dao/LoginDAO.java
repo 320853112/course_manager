@@ -9,9 +9,9 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface LoginDAO {
 
-    Student stuLogin(@Param("id") int id, @Param("password") String password);
+    Student stuLogin(@Param("id") String id, @Param("password") String password);
 
-    Teacher teacherLogin(@Param("id") int id, @Param("password") String password);
+    Teacher teacherLogin(@Param("id") String id, @Param("password") String password);
 
     Admin adminLogin(@Param("username") String username, @Param("password") String password);
 

@@ -8,7 +8,7 @@ import com.denghuo.course_manage.service.LoginService;
 import com.denghuo.course_manage.utils.CustomException;
 import com.denghuo.course_manage.utils.MD5util;
 import com.denghuo.course_manage.utils.MyExceptionEnum;
-import com.denghuo.course_manage.utils.Role_Data;
+import com.denghuo.course_manage.utils.RoleData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,28 +25,28 @@ public class LoginServiceImpl implements LoginService {
     private HttpSession session;
 
     @Override
-    public Boolean stuLogin(Integer stuId, String password) {
+    public Boolean stuLogin(String stuId, String password) {
         password = MD5util.getMD5String(password);
         Student student = loginDAO.stuLogin(stuId, password);
         if(student==null){
             throw new CustomException(MyExceptionEnum.ACCESS_FAIL);
         }
-        session.setAttribute("roleNum", Role_Data.student.getRoleNum());
-        session.setAttribute("roleName", Role_Data.student.getRoleName());
+        session.setAttribute("roleNum", RoleData.student.getRoleNum());
+        session.setAttribute("roleName", RoleData.student.getRoleName());
         session.setAttribute("userName", student.getName());
         session.setAttribute("userId", student.getId());
         return true;
     }
 
     @Override
-    public Boolean teacherLogin(Integer teacherId, String password) {
+    public Boolean teacherLogin(String teacherId, String password) {
         password = MD5util.getMD5String(password);
         Teacher teacher = loginDAO.teacherLogin(teacherId, password);
         if(teacher==null){
             throw new CustomException(MyExceptionEnum.ACCESS_FAIL);
         }
-        session.setAttribute("roleNum", Role_Data.teacher.getRoleNum());
-        session.setAttribute("roleName", Role_Data.teacher.getRoleName());
+        session.setAttribute("roleNum", RoleData.teacher.getRoleNum());
+        session.setAttribute("roleName", RoleData.teacher.getRoleName());
         session.setAttribute("userName", teacher.getName());
         session.setAttribute("userId", teacher.getId());
         return true;
@@ -59,8 +59,8 @@ public class LoginServiceImpl implements LoginService {
         if(admin==null){
             throw new CustomException(MyExceptionEnum.ACCESS_FAIL);
         }
-        session.setAttribute("roleNum", Role_Data.admin.getRoleNum());
-        session.setAttribute("roleName", Role_Data.admin.getRoleName());
+        session.setAttribute("roleNum", RoleData.admin.getRoleNum());
+        session.setAttribute("roleName", RoleData.admin.getRoleName());
         session.setAttribute("userName", admin.getUsername());
         session.setAttribute("userId", admin.getId());
         return true;

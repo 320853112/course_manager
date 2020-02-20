@@ -43,7 +43,7 @@ public class TeacherServiceImpl implements TeacherService {
         for (Teacher t : teachers) {
             teacherVOs.add(t.toTeacherVO(userId));
         }
-        return Result.send(new String[]{"totalCount","totalPage","teacherVOs"},totalCount,totalPage,teacherVOs);
+        return Result.send(new String[]{"totalCount","totalPage","teachers"},totalCount,totalPage,teacherVOs);
     }
 
     @Override

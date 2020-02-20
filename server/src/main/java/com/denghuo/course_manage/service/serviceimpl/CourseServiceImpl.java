@@ -27,9 +27,14 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public Object getCourse(Course course,Integer pageNum,Integer pageSize) {
-        String name = course.getName();
-        if(name!=null&&name.equals("")){
+        if(course.getName()!=null&&course.getName().equals("")){
             course.setName(null);
+        }
+        if(course.getTeacher()!=null&&course.getTeacher().equals("")){
+            course.setTeacher(null);
+        }
+        if(course.getCategory()!=null&&course.getCategory().equals("")){
+            course.setCategory(null);
         }
         List<Course> courseList = courseDAO.getCourse(course, (pageNum - 1) * pageSize, pageSize);
         Double totalCount = courseDAO.getCourseTotal(course);

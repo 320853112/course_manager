@@ -1,4 +1,4 @@
-import BaseService from './BaseService';
+import BaseService from './baseService';
 export default class LoginService extends BaseService {
   // 管理员登录
   async adminLogin(data, headers = {}, ) {

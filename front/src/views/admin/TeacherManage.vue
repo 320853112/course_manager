@@ -14,17 +14,20 @@
     </div>
     <!-- 编辑&添加弹窗 -->
     <Modal class="model" v-model="modal" :closable="false" :footer-hide="true">
-      <p v-if="formValidate.id" class="form-title">教师编辑</p>
+      <p v-if="formValidate.userId" class="form-title">教师编辑</p>
       <p v-else class="form-title">教师新增</p>
       <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" label-position="left" :label-width="100">
         <FormItem label="工号" prop="id">
-          <Input v-model="formValidate.id"></Input>
+          <Input v-model="formValidate.id" :disabled="formValidate.userId ? true: false"></Input>
         </FormItem>
         <FormItem label="姓名" prop="name">
           <Input v-model="formValidate.name"></Input>
         </FormItem>
         <FormItem label="院系" prop="college">
           <Input v-model="formValidate.college"></Input>
+        </FormItem>
+        <FormItem label="密码" prop="college" v-if="!formValidate.userId">
+          <Input v-model="formValidate.password"></Input>
         </FormItem>
       </Form>
       <div class="btn">
@@ -59,7 +62,9 @@ export default {
       formValidate: {
         id: '',
         name: '',
-        college: ''
+        college: '',
+        password: '',
+        userId: ''
       },
       ruleValidate: {
         id: [{ required: true, message: '工号不能为空', trigger: 'blur' }],
@@ -101,7 +106,14 @@ export default {
                   },
                   on: {
                     click: () => {
-                      this.showTeacher(params.row.id, params.row.name, params.row.college)
+                      this.showTeacher(
+                        params.row.id,
+                        params.row.name,
+                        params.row.college,
+                        params.row.password,
+                        params.row.userId
+                      )
+                      this.formValidate.userId = params.row.userId
                     }
                   }
                 },
@@ -164,32 +176,43 @@ export default {
       }
     },
     // 编辑弹窗信息回显
-    showTeacher(id, name, college) {
+    showTeacher(id, name, college, password, userId) {
       this.getTeacher()
       this.modal = true
       this.formValidate.id = ''
       this.formValidate.name = ''
       this.formValidate.college = ''
-      if (id) {
+      this.formValidate.password = ''
+      if (userId) {
         this.formValidate.id = id
         this.formValidate.name = name
         this.formValidate.college = college
+        this.formValidate.password = password
       } else {
-        this.formValidate.id = ''
+        this.formValidate.userId = ''
       }
     },
     // 新增&编辑教师信息
     async handleSubmit() {
       this.$refs.formValidate.validate(async valid => {
         if (valid) {
-          if (this.formValidate.id) {
-            alert('编辑')
-          } else {
-            alert('新增')
-            const result = await this.$service.teacher.insertTeacher({
+          if (this.formValidate.userId) {
+            const result = await this.$service.teacher.updateTeacher({
               id: this.formValidate.id,
               name: this.formValidate.name,
               college: this.formValidate.college
+            })
+            if (result.status) {
+              this.getTeacher()
+              this.$Message.success('编辑成功！')
+              this.modal = false
+            }
+          } else {
+            const result = await this.$service.teacher.insertTeacher({
+              id: this.formValidate.id,
+              name: this.formValidate.name,
+              college: this.formValidate.college,
+              password: this.formValidate.password
             })
             if (result.status) {
               this.getTeacher()

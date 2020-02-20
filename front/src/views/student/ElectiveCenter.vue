@@ -15,7 +15,7 @@
         <span>上课老师</span>
         <Input v-model="teacher" style="width: 140px" />
       </div>
-      <div class="week">
+      <!-- <div class="week">
         <span>星期</span>
         <Select v-model="week" style="width:140px">
           <Option v-for="item in weekList" :value="item" :key="item">{{ item }}</Option>
@@ -26,7 +26,7 @@
         <Select v-model="festivals" style="width:140px">
           <Option v-for="item in festivalsList" :value="item" :key="item">{{ item }}</Option>
         </Select>
-      </div>
+      </div> -->
       <Button type="primary">查询</Button>
     </div>
     <Divider dashed />
@@ -98,7 +98,12 @@ export default {
         },
         {
           title: '上课时间',
-          key: 'time_week',
+          key: 'timeWeek',
+          align: 'center'
+        },
+        {
+          title: '上课地点',
+          key: 'place',
           align: 'center'
         },
         {
@@ -180,7 +185,7 @@ export default {
         },
         {
           title: '上课时间',
-          key: 'time',
+          key: 'timeWeek',
           align: 'center'
         },
         {

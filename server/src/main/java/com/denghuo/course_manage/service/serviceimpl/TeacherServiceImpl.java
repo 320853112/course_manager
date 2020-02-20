@@ -10,6 +10,7 @@ import com.denghuo.course_manage.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Service
@@ -26,11 +27,12 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
-    public Object getTeacher(Teacher teacher,Integer pageNum,Integer pageSize) {
+    public Object getTeacher(Teacher teacher, Integer pageNum, Integer pageSize, HttpSession session) {
         Double totalCount = teacherDAO.getTeacherTotal(teacher);
         Double totalPage = Math.ceil(totalCount/pageSize);
         List<Teacher> teachers = teacherDAO.getTeacher(teacher, (pageNum - 1) * pageSize, pageSize);
-        return Result.send(new String[]{"totalCount","totalPage","teachers"},totalCount,totalPage,teachers);
+        Object userId = session.getAttribute("userId");
+        return Result.send(new String[]{"totalCount","totalPage","teachers","userId"},totalCount,totalPage,teachers,userId);
     }
 
     @Override

@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpSession;
+import javax.websocket.Session;
+
 @RestController
 @Api(value = "teacherAPI",tags = "老师相关")
 @Access(role = 2,comment = "老师")
@@ -33,8 +36,8 @@ public class TeacherController {
             @ApiImplicitParam( name = "pageSize",value = "每页记录数", required = true, paramType = "query",dataType ="Integer")
     })
     @RequestMapping(value = "/getTeacher", method = RequestMethod.GET)
-    public Object getTeacher(Teacher teacher,Integer pageNum,Integer pageSize) {
-        return teacherService.getTeacher(teacher,pageNum,pageSize);
+    public Object getTeacher(Teacher teacher, Integer pageNum, Integer pageSize, HttpSession session) {
+        return teacherService.getTeacher(teacher,pageNum,pageSize,session);
     }
 
     @ApiOperation("删除老师")
@@ -68,5 +71,15 @@ public class TeacherController {
     @RequestMapping(value = "/insertTeacher", method = RequestMethod.POST)
     public Object insertTeacher(Teacher teacher) {
         return Result.send(teacherService.insertTeacher(teacher));
+    }
+
+    @ApiOperation("获取自己所教授的课程")
+    @ApiImplicitParams({
+            @ApiImplicitParam( name = "pageNum",value = "页数", required = true, paramType = "query",dataType ="Integer"),
+            @ApiImplicitParam( name = "pageSize",value = "每页记录数", required = true, paramType = "query",dataType ="Integer")
+    })
+    @RequestMapping(value = "/getTeacherCourse", method = RequestMethod.GET)
+    public Object getTeacherCourse(Integer pageNum,Integer pageSize, HttpSession session) {
+        return teacherService.getTeacherCourse(pageNum,pageSize, session);
     }
 }

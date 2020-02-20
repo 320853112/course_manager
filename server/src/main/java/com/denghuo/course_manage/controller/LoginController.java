@@ -28,7 +28,7 @@ public class LoginController {
     })
     @RequestMapping(value = "/stuLogin",method = RequestMethod.POST)
     public  Object stuLogin(@RequestBody LoginIdDTO loginIdDTO){
-        Integer stuId = loginIdDTO.getId();
+        String stuId = loginIdDTO.getId();
         String password = loginIdDTO.getPassword();
         return Result.send(loginService.stuLogin(stuId,password));
     }
@@ -39,7 +39,7 @@ public class LoginController {
     })
     @RequestMapping(value = "/teacherLogin",method = RequestMethod.POST)
     public Object teacherLogin(@RequestBody LoginIdDTO loginIdDTO){
-        Integer teacherId = loginIdDTO.getId();
+        String teacherId = loginIdDTO.getId();
         String password = loginIdDTO.getPassword();
         return Result.send(loginService.teacherLogin(teacherId,password));
     }

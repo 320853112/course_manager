@@ -6,9 +6,9 @@ import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 
 public interface LoginService {
-    Boolean stuLogin(Integer stuId,String password);
+    Boolean stuLogin(String stuId,String password);
 
-    Boolean teacherLogin(Integer teacherId,String password);
+    Boolean teacherLogin(String teacherId,String password);
 
     Boolean adminLogin(String username,String password);
 

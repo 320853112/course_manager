@@ -66,4 +66,6 @@ public class CourseManagerController {
     public Object insertCourse(Course course){
         return Result.send(courseService.insertCourse(course));
     }
+
+
 }

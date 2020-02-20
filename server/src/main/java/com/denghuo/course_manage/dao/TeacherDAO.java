@@ -1,5 +1,6 @@
 package com.denghuo.course_manage.dao;
 
+import com.denghuo.course_manage.model.Course;
 import com.denghuo.course_manage.model.Student;
 import com.denghuo.course_manage.model.Teacher;
 import org.apache.ibatis.annotations.Param;
@@ -19,4 +20,6 @@ public interface TeacherDAO {
     int deleteTeacher(Integer id);
 
     int updateTeacher(Teacher teacher);
+
+    Course getTeacherCourse(@Param("teacherId")String teacherId,@Param("startNum") Integer startNum,@Param("pageSize")Integer pageSize);
 }

@@ -48,6 +48,10 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public Object getStuInfo(Student student, Integer pageNum, Integer pageSize) {
+        String name = student.getName();
+        if(name!=null&&name.equals("")){
+            student.setName(null);
+        }
         Double totalCount = studentDAO.getStuInfoTotal(student);
         Double totalPage = Math.ceil(totalCount/pageSize);
         List<Student> stuInfos = studentDAO.getStuInfo(student, (pageNum - 1) * pageSize, pageSize);
@@ -56,6 +60,15 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public Object getStuCourse(CourseScoreDTO courseScoreDTO, Integer pageNum, Integer pageSize) {
+        if(courseScoreDTO.getStartTime()!=null&&courseScoreDTO.getStartTime().equals("")){
+            courseScoreDTO.setStartTime(null);
+        }
+        if(courseScoreDTO.getName()!=null&&courseScoreDTO.getName().equals("")){
+            courseScoreDTO.setName(null);
+        }
+        if(courseScoreDTO.getCategory()!=null&&courseScoreDTO.getCategory().equals("")){
+            courseScoreDTO.setCategory(null);
+        }
         //查询课程
         List<CourseScoreVO> courseList = selectCourseDAO.getCourseByCondition(courseScoreDTO, (pageNum - 1) * pageSize, pageSize);
         //查询total

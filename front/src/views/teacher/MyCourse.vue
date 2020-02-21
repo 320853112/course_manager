@@ -1,50 +1,9 @@
 <template>
   <div class="MyCourse">
-    <div class="queryWrap">
-      <Input v-model="courseName" placeholder="请输入课程名称" style="width: 300px" />
-      <Button type="primary">查询</Button>
-    </div>
-    <Divider dashed />
-    <!-- <div class="addCourse">
-      <Button type="primary" @click="addCourse">添加课程</Button>
-    </div> -->
     <div class="tableWrap">
-      <Table border :columns="columns1" :data="data1"></Table>
+      <Table border :columns="columns" :data="tableData"></Table>
+      <Page :transfer="true" :total="total" :current="pageIndex" v-model="pageSize" show-elevator show-total size="small" @on-change="pageChange" @on-page-size-change="pageSizeChange" />
     </div>
-    <!-- 添加课程弹窗 -->
-    <Modal class="model" v-model="modal1" :closable="false" :footer-hide="true">
-      <Form ref="formValidate" :model="formValidate" :label-width="80">
-        <FormItem label="课程名称" prop="courseName">
-          <Input v-model="formValidate.courseName" placeholder="请输入课程名称"></Input>
-        </FormItem>
-        <FormItem label="上课地点" prop="time">
-          <Input v-model="formValidate.time" placeholder="请输入上课地点"></Input>
-        </FormItem>
-        <FormItem label="周数" prop="weeks">
-          <Select v-model="formValidate.weeks" placeholder="请选择上课周数">
-            <Option value="add">单周</Option>
-            <Option value="even">双周</Option>
-            <Option value="all">1-16周</Option>
-          </Select>
-        </FormItem>
-        <FormItem label="课程类型" prop="type">
-          <Select v-model="formValidate.type" placeholder="请选择课程类型">
-            <Option value="obligatory">必修</Option>
-            <Option value="elective">选修</Option>
-          </Select>
-        </FormItem>
-        <FormItem label="学分" prop="credit">
-          <Select v-model="formValidate.credit" placeholder="请选择学分">
-            <Option value="one">1</Option>
-            <Option value="two">2</Option>
-          </Select>
-        </FormItem>
-      </Form>
-      <div class="btn">
-        <Button type="primary" @click="confirm">确认</Button>
-        <Button type="primary" @click="cancel">取消</Button>
-      </div>
-    </Modal>
   </div>
 </template>
 
@@ -52,40 +11,28 @@
 export default {
   data() {
     return {
-      courseName: '',
-      modal1: false,
-      formValidate: {
-        courseName: '',
-        time: '',
-        city: '',
-        weeks: '',
-        type: '',
-        credit: ''
-      },
-      columns1: [
+      total: 0,
+      pageIndex: 1,
+      pageSize: 10,
+      columns: [
         {
           title: '课程名称',
-          key: 'courseName',
+          key: 'name',
           align: 'center'
         },
         {
           title: '上课时间',
-          key: 'time',
+          key: 'timeWeek',
           align: 'center'
         },
         {
           title: '上课地点',
-          key: 'address',
-          align: 'center'
-        },
-        {
-          title: '周数',
-          key: 'weeks',
+          key: 'place',
           align: 'center'
         },
         {
           title: '课程类型',
-          key: 'type',
+          key: 'studyType',
           align: 'center'
         },
         {
@@ -94,60 +41,40 @@ export default {
           align: 'center'
         }
       ],
-      data1: [
-        {
-          courseName: '数据结构',
-          time: '周二',
-          address: 'J9-302',
-          weeks: '1-16周',
-          type: '必修',
-          credit: '2'
-        },
-        {
-          courseName: '离散数学',
-          time: '周三',
-          address: 'J9-201',
-          weeks: '单周',
-          type: '必修',
-          credit: '2'
-        },
-        {
-          courseName: '创新教育',
-          time: '周五',
-          address: 'J9-308',
-          weeks: '双周',
-          type: '选修',
-          credit: '1'
-        }
-      ]
+      tableData: []
     }
   },
+  mounted() {
+    this.getTeacherCourse()
+  },
   methods: {
-    addCourse() {
-      this.modal1 = true
+    async getTeacherCourse() {
+      this.loading = true
+      const result = await this.$service.teacher.getTeacherCourse({
+        pageNum: this.pageIndex,
+        pageSize: this.pageSize
+      })
+      this.loading = false
+      if (result.status) {
+        this.total = result.data.totalCount
+        this.tableData = result.data.courses
+      }
     },
-    confirm() {
-      this.$Message.success('修改成功！')
-      this.modal1 = false
+    // 分页
+    pageChange(val) {
+      this.pageIndex = val
+      this.getTeacherCourse()
     },
-    cancel() {
-      this.$Message.warning('修改失败！')
-      this.modal1 = false
+    pageSizeChange(pageSize) {
+      this.pageIndex = 1
+      this.pageSize = pageSize
+      this.getTeacherCourse()
     }
   }
 }
 </script>
 
 <style lang="less" scoped>
-.queryWrap {
-  display: flex;
-  justify-content: space-between;
-}
-.addCourse {
-  display: flex;
-  justify-content: flex-end;
-  margin-bottom: 20px;
-}
 .btn {
   text-align: center;
   margin: 30px 0 20px 0;
@@ -162,5 +89,10 @@ export default {
     color: gray;
     border: none;
   }
+}
+.ivu-page {
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-end;
 }
 </style>

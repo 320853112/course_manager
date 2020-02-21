@@ -7,8 +7,10 @@ const API = {
   },
   teacher: {
     getTeacher: '/course_manage/getTeacher', // 获取所有教师信息
+    getTeacherCourse: '/course_manage/getTeacherCourse', // 教师获取自己所授课程
     insertTeacher: '/course_manage/insertTeacher', // 新增教师信息
-    deleteTeacher: '/course_manage/deleteTeacher' // 删除教师信息
+    deleteTeacher: '/course_manage/deleteTeacher', // 删除教师信息
+    updateTeacher: '/course_manage/updateTeacher' // 编辑教师信息
   },
   student: {
     getStuInfo: '/course_manage/getStuInfo', // 获取所有学生信息

@@ -1,9 +1,9 @@
-import BaseService from './services/BaseService';
-import LoginService from './services/LoginService';
-import AdminService from './services/AdminService';
-import TeacherService from './services/TeacherService';
-import StudentService from './services/StudentService';
-import CourseService from './services/CourseService';
+import BaseService from './services/baseService';
+import LoginService from './services/loginService';
+import AdminService from './services/adminService';
+import TeacherService from './services/teacherService';
+import StudentService from './services/studentService';
+import CourseService from './services/courseService';
 
 export class Service {
   constructor() {

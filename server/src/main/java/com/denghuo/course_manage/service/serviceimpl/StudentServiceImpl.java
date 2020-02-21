@@ -2,6 +2,7 @@ package com.denghuo.course_manage.service.serviceimpl;
 
 import com.denghuo.course_manage.DTO.CourseScoreDTO;
 import com.denghuo.course_manage.VO.CourseScoreVO;
+import com.denghuo.course_manage.VO.StudentVO;
 import com.denghuo.course_manage.dao.SelectCourseDAO;
 import com.denghuo.course_manage.dao.StudentDAO;
 import com.denghuo.course_manage.model.Course;
@@ -14,6 +15,8 @@ import com.denghuo.course_manage.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -47,14 +50,19 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public Object getStuInfo(Student student, Integer pageNum, Integer pageSize) {
+    public Object getStuInfo(Student student, Integer pageNum, Integer pageSize, HttpSession session) {
+        Object userId = session.getAttribute("userId");
         String name = student.getName();
         if(name!=null&&name.equals("")){
             student.setName(null);
         }
         Double totalCount = studentDAO.getStuInfoTotal(student);
         Double totalPage = Math.ceil(totalCount/pageSize);
-        List<Student> stuInfos = studentDAO.getStuInfo(student, (pageNum - 1) * pageSize, pageSize);
+        List<Student> stuInfoList = studentDAO.getStuInfo(student, (pageNum - 1) * pageSize, pageSize);
+        List<StudentVO> stuInfos = new ArrayList();
+        for (Student s : stuInfoList) {
+            stuInfos.add(s.toStudentVO(userId));
+        }
         return Result.send(new String[]{"totalCount","totalPage","stuInfos"},totalCount,totalPage,stuInfos);
     }
 

@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpSession;
+
 @RestController
 @Api(value = "studentAPI",tags = "学生相关")
 @Access(role = 1,comment = "学生")
@@ -46,8 +48,8 @@ public class StudentController {
         @ApiImplicitParam( name = "pageSize",value = "每页记录数", required = true, paramType = "query",dataType ="Integer")
     })
     @Access(role = 3,comment = "学生")
-    public Object getStuInfo(Student student ,Integer pageNum,Integer pageSize){
-        return studentService.getStuInfo(student,pageNum,pageSize);
+    public Object getStuInfo(Student student ,Integer pageNum,Integer pageSize,HttpSession session){
+        return studentService.getStuInfo(student,pageNum,pageSize,session);
     }
 
     @RequestMapping(value = "/updateStuInfo",method = RequestMethod.POST)
@@ -118,7 +120,7 @@ public class StudentController {
             @ApiImplicitParam( name = "pageSize",value = "每页记录数", required = true, paramType = "query",dataType ="Integer")
     })
     @RequestMapping(value = "/getCourse",method = RequestMethod.GET)
-    public Object getCourse(Course course, Integer pageNum, Integer pageSize){
-        return courseService.getCourse(course,pageNum,pageSize);
+    public Object getCourse(Course course, Integer pageNum, Integer pageSize, HttpSession session){
+        return courseService.getCourse(course,pageNum,pageSize,session);
     }
 }

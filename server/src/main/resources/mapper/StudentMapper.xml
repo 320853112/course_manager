@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.denghuo.course_manage.dao.StudentDAO">
     <select id="getStuInfo" parameterType="map" resultType="Student">
-        select id, name,college,major,class_name from student
+        select id, name,college,major,class_name,gender,password from student
         <trim prefix="where" prefixOverrides="and">
             <if test="student.id!=null">
                 and id = #{student.id}
@@ -18,6 +18,12 @@
             </if>
             <if test="student.className!=null">
                 and class_name = #{student.className}
+            </if>
+            <if test="student.gender!=null">
+                and gender = #{student.gender}
+            </if>
+            <if test="student.password!=null">
+                and password = #{student.password}
             </if>
         </trim>
         limit #{startNum},#{pageSize}

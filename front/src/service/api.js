@@ -19,7 +19,9 @@ const API = {
   course: {
     getCourse: '/course_manage/getCourse', // 获取所有课程信息
     getStuCourse: '/course_manage/getStuCourse', // 学生已选课程
-    insertCourse: '/course_manage/insertCourse' // 新增课程
+    insertCourse: '/course_manage/insertCourse', // 新增课程
+    deleteCourse: '/course_manage/deleteCourse', // 删除课程
+    updateCourse: '/course_manage/updateCourse' // 编辑课程
   }
 }
 

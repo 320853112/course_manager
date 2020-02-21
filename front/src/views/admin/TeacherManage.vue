@@ -64,7 +64,7 @@ export default {
         name: '',
         college: '',
         password: '',
-        userId: ''
+        userId: '' // 新增&编辑标识
       },
       ruleValidate: {
         id: [{ required: true, message: '工号不能为空', trigger: 'blur' }],
@@ -197,23 +197,27 @@ export default {
       this.$refs.formValidate.validate(async valid => {
         if (valid) {
           if (this.formValidate.userId) {
+            this.loading = true
             const result = await this.$service.teacher.updateTeacher({
               id: this.formValidate.id,
               name: this.formValidate.name,
               college: this.formValidate.college
             })
+            this.loading = false
             if (result.status) {
               this.getTeacher()
               this.$Message.success('编辑成功！')
               this.modal = false
             }
           } else {
+            this.loading = true
             const result = await this.$service.teacher.insertTeacher({
               id: this.formValidate.id,
               name: this.formValidate.name,
               college: this.formValidate.college,
               password: this.formValidate.password
             })
+            this.loading = false
             if (result.status) {
               this.getTeacher()
               this.$Message.success('新增成功！')
@@ -225,9 +229,11 @@ export default {
     },
     // 删除教师信息
     async deleteTeacher() {
+      this.loading = true
       const result = await this.$service.teacher.deleteTeacher({
         id: this.formValidate.id
       })
+      this.loading = false
       if (result.status) {
         this.getTeacher()
         this.$Message.success('注销成功！')

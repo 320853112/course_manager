@@ -78,7 +78,7 @@ export default {
         name: '',
         college: '',
         major: '',
-        class_name: ''
+        className: ''
       },
       ruleValidate: {
         id: [{ required: true, message: '学号不能为空', trigger: 'blur' }],
@@ -96,6 +96,11 @@ export default {
         {
           title: '姓名',
           key: 'name',
+          align: 'center'
+        },
+        {
+          title: '性别',
+          key: 'gender',
           align: 'center'
         },
         {
@@ -195,6 +200,7 @@ export default {
       if (result.status) {
         this.total = result.data.totalCount
         this.tableData = result.data.stuInfos
+        this.value = ''
       }
     },
     // 编辑弹窗信息回显

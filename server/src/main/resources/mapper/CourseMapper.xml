@@ -94,7 +94,7 @@
           </trim>
     </insert>
 
-    <delete id="deleteCourse" parameterType="int">
+    <delete id="deleteCourse" parameterType="String">
         delete from course where id = #{id}
     </delete>
 

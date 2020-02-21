@@ -35,6 +35,9 @@
     <insert id="insertCourse" parameterType="Course">
         insert into course
         <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id!=null">
+                id ,
+            </if>
             <if test="category!=null">
                 category ,
             </if>
@@ -61,6 +64,9 @@
             </if>
         </trim>
           <trim prefix="values(" suffix=")" suffixOverrides=",">
+              <if test="id!=null">
+                  #{id},
+              </if>
               <if test="category!=null">
                   #{category},
               </if>

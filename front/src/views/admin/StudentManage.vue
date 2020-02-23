@@ -14,26 +14,23 @@
     </div>
     <!-- 编辑&添加弹窗 -->
     <Modal class="model" v-model="modal" :closable="false" :footer-hide="true">
-      <p v-if="formValidate.id" class="form-title">学生编辑</p>
+      <p v-if="formValidate.userId" class="form-title">学生编辑</p>
       <p v-else class="form-title">学生新增</p>
       <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" label-position="left" :label-width="100">
         <FormItem label="学号" prop="id">
-          <Input v-model="formValidate.id"></Input>
+          <Input v-model="formValidate.id" :disabled="formValidate.userId ? true: false"></Input>
         </FormItem>
         <FormItem label="姓名" prop="name">
           <Input v-model="formValidate.name"></Input>
         </FormItem>
+        <FormItem label="性别" prop="gender">
+          <Select v-model="formValidate.gender" @on-change="getGenderVal">
+            <Option v-for="item in genderList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+          </Select>
+        </FormItem>
         <FormItem label="院系" prop="college">
-          <Select v-model="formValidate.college">
-            <Option value="信息工程学院">信息工程学院</Option>
-            <Option value="管理学院">管理学院</Option>
-            <Option value="艺术设计学院">艺术设计学院</Option>
-            <Option value="文化与传媒学院">文化与传媒学院</Option>
-            <Option value="土木工程学院">土木工程学院</Option>
-            <Option value="机械工程学院">机械工程学院</Option>
-            <Option value="财经学院">财经学院</Option>
-            <Option value="音乐舞蹈学院">音乐舞蹈学院</Option>
-            <Option value="护理学院">护理学院</Option>
+          <Select v-model="formValidate.college" @on-change="getCollegeVal">
+            <Option v-for="item in collegeList" :value="item.value" :key="item.value">{{ item.label }}</Option>
           </Select>
         </FormItem>
         <FormItem label="专业" prop="major">
@@ -41,6 +38,9 @@
         </FormItem>
         <FormItem label="班级" prop="className">
           <Input v-model="formValidate.className"></Input>
+        </FormItem>
+        <FormItem label="密码" prop="password" v-if="!formValidate.userId">
+          <Input v-model="formValidate.password"></Input>
         </FormItem>
       </Form>
       <div class="btn">
@@ -76,17 +76,70 @@ export default {
       formValidate: {
         id: '',
         name: '',
+        gender: '',
         college: '',
         major: '',
-        className: ''
+        className: '',
+        password: '',
+        userId: '' // 新增&编辑标识
       },
       ruleValidate: {
         id: [{ required: true, message: '学号不能为空', trigger: 'blur' }],
         name: [{ required: true, message: '姓名不能为空', trigger: 'blur' }],
+        gender: [{ required: true, message: '性别不能为空', trigger: 'change' }],
         college: [{ required: true, message: '院系不能为空', trigger: 'change' }],
         major: [{ required: true, message: '专业不能为空', trigger: 'blur' }],
-        className: [{ required: true, message: '班级不能为空', trigger: 'blur' }]
+        className: [{ required: true, message: '班级不能为空', trigger: 'blur' }],
+        password: [{ required: true, message: '密码不能为空', trigger: 'blur' }]
       },
+      genderList: [
+        {
+          value: 'male',
+          label: '男'
+        },
+        {
+          value: 'female',
+          label: '女'
+        }
+      ],
+      collegeList: [
+        {
+          value: '信息工程学院',
+          label: '信息工程学院'
+        },
+        {
+          value: '管理学院',
+          label: '管理学院'
+        },
+        {
+          value: '财经学院',
+          label: '财经学院'
+        },
+        {
+          value: '教育学院',
+          label: '教育学院'
+        },
+        {
+          value: '护理学院',
+          label: '护理学院'
+        },
+        {
+          value: '音乐舞蹈学院',
+          label: '音乐舞蹈学院'
+        },
+        {
+          value: '艺术设计学院',
+          label: '艺术设计学院'
+        },
+        {
+          value: '土木工程学院',
+          label: '土木工程学院'
+        },
+        {
+          value: '机械工程学院',
+          label: '机械工程学院'
+        }
+      ],
       columns: [
         {
           title: '学号',
@@ -101,7 +154,22 @@ export default {
         {
           title: '性别',
           key: 'gender',
-          align: 'center'
+          align: 'center',
+          render: (h, params) => {
+            return h('div', [
+              h(
+                'p',
+                {
+                  props: {},
+                  style: {},
+                  on: {
+                    click: () => {}
+                  }
+                },
+                params.row.gender === 'female' ? '女' : '男'
+              )
+            ])
+          }
         },
         {
           title: '院系',
@@ -139,10 +207,13 @@ export default {
                       this.showStudent(
                         params.row.id,
                         params.row.name,
+                        params.row.gender,
                         params.row.college,
                         params.row.major,
-                        params.row.className
+                        params.row.className,
+                        params.row.userId
                       )
+                      this.formValidate.userId = params.row.id
                     }
                   }
                 },
@@ -204,32 +275,70 @@ export default {
       }
     },
     // 编辑弹窗信息回显
-    showStudent(id, name, college, major, class_name) {
+    showStudent(id, name, gender, college, major, className, userId) {
       this.getStuInfo()
       this.modal = true
       this.formValidate.id = ''
       this.formValidate.name = ''
+      this.formValidate.gender = ''
       this.formValidate.college = ''
       this.formValidate.major = ''
       this.formValidate.className = ''
-      if (id) {
+      if (userId) {
         this.formValidate.id = id
         this.formValidate.name = name
+        this.formValidate.gender = gender
         this.formValidate.college = college
         this.formValidate.major = major
         this.formValidate.className = className
       } else {
-        this.formValidate.id = ''
+        this.formValidate.userId = ''
       }
+    },
+    // 得到性别下拉框的值
+    getGenderVal(val) {
+      this.formValidate.gender = val
+    },
+    getCollegeVal(val) {
+      this.formValidate.college = val
     },
     // 新增&编辑学生信息
     handleSubmit() {
       this.$refs.formValidate.validate(async valid => {
         if (valid) {
-          if (this.formValidate.id) {
-            alert('编辑')
+          if (this.formValidate.userId) {
+            this.loading = true
+            const result = await this.$service.student.updateStuInfo({
+              id: this.formValidate.id,
+              name: this.formValidate.name,
+              gender: this.formValidate.gender,
+              college: this.formValidate.college,
+              major: this.formValidate.major,
+              className: this.formValidate.className
+            })
+            this.loading = false
+            if (result.status) {
+              this.getStuInfo()
+              this.$Message.success('编辑成功！')
+              this.modal = false
+            }
           } else {
-            alert('新增')
+            this.loading = true
+            const result = await this.$service.student.insertStuInfo({
+              id: this.formValidate.id,
+              name: this.formValidate.name,
+              gender: this.formValidate.gender,
+              college: this.formValidate.college,
+              major: this.formValidate.major,
+              className: this.formValidate.className,
+              password: this.formValidate.password
+            })
+            this.loading = false
+            if (result.status) {
+              this.getStuInfo()
+              this.$Message.success('新增成功！')
+              this.modal = false
+            }
           }
         }
       })

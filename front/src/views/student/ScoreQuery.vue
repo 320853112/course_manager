@@ -21,7 +21,7 @@
     </div>
     <Divider dashed />
     <div class="tableWrap">
-      <Table border :columns="columns1" :data="data1"></Table>
+      <Table border :columns="columns" :data="tableData"></Table>
     </div>
   </div>
 </template>
@@ -37,20 +37,15 @@ export default {
       natureList: ['专业课', '专业基础课', '公共基础课', '公共课', '其它'],
       courseName: '',
       model1: '',
-      columns1: [
+      columns: [
         // {
-        //   title: '序号',
-        //   key: 'order',
+        //   title: '开课学期',
+        //   key: 'semester',
         //   align: 'center'
         // },
         {
-          title: '开课学期',
-          key: 'semester',
-          align: 'center'
-        },
-        {
           title: '课程编号',
-          key: 'number',
+          key: 'id',
           align: 'center'
         },
         {
@@ -70,51 +65,37 @@ export default {
         },
         {
           title: '考核方式',
-          key: 'assessmentMethod',
-          align: 'center'
-        },
-        {
-          title: '考试性质',
-          key: 'examinationNature',
+          key: 'checkType',
           align: 'center'
         },
         {
           title: '课程属性',
-          key: 'attribute',
+          key: 'category',
           align: 'center'
         },
         {
           title: '课程性质',
-          key: 'courseNature',
+          key: 'studyType',
           align: 'center'
         }
       ],
-      data1: [
-        {
-          // order: '1',
-          semester: '2019-2020-1',
-          number: '	300036',
-          name: '软件测试',
-          score: '86',
-          credit: '2',
-          assessmentMethod: '考试',
-          examinationNature: '正常考试',
-          attribute: '必修',
-          courseNature: '专业课'
-        },
-        {
-          // order: '2',
-          semester: '2019-2020-1',
-          number: '	030300',
-          name: '公关礼仪',
-          score: '82',
-          credit: '1',
-          assessmentMethod: '考查',
-          examinationNature: '正常考试',
-          attribute: '选修',
-          courseNature: '公共课'
-        }
-      ]
+      tableData: []
+    }
+  },
+  mounted() {
+    this.getStuCourse()
+  },
+  methods: {
+    // 学生已选课程
+    async getStuCourse() {
+      const result = await this.$service.course.getStuCourse({
+        id: '2016030594',
+        pageNum: 1,
+        pageSize: 10
+      })
+      if (result.status) {
+        this.tableData = result.data.courseList
+      }
     }
   }
 }

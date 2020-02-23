@@ -17,7 +17,7 @@
     </div>
     <Divider dashed />
     <div class="tableWrap">
-      <Table border :columns="columns1" :data="data1"></Table>
+      <Table border :columns="columns" :data="tableData"></Table>
     </div>
   </div>
 </template>
@@ -30,7 +30,7 @@ export default {
       className: '',
       courseList: ['网页设计与制作', 'C语言程序设计', '数据结构', '计算机组成原理'],
       classList: ['16本计算机2班', '16专软件1班', '16本英语5班'],
-      columns1: [
+      columns: [
         {
           title: '学号',
           key: 'studentID',
@@ -70,7 +70,7 @@ export default {
           }
         }
       ],
-      data1: [
+      tableData: [
         {
           studentID: '2016030594',
           name: '邓藿',
@@ -79,7 +79,9 @@ export default {
         }
       ]
     }
-  }
+  },
+  mounted() {},
+  methods: {}
 }
 </script>
 

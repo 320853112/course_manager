@@ -14,7 +14,9 @@ const API = {
   },
   student: {
     getStuInfo: '/course_manage/getStuInfo', // 获取所有学生信息
-    deleteStuInfo: '/course_manage/deleteStuInfo' // 删除学生信息
+    insertStuInfo: '/course_manage/insertStuInfo', // 新增学生信息
+    deleteStuInfo: '/course_manage/deleteStuInfo', // 删除学生信息
+    updateStuInfo: '/course_manage/updateStuInfo' // 编辑学生信息
   },
   course: {
     getCourse: '/course_manage/getCourse', // 获取所有课程信息

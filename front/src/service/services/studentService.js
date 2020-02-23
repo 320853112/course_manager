@@ -8,9 +8,23 @@ export default class StudentService extends BaseService {
     return result;
   }
 
+  // 新增学生信息
+  async insertStuInfo(data = {}) {
+    const url = this.API.student.insertStuInfo;
+    const result = await this.post(url, {}, {}, data);
+    return result;
+  }
+
   // 删除学生信息
   async deleteStuInfo(data = {}) {
     const url = this.API.student.deleteStuInfo;
+    const result = await this.post(url, {}, {}, data);
+    return result;
+  }
+
+  // 编辑学生信息
+  async updateStuInfo(data = {}) {
+    const url = this.API.student.updateStuInfo;
     const result = await this.post(url, {}, {}, data);
     return result;
   }

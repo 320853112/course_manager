@@ -23,7 +23,9 @@ const API = {
     getStuCourse: '/course_manage/getStuCourse', // 学生已选课程
     insertCourse: '/course_manage/insertCourse', // 新增课程
     deleteCourse: '/course_manage/deleteCourse', // 删除课程
-    updateCourse: '/course_manage/updateCourse' // 编辑课程
+    updateCourse: '/course_manage/updateCourse', // 编辑课程
+    selectCourse: '/course_manage/selectCourse', // 学生选课
+    removeCourse: '/course_manage/removeCourse'  // 退选课程
   }
 }
 

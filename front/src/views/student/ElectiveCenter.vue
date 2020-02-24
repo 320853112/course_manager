@@ -1,37 +1,16 @@
 <template>
   <div class="electiveCenter">
     <div class="queryWrap">
-      <div class="category">
-        <span>类别</span>
-        <Select v-model="category" style="width:140px">
-          <Option v-for="item in categoryList" :value="item" :key="item">{{ item }}</Option>
-        </Select>
-      </div>
       <div class="course">
         <span>课程</span>
-        <Input v-model="course" style="width: 140px" />
+        <Input v-model="courseName" style="width: 200px" />
       </div>
-      <div class="teacher">
-        <span>上课老师</span>
-        <Input v-model="teacher" style="width: 140px" />
-      </div>
-      <!-- <div class="week">
-        <span>星期</span>
-        <Select v-model="week" style="width:140px">
-          <Option v-for="item in weekList" :value="item" :key="item">{{ item }}</Option>
-        </Select>
-      </div>
-      <div class="festivals">
-        <span>节次</span>
-        <Select v-model="festivals" style="width:140px">
-          <Option v-for="item in festivalsList" :value="item" :key="item">{{ item }}</Option>
-        </Select>
-      </div> -->
-      <Button type="primary">查询</Button>
+      <Button type="primary" @click="searchCourse()">查询</Button>
     </div>
     <Divider dashed />
     <div class="tableWrap">
       <Table border :columns="columnsSelection" :data="selectionData"></Table>
+      <Page :transfer="true" :total="total" :current="pageIndex" v-model="pageSize" show-elevator show-total size="small" @on-change="pageChange" @on-page-size-change="pageSizeChange" />
     </div>
     <Divider dashed />
     <!-- 选课结果及退选折叠面板 -->
@@ -40,27 +19,29 @@
         选课结果及退选
         <div slot="content">
           <Table border :columns="columnsOut" :data="outData"></Table>
+          <Page :transfer="true" :total="totalOut" :current="pageIndexOut" v-model="pageSizeOut" show-elevator show-total size="small" @on-change="pageChangeOut" @on-page-size-change="pageSizeChangeOut" />
         </div>
       </Panel>
     </Collapse>
     <!-- 选课弹窗 -->
-    <Modal class="model" v-model="modal1" :closable="false" :footer-hide="true">
+    <Modal class="model" v-model="selectModal" :closable="false" :footer-hide="true">
       <p class="model-title">确认选课</p>
-      <p class="model-content">确认选择网页设计与制作课程吗？</p>
+      <p class="model-content">确认选择{{selectCourseName}}课程吗？</p>
       <div class="btn">
-        <Button type="primary" @click="ok">确认</Button>
-        <Button type="primary" @click="cancel">取消</Button>
+        <Button type="primary" @click="selectConfirm">确认</Button>
+        <Button type="primary" @click="selectModal=false">取消</Button>
       </div>
     </Modal>
     <!-- 退选弹窗 -->
-    <Modal class="model" v-model="modal2" :closable="false" :footer-hide="true">
+    <Modal class="model" v-model="outModal" :closable="false" :footer-hide="true">
       <p class="model-title">确认退选</p>
-      <p class="model-content">确认退选网页设计与制作课程吗？</p>
+      <p class="model-content">确认退选{{outCourseName}}课程吗？</p>
       <div class="btn">
-        <Button type="primary" @click="confirm">确认</Button>
-        <Button type="primary" @click="off">取消</Button>
+        <Button type="primary" @click="withdrawalConfirm">确认</Button>
+        <Button type="primary" @click="outModal=false">取消</Button>
       </div>
     </Modal>
+    <Spin v-if="loading" fix size="large"></Spin>
   </div>
 </template>
 
@@ -68,18 +49,21 @@
 export default {
   data() {
     return {
-      value: '',
-      category: '',
-      course: '',
-      teacher: '',
-      week: '',
-      festivals: '',
-      modal1: false,
-      modal2: false,
+      total: 0,
+      pageIndex: 1,
+      pageSize: 10,
+      totalOut: 0,
+      pageIndexOut: 1,
+      pageSizeOut: 10,
+      loading: false,
+      courseName: '',
+      selectModal: false,
+      outModal: false,
       withdrawal: '1',
-      categoryList: ['人文科学', '自然科学', '社会科学', '工程技术', '其它'],
-      weekList: ['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期日'],
-      festivalsList: ['1-2节', '3-4节', '5-6节', '7-8节', '9-10节'],
+      selectCourseName: '',
+      outCourseName: '',
+      selectCourseId: '',
+      outCourseId: '',
       columnsSelection: [
         {
           title: '课程号',
@@ -107,11 +91,6 @@ export default {
           align: 'center'
         },
         {
-          title: '课程类型',
-          key: 'category',
-          align: 'center'
-        },
-        {
           title: '学分',
           key: 'credit',
           align: 'center'
@@ -134,19 +113,12 @@ export default {
                     size: 'small',
                     type: 'info'
                   },
-                  style: {
-                    // marginRight: '5px'
-                  },
+                  style: {},
                   on: {
                     click: () => {
-                      // this.$router.push({
-                      //   path: 'vendorDetail',
-                      //   query: {
-                      //     id: params.row.id,
-                      //     name: params.row.name
-                      //   }
-                      // })
-                      this.modal1 = true
+                      this.selectCourseName = params.row.name
+                      this.selectCourseId = params.row.id
+                      this.selectModal = true
                     }
                   }
                 },
@@ -174,11 +146,6 @@ export default {
           align: 'center'
         },
         {
-          title: '课程属性',
-          key: 'studyType',
-          align: 'center'
-        },
-        {
           title: '上课教师',
           key: 'teacher',
           align: 'center'
@@ -202,13 +169,8 @@ export default {
               h(
                 'p',
                 {
-                  props: {
-                    // size: 'small',
-                    // type: 'info'
-                  },
-                  style: {
-                    // marginRight: '5px'
-                  }
+                  props: {},
+                  style: {}
                 },
                 '选中/退选'
               )
@@ -228,19 +190,12 @@ export default {
                     size: 'small',
                     type: 'info'
                   },
-                  style: {
-                    // marginRight: '5px'
-                  },
+                  style: {},
                   on: {
                     click: () => {
-                      // this.$router.push({
-                      //   path: 'vendorDetail',
-                      //   query: {
-                      //     id: params.row.id,
-                      //     name: params.row.name
-                      //   }
-                      // })
-                      this.modal2 = true
+                      this.outCourseName = params.row.name
+                      this.outCourseId = params.row.id
+                      this.outModal = true
                     }
                   }
                 },
@@ -260,40 +215,84 @@ export default {
   methods: {
     // 获取所有课程信息
     async getCourse() {
+      this.loading = true
       const result = await this.$service.course.getCourse({
-        pageNum: 1,
-        pageSize: 10
+        pageNum: this.pageIndex,
+        pageSize: this.pageSize
       })
+      this.loading = false
       if (result.status) {
+        this.total = result.data.totalCount
         this.selectionData = result.data.courseList
+      }
+    },
+    // 检索
+    async searchCourse() {
+      this.loading = true
+      const result = await this.$service.course.getCourse({
+        pageNum: this.pageIndex,
+        pageSize: this.pageSize,
+        name: this.courseName
+      })
+      this.loading = false
+      if (result.status) {
+        this.total = result.data.totalCount
+        this.selectionData = result.data.courseList
+        this.courseName = ''
       }
     },
     // 学生已选课程
     async getStuCourse() {
+      this.loading = true
       const result = await this.$service.course.getStuCourse({
         id: '2016030594',
-        pageNum: 1,
-        pageSize: 10
+        pageNum: this.pageIndexOut,
+        pageSize: this.pageSizeOut
       })
+      this.loading = false
       if (result.status) {
+        this.totalOut = result.data.totalCount
         this.outData = result.data.courseList
       }
     },
-    ok() {
+    // 选课
+    async selectConfirm() {
+      this.loading = true
+      const result = await this.$service.course.selectCourse({
+        stuId: '2016030594',
+        courseId: this.selectCourseId
+      })
+      this.loading = false
+      if (result.status) {
+        this.getCourse()
+        this.getStuCourse()
+      }
       this.$Message.success('选课成功！')
-      this.modal1 = false
+      this.selectModal = false
     },
-    cancel() {
-      this.$Message.warning('选课失败！')
-      this.modal1 = false
-    },
-    confirm() {
+    // 退选
+    withdrawalConfirm() {
       this.$Message.success('退选成功！')
-      this.modal2 = false
+      this.outModal = false
     },
-    off() {
-      this.$Message.warning('退选失败！')
-      this.modal2 = false
+    // 分页
+    pageChange(val) {
+      this.pageIndex = val
+      this.getCourse()
+    },
+    pageSizeChange(pageSize) {
+      this.pageIndex = 1
+      this.pageSize = pageSize
+      this.getCourse()
+    },
+    pageChangeOut(val) {
+      this.pageIndexOut = val
+      this.getStuCourse()
+    },
+    pageSizeChangeOut(pageSize) {
+      this.pageIndexOut = 1
+      this.pageSizeOut = pageSize
+      this.getStuCourse()
     }
   }
 }
@@ -330,5 +329,10 @@ export default {
     color: gray;
     border: none;
   }
+}
+.ivu-page {
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-end;
 }
 </style>

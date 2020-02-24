@@ -35,4 +35,18 @@ export default class CourseService extends BaseService {
     const result = await this.post(url, {}, {}, data);
     return result;
   }
+
+  // 学生选课
+  async selectCourse(data = {}) {
+    const url = this.API.course.selectCourse;
+    const result = await this.post(url, {}, {}, data);
+    return result;
+  }
+
+  // 退选课程
+  async removeCourse(data = {}) {
+    const url = this.API.course.removeCourse;
+    const result = await this.post(url, {}, {}, data);
+    return result;
+  }
 }

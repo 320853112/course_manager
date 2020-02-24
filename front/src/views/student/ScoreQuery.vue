@@ -22,6 +22,7 @@
     <Divider dashed />
     <div class="tableWrap">
       <Table border :columns="columns" :data="tableData"></Table>
+      <Page :transfer="true" :total="total" :current="pageIndex" v-model="pageSize" show-elevator show-total size="small" @on-change="pageChange" @on-page-size-change="pageSizeChange" />
     </div>
   </div>
 </template>
@@ -30,6 +31,9 @@
 export default {
   data() {
     return {
+      total: 0,
+      pageIndex: 1,
+      pageSize: 10,
       value: '',
       classBegins: '',
       timeList: ['全部学期', '2018-2019-1', '2018-2019-2', '2019-2020-1'],
@@ -90,12 +94,23 @@ export default {
     async getStuCourse() {
       const result = await this.$service.course.getStuCourse({
         id: '2016030594',
-        pageNum: 1,
-        pageSize: 10
+        pageNum: this.pageIndex,
+        pageSize: this.pageSize
       })
       if (result.status) {
+        this.total = result.data.totalCount
         this.tableData = result.data.courseList
       }
+    },
+    // 分页
+    pageChange(val) {
+      this.pageIndex = val
+      this.getStuCourse()
+    },
+    pageSizeChange(pageSize) {
+      this.pageIndex = 1
+      this.pageSize = pageSize
+      this.getStuCourse()
     }
   }
 }
@@ -108,5 +123,10 @@ export default {
 }
 .queryWrap span {
   margin-right: 15px;
+}
+.ivu-page {
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-end;
 }
 </style>

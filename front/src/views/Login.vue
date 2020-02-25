@@ -4,7 +4,7 @@
       <Tabs value="学生">
         <TabPane label="学生" name="学生">
           <Form ref="formStu" :model="formStu" :rules="ruleStu" inline>
-            <FormItem prop="username">
+            <FormItem prop="id">
               <Input prefix="ios-person" type="text" v-model="formStu.id" placeholder="请输入学号" style="width: auto" />
               </Input>
             </FormItem>
@@ -19,8 +19,8 @@
           </Form>
         </TabPane>
         <TabPane label="教师" name="教师">
-          <Form ref="formTea" :model="formTea" :rules="ruleStu" inline>
-            <FormItem prop="username">
+          <Form ref="formTea" :model="formTea" :rules="ruleTea" inline>
+            <FormItem prop="id">
               <Input prefix="ios-person" type="text" v-model="formTea.id" placeholder="请输入工号" style="width: auto" />
               </Input>
             </FormItem>

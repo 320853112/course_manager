@@ -1,14 +1,8 @@
 <template>
   <div class="scoreQuery">
     <div class="queryWrap">
-      <div class="classBegins">
-        <span>开课时间</span>
-        <Select v-model="classBegins" style="width:220px">
-          <Option v-for="item in timeList" :value="item" :key="item">{{ item }}</Option>
-        </Select>
-      </div>
       <div class="courseNature">
-        <span>课程性质</span>
+        <span>课程类别</span>
         <Select v-model="courseNature" style="width:220px">
           <Option v-for="item in natureList" :value="item" :key="item">{{ item }}</Option>
         </Select>
@@ -36,17 +30,11 @@ export default {
       pageSize: 10,
       value: '',
       classBegins: '',
-      timeList: ['全部学期', '2018-2019-1', '2018-2019-2', '2019-2020-1'],
       courseNature: '',
       natureList: ['专业课', '专业基础课', '公共基础课', '公共课', '其它'],
       courseName: '',
       model1: '',
       columns: [
-        // {
-        //   title: '开课学期',
-        //   key: 'semester',
-        //   align: 'center'
-        // },
         {
           title: '课程编号',
           key: 'id',
@@ -68,18 +56,8 @@ export default {
           align: 'center'
         },
         {
-          title: '考核方式',
-          key: 'checkType',
-          align: 'center'
-        },
-        {
-          title: '课程属性',
+          title: '课程类别',
           key: 'category',
-          align: 'center'
-        },
-        {
-          title: '课程性质',
-          key: 'studyType',
           align: 'center'
         }
       ],

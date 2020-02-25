@@ -23,11 +23,19 @@
         <FormItem label="课程名称" prop="name">
           <Input v-model="formValidate.name"></Input>
         </FormItem>
+        <FormItem label="课程类别" prop="category">
+          <Select v-model="formValidate.category" @on-change="getCategoryVal">
+            <Option v-for="item in categoryList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+          </Select>
+        </FormItem>
         <FormItem label="授课教师" prop="teacher">
           <Input v-model="formValidate.teacher"></Input>
         </FormItem>
         <FormItem label="上课时间" prop="timeWeek">
-          <Input v-model="formValidate.timeWeek"></Input>
+          <!-- <Input v-model="formValidate.timeWeek"></Input> -->
+          <Select v-model="formValidate.timeWeek" @on-change="getWeekVal">
+            <Option v-for="item in weekList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+          </Select>
         </FormItem>
         <FormItem label="上课地点" prop="place">
           <Input v-model="formValidate.place"></Input>
@@ -71,6 +79,7 @@ export default {
       formValidate: {
         id: '',
         name: '',
+        category: '',
         teacher: '',
         timeWeek: '',
         place: '',
@@ -81,12 +90,65 @@ export default {
       ruleValidate: {
         id: [{ required: true, message: '课程号不能为空', trigger: 'blur' }],
         name: [{ required: true, message: '课程名称不能为空', trigger: 'blur' }],
+        category: [{ required: true, message: '课程类别不能为空', trigger: 'change' }],
         teacher: [{ required: true, message: '授课教师不能为空', trigger: 'blur' }],
-        timeWeek: [{ required: true, message: '上课时间不能为空', trigger: 'blur' }],
+        timeWeek: [{ required: true, message: '上课时间不能为空', trigger: 'change' }],
         place: [{ required: true, message: '上课地点不能为空', trigger: 'blur' }],
         credit: [{ required: true, message: '学分不能为空', trigger: 'blur' }],
         surplus: [{ required: true, message: '剩余量不能为空', trigger: 'blur' }]
       },
+      categoryList: [
+        {
+          value: '专业课',
+          label: '专业课'
+        },
+        {
+          value: '公共课',
+          label: '公共课'
+        },
+        {
+          value: '专业基础课',
+          label: '专业基础课'
+        },
+        {
+          value: '公共基础课',
+          label: '公共基础课'
+        },
+        {
+          value: '其它',
+          label: '其它'
+        }
+      ],
+      weekList: [
+        {
+          value: '周一',
+          label: '周一'
+        },
+        {
+          value: '周二',
+          label: '周二'
+        },
+        {
+          value: '周三',
+          label: '周三'
+        },
+        {
+          value: '周四',
+          label: '周四'
+        },
+        {
+          value: '周五',
+          label: '周五'
+        },
+        {
+          value: '周六',
+          label: '周六'
+        },
+        {
+          value: '周日',
+          label: '周日'
+        }
+      ],
       columns: [
         {
           title: '课程号',
@@ -101,6 +163,11 @@ export default {
         {
           title: '授课教师',
           key: 'teacher',
+          align: 'center'
+        },
+        {
+          title: '课程类别',
+          key: 'category',
           align: 'center'
         },
         {
@@ -144,6 +211,7 @@ export default {
                       this.showCourse(
                         params.row.id,
                         params.row.name,
+                        params.row.category,
                         params.row.teacher,
                         params.row.timeWeek,
                         params.row.place,
@@ -212,12 +280,20 @@ export default {
         this.courseName = ''
       }
     },
+    // 得到下拉框的值
+    getCategoryVal(val) {
+      this.formValidate.category = val
+    },
+    getWeekVal(val) {
+      this.formValidate.timeWeek = val
+    },
     // 编辑弹窗信息回显
-    showCourse(id, name, teacher, timeWeek, place, credit, surplus, userId) {
+    showCourse(id, name, category, teacher, timeWeek, place, credit, surplus, userId) {
       this.getCourse()
       this.modal = true
       this.formValidate.id = ''
       this.formValidate.name = ''
+      this.formValidate.category = ''
       this.formValidate.teacher = ''
       this.formValidate.timeWeek = ''
       this.formValidate.place = ''
@@ -226,6 +302,7 @@ export default {
       if (userId) {
         this.formValidate.id = id
         this.formValidate.name = name
+        this.formValidate.category = category
         this.formValidate.teacher = teacher
         this.formValidate.timeWeek = timeWeek
         this.formValidate.place = place
@@ -244,6 +321,7 @@ export default {
             const result = await this.$service.course.updateCourse({
               id: this.formValidate.id,
               name: this.formValidate.name,
+              category: this.formValidate.category,
               teacher: this.formValidate.teacher,
               timeWeek: this.formValidate.timeWeek,
               place: this.formValidate.place,
@@ -261,6 +339,7 @@ export default {
             const result = await this.$service.course.insertCourse({
               id: this.formValidate.id,
               name: this.formValidate.name,
+              category: this.formValidate.category,
               teacher: this.formValidate.teacher,
               timeWeek: this.formValidate.timeWeek,
               place: this.formValidate.place,

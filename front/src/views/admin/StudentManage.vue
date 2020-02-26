@@ -1,7 +1,16 @@
 <template>
   <div class="studentManage">
     <div class="queryWrap">
-      <Input v-model="value" placeholder="请输入姓名" style="width: 300px" />
+      <div>
+        <span>姓名</span>
+        <Input v-model="value" placeholder="请输入姓名" style="width: 220px" />
+      </div>
+      <div>
+        <span>学院</span>
+        <Select v-model="college" style="width:220px" @on-change="getSearchCollegeVal">
+          <Option v-for="item in collegeList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+        </Select>
+      </div>
       <Button type="primary" @click="searchStu">查询</Button>
     </div>
     <Divider dashed />
@@ -71,6 +80,7 @@ export default {
       pageSize: 10,
       loading: false,
       value: '',
+      college: '',
       modal: false,
       withdrawModal: false,
       formValidate: {
@@ -265,13 +275,15 @@ export default {
       const result = await this.$service.student.getStuInfo({
         pageNum: this.pageIndex,
         pageSize: this.pageSize,
-        name: this.value
+        name: this.value,
+        college: this.college
       })
       this.loading = false
       if (result.status) {
         this.total = result.data.totalCount
         this.tableData = result.data.stuInfos
         this.value = ''
+        this.college = ''
       }
     },
     // 编辑弹窗信息回显
@@ -296,6 +308,9 @@ export default {
       }
     },
     // 得到性别下拉框的值
+    getSearchCollegeVal(val) {
+      this.college = val
+    },
     getGenderVal(val) {
       this.formValidate.gender = val
     },
@@ -375,6 +390,9 @@ export default {
 .queryWrap {
   display: flex;
   justify-content: space-between;
+}
+.queryWrap span {
+  margin-right: 15px;
 }
 .add {
   display: flex;

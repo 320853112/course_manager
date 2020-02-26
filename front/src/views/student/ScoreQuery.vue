@@ -3,15 +3,15 @@
     <div class="queryWrap">
       <div class="courseNature">
         <span>课程类别</span>
-        <Select v-model="courseNature" style="width:220px">
-          <Option v-for="item in natureList" :value="item" :key="item">{{ item }}</Option>
+        <Select v-model="category" @on-change="getCategoryVal" style="width:220px">
+          <Option v-for="item in categoryList" :value="item.value" :key="item.value">{{ item.label }}</Option>
         </Select>
       </div>
       <div class="courseName">
         <span>课程名称</span>
         <Input v-model="courseName" style="width: 220px" />
       </div>
-      <Button type="primary">查询</Button>
+      <Button type="primary" @click="searchCourse">查询</Button>
     </div>
     <Divider dashed />
     <div class="tableWrap">
@@ -30,10 +30,31 @@ export default {
       pageSize: 10,
       value: '',
       classBegins: '',
-      courseNature: '',
-      natureList: ['专业课', '专业基础课', '公共基础课', '公共课', '其它'],
+      category: '',
       courseName: '',
       model1: '',
+      categoryList: [
+        {
+          value: '专业课',
+          label: '专业课'
+        },
+        {
+          value: '公共课',
+          label: '公共课'
+        },
+        {
+          value: '专业基础课',
+          label: '专业基础课'
+        },
+        {
+          value: '公共基础课',
+          label: '公共基础课'
+        },
+        {
+          value: '其它',
+          label: '其它'
+        }
+      ],
       columns: [
         {
           title: '课程编号',
@@ -78,6 +99,27 @@ export default {
       if (result.status) {
         this.total = result.data.totalCount
         this.tableData = result.data.courseList
+      }
+    },
+    // 得到下拉框的值
+    getCategoryVal(val) {
+      this.category = val
+    },
+    // 检索
+    async searchCourse() {
+      this.loading = true
+      const result = await this.$service.course.getCourse({
+        pageNum: this.pageIndex,
+        pageSize: this.pageSize,
+        name: this.courseName,
+        category: this.category
+      })
+      this.loading = false
+      if (result.status) {
+        this.total = result.data.totalCount
+        this.tableData = result.data.courseList
+        this.courseName = ''
+        this.category = ''
       }
     },
     // 分页

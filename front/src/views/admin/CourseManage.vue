@@ -1,7 +1,16 @@
 <template>
   <div class="courseManage">
     <div class="queryWrap">
-      <Input v-model="courseName" placeholder="请输入课程名称" style="width: 300px" />
+      <div>
+        <span>课程类别</span>
+        <Select v-model="category" @on-change="getCategoryVal" style="width:220px">
+          <Option v-for="item in categoryList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+        </Select>
+      </div>
+      <div>
+        <span>课程名称</span>
+        <Input v-model="courseName" placeholder="请输入课程名称" style="width: 220px" />
+      </div>
       <Button type="primary" @click="searchCourse()">查询</Button>
     </div>
     <Divider dashed />
@@ -32,7 +41,6 @@
           <Input v-model="formValidate.teacher"></Input>
         </FormItem>
         <FormItem label="上课时间" prop="timeWeek">
-          <!-- <Input v-model="formValidate.timeWeek"></Input> -->
           <Select v-model="formValidate.timeWeek" @on-change="getWeekVal">
             <Option v-for="item in weekList" :value="item.value" :key="item.value">{{ item.label }}</Option>
           </Select>
@@ -74,6 +82,7 @@ export default {
       pageSize: 10,
       loading: false,
       courseName: '',
+      category: '',
       modal: false,
       withdrawModal: false,
       formValidate: {
@@ -271,13 +280,15 @@ export default {
       const result = await this.$service.course.getCourse({
         pageNum: this.pageIndex,
         pageSize: this.pageSize,
-        name: this.courseName
+        name: this.courseName,
+        category: this.category
       })
       this.loading = false
       if (result.status) {
         this.total = result.data.totalCount
         this.tableData = result.data.courseList
         this.courseName = ''
+        this.category = ''
       }
     },
     // 得到下拉框的值
@@ -391,6 +402,9 @@ export default {
 .queryWrap {
   display: flex;
   justify-content: space-between;
+}
+.queryWrap span {
+  margin-right: 15px;
 }
 .addCourse {
   display: flex;

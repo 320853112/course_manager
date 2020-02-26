@@ -1,7 +1,16 @@
 <template>
   <div class="teacherManage">
     <div class="queryWrap">
-      <Input v-model="name" placeholder="请输入教师姓名" style="width: 300px" />
+      <div>
+        <span>姓名</span>
+        <Input v-model="name" placeholder="请输入教师姓名" style="width: 220px" />
+      </div>
+      <div>
+        <span>学院</span>
+        <Select v-model="college" style="width:220px" @on-change="getSearchCollegeVal">
+          <Option v-for="item in collegeList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+        </Select>
+      </div>
       <Button type="primary" @click="searchTeacher">查询</Button>
     </div>
     <Divider dashed />
@@ -57,6 +66,7 @@ export default {
       pageSize: 10,
       loading: false,
       name: '',
+      college: '',
       modal: false,
       withdrawModal: false,
       formValidate: {
@@ -71,6 +81,44 @@ export default {
         name: [{ required: true, message: '名字不能为空', trigger: 'blur' }],
         college: [{ required: true, message: '学院不能为空', trigger: 'blur' }]
       },
+      collegeList: [
+        {
+          value: '信息工程学院',
+          label: '信息工程学院'
+        },
+        {
+          value: '管理学院',
+          label: '管理学院'
+        },
+        {
+          value: '财经学院',
+          label: '财经学院'
+        },
+        {
+          value: '教育学院',
+          label: '教育学院'
+        },
+        {
+          value: '护理学院',
+          label: '护理学院'
+        },
+        {
+          value: '音乐舞蹈学院',
+          label: '音乐舞蹈学院'
+        },
+        {
+          value: '艺术设计学院',
+          label: '艺术设计学院'
+        },
+        {
+          value: '土木工程学院',
+          label: '土木工程学院'
+        },
+        {
+          value: '机械工程学院',
+          label: '机械工程学院'
+        }
+      ],
       columns: [
         {
           title: '工号',
@@ -159,6 +207,10 @@ export default {
         this.tableData = result.data.teachers
       }
     },
+    // 得到性别下拉框的值
+    getSearchCollegeVal(val) {
+      this.college = val
+    },
     // 检索
     searchTeacher() {},
     async searchTeacher() {
@@ -166,13 +218,15 @@ export default {
       const result = await this.$service.teacher.getTeacher({
         pageNum: this.pageIndex,
         pageSize: this.pageSize,
-        name: this.name
+        name: this.name,
+        college: this.college
       })
       this.loading = false
       if (result.status) {
         this.total = result.data.totalCount
         this.tableData = result.data.teachers
         this.name = ''
+        this.college = ''
       }
     },
     // 编辑弹窗信息回显
@@ -261,6 +315,9 @@ export default {
 .queryWrap {
   display: flex;
   justify-content: space-between;
+}
+.queryWrap span {
+  margin-right: 15px;
 }
 .add {
   display: flex;

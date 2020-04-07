@@ -104,11 +104,11 @@ export default {
       },
       genderList: [
         {
-          value: 'male',
+          value: '男',
           label: '男'
         },
         {
-          value: 'female',
+          value: '女',
           label: '女'
         }
       ],
@@ -299,7 +299,7 @@ export default {
       if (userId) {
         this.formValidate.id = id
         this.formValidate.name = name
-        this.formValidate.gender = gender
+        this.formValidate.gender = gender === 'male' ? '男' : '女'
         this.formValidate.college = college
         this.formValidate.major = major
         this.formValidate.className = className

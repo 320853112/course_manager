@@ -93,6 +93,7 @@ export default {
           const result = await this.$service.login.stuLogin(this.formStu)
           if (result.status) {
             this.$Message.success('登录成功')
+            localStorage.setItem('stuId', this.formStu.id)
             this.$router.push('/home')
           } else {
             this.$Message.warning('登录失败')

@@ -33,7 +33,10 @@
           <Input v-model="formValidate.name"></Input>
         </FormItem>
         <FormItem label="院系" prop="college">
-          <Input v-model="formValidate.college"></Input>
+          <!-- <Input v-model="formValidate.college"></Input> -->
+          <Select v-model="formValidate.college" @on-change="getCollegeVal">
+            <Option v-for="item in collegeList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+          </Select>
         </FormItem>
         <FormItem label="密码" prop="college" v-if="!formValidate.userId">
           <Input v-model="formValidate.password"></Input>
@@ -210,6 +213,9 @@ export default {
     // 得到性别下拉框的值
     getSearchCollegeVal(val) {
       this.college = val
+    },
+    getCollegeVal(val) {
+      this.formValidate.college = val
     },
     // 检索
     searchTeacher() {},

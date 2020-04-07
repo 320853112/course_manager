@@ -36,7 +36,7 @@ export default {
     // 返回个人信息
     async getStuInfo() {
       const result = await this.$service.student.getStuInfo({
-        id: 2016034449,
+        id: localStorage.getItem('stuId'),
         pageNum: 1,
         pageSize: 10
       })

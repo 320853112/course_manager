@@ -2,7 +2,7 @@
   <div class="pageSider">
     <Menu ref="siderBar" width="220" :active-name="activeName" :open-names="openNames" accordion>
       <template v-for="menu in courseMenu">
-        <MenuItem :name="menu.name" :key="menu.name" :to="menu.to">
+        <MenuItem :name="menu.name" v-if="menu.isMain" :key="menu.name" :to="menu.to">
         <Icon size="20" :type="menu.icon" />
         {{menu.title}}
         </MenuItem>
@@ -23,28 +23,28 @@ export default {
           name: 'index',
           icon: 'md-home',
           to: '/index',
-          isMain: false
+          isMain: true
         },
         {
           title: '课程管理',
           name: 'courseManage',
           icon: 'ios-people',
           to: '/courseManage',
-          isMain: false
+          isMain: true
         },
         {
           title: '学生管理',
           name: 'studentManage',
           icon: 'ios-create',
           to: '/studentManage',
-          isMain: false
+          isMain: true
         },
         {
           title: '教师管理',
           name: 'teacherManage',
           icon: 'ios-create',
           to: '/teacherManage',
-          isMain: false
+          isMain: true
         },
         {
           title: '我的课程',
@@ -58,7 +58,7 @@ export default {
           name: 'scoreEntry',
           icon: 'ios-create',
           to: '/scoreEntry',
-          isMain: false
+          isMain: true
         },
         {
           title: '个人中心',

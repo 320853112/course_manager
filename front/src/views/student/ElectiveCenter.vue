@@ -245,7 +245,7 @@ export default {
     async getStuCourse() {
       this.loading = true
       const result = await this.$service.course.getStuCourse({
-        id: '2016030594',
+        id: localStorage.getItem('stuId'),
         pageNum: this.pageIndexOut,
         pageSize: this.pageSizeOut
       })
@@ -259,7 +259,7 @@ export default {
     async selectConfirm() {
       this.loading = true
       const result = await this.$service.course.selectCourse({
-        stuId: '2016030594',
+        stuId: localStorage.getItem('stuId'),
         courseId: this.selectCourseId
       })
       this.loading = false

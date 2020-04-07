@@ -110,6 +110,7 @@ export default {
           const result = await this.$service.login.teacherLogin(this.formTea)
           if (result.status) {
             this.$Message.success('登录成功')
+            localStorage.setItem('stuId', this.formTea.id)
             this.$router.push('/home')
           } else {
             this.$Message.warning('登录失败')
@@ -126,6 +127,7 @@ export default {
           const result = await this.$service.login.adminLogin(this.formAdmin)
           if (result.status) {
             this.$Message.success('登录成功')
+            localStorage.setItem('stuId', this.formAdmin.username)
             this.$router.push('/home')
           } else {
             this.$Message.warning('登录失败')

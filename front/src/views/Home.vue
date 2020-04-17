@@ -34,7 +34,4 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.content {
-  height: calc(100vh - 200px);
-}
 </style>

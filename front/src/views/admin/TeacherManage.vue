@@ -33,7 +33,6 @@
           <Input v-model="formValidate.name"></Input>
         </FormItem>
         <FormItem label="院系" prop="college">
-          <!-- <Input v-model="formValidate.college"></Input> -->
           <Select v-model="formValidate.college" @on-change="getCollegeVal">
             <Option v-for="item in collegeList" :value="item.value" :key="item.value">{{ item.label }}</Option>
           </Select>

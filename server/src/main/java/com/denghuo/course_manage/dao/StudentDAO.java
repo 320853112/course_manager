@@ -1,5 +1,6 @@
 package com.denghuo.course_manage.dao;
 
+import com.denghuo.course_manage.DTO.StudentDTO;
 import com.denghuo.course_manage.model.Student;
 import io.swagger.models.auth.In;
 import org.apache.ibatis.annotations.Mapper;
@@ -14,7 +15,7 @@ public interface StudentDAO {
 
     Double getStuInfoTotal(Student student);
 
-    Integer updateStuInfo(Student student);
+    Integer updateStuInfo(StudentDTO studentDTO);
 
     Integer deleteStuInfo(Integer id);
 

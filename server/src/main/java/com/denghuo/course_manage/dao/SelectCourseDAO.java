@@ -25,4 +25,5 @@ public interface SelectCourseDAO {
     int removeCourse(StuToCourse stuToCourse);
 
 
+    int stuExistCourse(StuToCourse stc);
 }

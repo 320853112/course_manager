@@ -46,4 +46,8 @@
         delete from sc where stu_id = #{stuId} and course_id = #{courseId}
     </delete>
 
+    <select id="stuExistCourse" parameterType="StuToCourse" resultType="Integer">
+        select count(*) from sc where stu_id = #{stuId} and course_id =  #{courseId}
+    </select>
+
 </mapper>

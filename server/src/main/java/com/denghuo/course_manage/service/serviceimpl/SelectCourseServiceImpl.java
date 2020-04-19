@@ -34,11 +34,17 @@ public class SelectCourseServiceImpl implements SelectCourseService {
     @Override
     @Transactional
     public boolean pickCourse(String stuId, String courseId) {
-        //TODO  防止重复选课
         //先查询验证学生和课程是否都存在
         List<Student> stuInfo = studentDAO.getStuInfo(new Student(stuId),0,1);
         Course course = courseDAO.existCourse(courseId);
         if (stuInfo.size() != 1 || course==null) {
+            throw new CustomException(MyExceptionEnum.ACCESS_FAIL);
+        }
+        //查询是否选过这个课
+        StuToCourse stuToCourse = new StuToCourse();
+        stuToCourse.setStuId(stuId);
+        stuToCourse.setCourseId(courseId);
+        if(selectCourseDAO.stuExistCourse(stuToCourse)>=1){
             throw new CustomException(MyExceptionEnum.ACCESS_FAIL);
         }
         synchronized (this) {
@@ -58,12 +64,13 @@ public class SelectCourseServiceImpl implements SelectCourseService {
     }
 
     @Override
+    @Transactional
     public boolean removeCourse(String stuId, String courseId) {
         //查询学生是否已经选择了这个课程
         StuToCourse stc = new StuToCourse();
         stc.setStuId(stuId);
         stc.setCourseId(courseId);
-        if(selectCourseDAO.setScoreByStu(stc)!=1){
+        if(selectCourseDAO.stuExistCourse(stc)<1){
             throw new CustomException(MyExceptionEnum.ACCESS_FAIL);
         }
         //退选

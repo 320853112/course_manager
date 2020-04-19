@@ -281,7 +281,7 @@ export default {
         pageNum: this.pageIndex,
         pageSize: this.pageSize,
         name: this.courseName,
-        category: this.category
+        category: this.category ? this.category : null
       })
       this.loading = false
       if (result.status) {

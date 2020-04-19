@@ -1,7 +1,7 @@
 module.exports = {
   lintOnSave: true,
   publicPath: process.env.NODE_ENV === 'production' ? '././' : '/',
-  outputDir: '../server/src/main/static',
+  outputDir: '../server/src/main/resources/static',
   devServer: {
     port: 8888,
     proxy: {

@@ -224,7 +224,7 @@ export default {
         pageNum: this.pageIndex,
         pageSize: this.pageSize,
         name: this.name,
-        college: this.college
+        college: this.college ? this.college : null
       })
       this.loading = false
       if (result.status) {

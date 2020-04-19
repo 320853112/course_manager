@@ -266,13 +266,25 @@ export default {
       if (result.status) {
         this.getCourse()
         this.getStuCourse()
+        this.$Message.success('选课成功！')
+      } else {
+        this.$Message.warning('已经选择该课程哦~')
       }
-      this.$Message.success('选课成功！')
       this.selectModal = false
     },
     // 退选
-    withdrawalConfirm() {
-      this.$Message.success('退选成功！')
+    async withdrawalConfirm() {
+      this.loading = true
+      const result = await this.$service.course.removeCourse({
+        stuId: localStorage.getItem('stuId'),
+        courseId: this.outCourseId
+      })
+      this.loading = false
+      if (result.status) {
+        this.getCourse()
+        this.getStuCourse()
+        this.$Message.success('退选成功！')
+      }
       this.outModal = false
     },
     // 分页

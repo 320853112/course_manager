@@ -2,6 +2,7 @@ package com.denghuo.course_manage.controller;
 
 import com.denghuo.course_manage.AOP.Access;
 import com.denghuo.course_manage.DTO.CourseScoreDTO;
+import com.denghuo.course_manage.DTO.StudentDTO;
 import com.denghuo.course_manage.dao.StudentDAO;
 import com.denghuo.course_manage.model.Course;
 import com.denghuo.course_manage.model.Student;
@@ -60,10 +61,11 @@ public class StudentController {
         @ApiImplicitParam( name = "college",value = "学院", required = false, paramType = "query",dataType ="String"),
         @ApiImplicitParam( name = "major",value = "专业", required = false, paramType = "query",dataType ="String"),
         @ApiImplicitParam( name = "className",value = "班级名称", required = false, paramType = "query",dataType ="String"),
-        @ApiImplicitParam( name = "password",value = "密码", required = false, paramType = "query",dataType ="String")
+        @ApiImplicitParam( name = "password",value = "密码", required = false, paramType = "query",dataType ="String"),
+        @ApiImplicitParam( name = "newId",value = "", required = false, paramType = "query",dataType ="String")
     })
-        public Object updateStuInfo(Student student ){
-        return Result.send(studentDAO.updateStuInfo(student));
+        public Object updateStuInfo(StudentDTO studentDTO ){
+        return studentService.updateStuInfo(studentDTO);
     }
 
     @RequestMapping(value = "/deleteStuInfo",method = RequestMethod.POST)

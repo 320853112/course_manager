@@ -12,6 +12,8 @@ import com.denghuo.course_manage.utils.RoleData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 
@@ -39,7 +41,7 @@ public class LoginServiceImpl implements LoginService {
     }
 
     @Override
-    public Boolean teacherLogin(String teacherId, String password) {
+    public Boolean teacherLogin(String teacherId, String password, HttpServletResponse response) {
         password = MD5util.getMD5String(password);
         Teacher teacher = loginDAO.teacherLogin(teacherId, password);
         if(teacher==null){
@@ -49,6 +51,7 @@ public class LoginServiceImpl implements LoginService {
         session.setAttribute("roleName", RoleData.teacher.getRoleName());
         session.setAttribute("userName", teacher.getName());
         session.setAttribute("userId", teacher.getId());
+        response.addCookie(new Cookie("teacherId",teacherId));
         return true;
     }
 

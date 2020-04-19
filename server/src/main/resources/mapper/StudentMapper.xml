@@ -28,7 +28,7 @@
         </trim>
         limit #{startNum},#{pageSize}
     </select>
-    <update id="updateStuInfo" parameterType="Student">
+    <update id="updateStuInfo" parameterType="StudentDTO">
         update student
         <trim prefix="set" suffix="where id = #{id}" prefixOverrides=",">
             <if test="name!=null">
@@ -42,6 +42,15 @@
             </if>
             <if test="className!=null">
                 , class_name = #{className}
+            </if>
+            <if test="gender!=null">
+                , gender = #{gender}
+            </if>
+            <if test="newId!=null">
+                , id = #{newId}
+            </if>
+            <if test="password!=null">
+                , password = #{password}
             </if>
         </trim>
     </update>

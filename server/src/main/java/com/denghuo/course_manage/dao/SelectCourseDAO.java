@@ -2,6 +2,7 @@ package com.denghuo.course_manage.dao;
 
 import com.denghuo.course_manage.DTO.CourseScoreDTO;
 import com.denghuo.course_manage.VO.CourseScoreVO;
+import com.denghuo.course_manage.VO.StudentCourseVO;
 import com.denghuo.course_manage.model.Course;
 import com.denghuo.course_manage.model.StuToCourse;
 import com.sun.org.apache.bcel.internal.generic.INEG;
@@ -25,4 +26,9 @@ public interface SelectCourseDAO {
     int removeCourse(StuToCourse stuToCourse);
 
 
+    int stuExistCourse(StuToCourse stc);
+
+    List<StudentCourseVO> getStuByCourse(@Param("teacherId") String teacherId,@Param("courseName") String courseName, @Param("startNum") int startNum,@Param("pageSize") Integer pageSize);
+
+    Double getStuByCourseTotal(String teacherId,String courseName);
 }

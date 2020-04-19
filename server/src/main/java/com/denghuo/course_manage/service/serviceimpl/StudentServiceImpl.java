@@ -1,6 +1,7 @@
 package com.denghuo.course_manage.service.serviceimpl;
 
 import com.denghuo.course_manage.DTO.CourseScoreDTO;
+import com.denghuo.course_manage.DTO.StudentDTO;
 import com.denghuo.course_manage.VO.CourseScoreVO;
 import com.denghuo.course_manage.VO.StudentVO;
 import com.denghuo.course_manage.dao.SelectCourseDAO;
@@ -84,5 +85,17 @@ public class StudentServiceImpl implements StudentService {
         Double totalPage = Math.ceil(totalCount/pageSize);
         return Result.send(new String[]{"courseList","totalCount","totalPage"},courseList,totalCount,totalPage);
 
+    }
+
+    @Override
+    public Object updateStuInfo(StudentDTO studentDTO) {
+        if(studentDTO.getPassword()!=null){
+            studentDTO.setPassword(MD5util.getMD5String(studentDTO.getPassword()));
+        }
+
+        if(1!=studentDAO.updateStuInfo(studentDTO)){
+            throw new CustomException(MyExceptionEnum.ACCESS_FAIL);
+        }
+        return Result.send();
     }
 }

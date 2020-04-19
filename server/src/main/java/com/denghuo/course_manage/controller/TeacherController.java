@@ -82,4 +82,15 @@ public class TeacherController {
     public Object getTeacherCourse(Integer pageNum,Integer pageSize, HttpSession session) {
         return teacherService.getTeacherCourse(pageNum,pageSize, session);
     }
+
+    @ApiOperation("获取自己所教授的课程的学生")
+    @ApiImplicitParams({
+            @ApiImplicitParam( name = "courseName",value = "课程名", required = false, paramType = "query",dataType ="String"),
+            @ApiImplicitParam( name = "pageNum",value = "页数", required = true, paramType = "query",dataType ="Integer"),
+            @ApiImplicitParam( name = "pageSize",value = "每页记录数", required = true, paramType = "query",dataType ="Integer")
+    })
+    @RequestMapping(value = "/getStuByCourse", method = RequestMethod.GET)
+    public Object getStuByCourse(String teacherId ,String courseName,Integer pageNum,Integer pageSize) {
+        return teacherService.getStuByCourse(teacherId,courseName,pageNum,pageSize);
+    }
 }

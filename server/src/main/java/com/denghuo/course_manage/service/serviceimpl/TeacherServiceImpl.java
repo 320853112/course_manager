@@ -1,7 +1,9 @@
 package com.denghuo.course_manage.service.serviceimpl;
 
+import com.denghuo.course_manage.VO.StudentCourseVO;
 import com.denghuo.course_manage.VO.TeacherVO;
 import com.denghuo.course_manage.dao.CourseDAO;
+import com.denghuo.course_manage.dao.SelectCourseDAO;
 import com.denghuo.course_manage.dao.TeacherDAO;
 import com.denghuo.course_manage.model.Course;
 import com.denghuo.course_manage.model.Teacher;
@@ -21,6 +23,9 @@ public class TeacherServiceImpl implements TeacherService {
     private TeacherDAO teacherDAO;
     @Autowired
     private CourseDAO courseDAO;
+    @Autowired
+    private SelectCourseDAO selectCourseDAO;
+
     @Override
     public boolean updateTeacher(Teacher teacher) {
         if(1!=teacherDAO.updateTeacher(teacher)){
@@ -80,5 +85,13 @@ public class TeacherServiceImpl implements TeacherService {
         Double totalCount = courseDAO.getCourseTotal(course);
         Double totalPage = Math.ceil(totalCount/pageSize);
         return Result.send(new String[]{"totalCount","totalPage","courses"},totalCount,totalPage,courses);
+    }
+
+    @Override
+    public Object getStuByCourse(String teacherId,String courseName, Integer pageNum, Integer pageSize) {
+        List<StudentCourseVO> studentCourse = selectCourseDAO.getStuByCourse(teacherId,courseName, (pageNum - 1) * pageSize, pageSize);
+        Double totalCount = selectCourseDAO.getStuByCourseTotal(teacherId,courseName);
+        Double totalPage = Math.ceil(totalCount/pageSize);
+        return Result.send(new String[]{"totalCount","totalPage","studentCourse"},totalCount,totalPage,studentCourse);
     }
 }

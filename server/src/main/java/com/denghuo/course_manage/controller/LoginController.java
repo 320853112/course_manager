@@ -11,6 +11,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 
@@ -38,10 +39,10 @@ public class LoginController {
             @ApiImplicitParam( name = "loginIdDTO",value = "用户名和密码的json", required = true, paramType = "body", dataType = "LoginIdDTO")
     })
     @RequestMapping(value = "/teacherLogin",method = RequestMethod.POST)
-    public Object teacherLogin(@RequestBody LoginIdDTO loginIdDTO){
+    public Object teacherLogin(@RequestBody LoginIdDTO loginIdDTO, HttpServletResponse response){
         String teacherId = loginIdDTO.getId();
         String password = loginIdDTO.getPassword();
-        return Result.send(loginService.teacherLogin(teacherId,password));
+        return Result.send(loginService.teacherLogin(teacherId,password,response));
     }
 
     @ApiOperation("管理员登录")

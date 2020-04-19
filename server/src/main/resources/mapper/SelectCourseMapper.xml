@@ -50,4 +50,23 @@
         select count(*) from sc where stu_id = #{stuId} and course_id =  #{courseId}
     </select>
 
+    <select id="getStuByCourse"  resultType="StudentCourseVO">
+        SELECT s.id stuId,s.`name` stuName,s.class_name className,c.`name` courseName,sc.score score,c.id courseId FROM   course c , student s , sc
+        WHERE sc.course_id = c.id  and s.id = sc.stu_id
+        and c.teacher_id = #{teacherId}
+        <if test="courseName!=null">
+            and c.`name`= #{courseName}
+        </if>
+        limit #{startNum},#{pageSize}
+    </select>
+
+    <select id="getStuByCourseTotal" parameterType="Course" resultType="Double">
+        SELECT count(*) FROM   course c , student s , sc
+        WHERE sc.course_id = c.id  and s.id = sc.stu_id
+        and c.teacher_id = #{teacherId}
+        <if test="courseName!=null">
+            and c.`name`= #{courseName}
+        </if>
+    </select>
+
 </mapper>

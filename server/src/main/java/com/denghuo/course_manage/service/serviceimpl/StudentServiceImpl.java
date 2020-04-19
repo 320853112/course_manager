@@ -89,7 +89,10 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public Object updateStuInfo(StudentDTO studentDTO) {
-        ;
+        if(studentDTO.getPassword()!=null){
+            studentDTO.setPassword(MD5util.getMD5String(studentDTO.getPassword()));
+        }
+
         if(1!=studentDAO.updateStuInfo(studentDTO)){
             throw new CustomException(MyExceptionEnum.ACCESS_FAIL);
         }

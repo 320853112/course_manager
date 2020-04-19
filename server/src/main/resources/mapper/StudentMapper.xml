@@ -49,6 +49,9 @@
             <if test="newId!=null">
                 , id = #{newId}
             </if>
+            <if test="password!=null">
+                , password = #{password}
+            </if>
         </trim>
     </update>
 

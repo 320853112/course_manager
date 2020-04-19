@@ -1,7 +1,16 @@
 <template>
   <div class="teacherManage">
     <div class="queryWrap">
-      <Input v-model="name" placeholder="请输入教师姓名" style="width: 300px" />
+      <div>
+        <span>姓名</span>
+        <Input v-model="name" placeholder="请输入教师姓名" style="width: 220px" />
+      </div>
+      <div>
+        <span>学院</span>
+        <Select v-model="college" style="width:220px" @on-change="getSearchCollegeVal">
+          <Option v-for="item in collegeList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+        </Select>
+      </div>
       <Button type="primary" @click="searchTeacher">查询</Button>
     </div>
     <Divider dashed />
@@ -24,7 +33,9 @@
           <Input v-model="formValidate.name"></Input>
         </FormItem>
         <FormItem label="院系" prop="college">
-          <Input v-model="formValidate.college"></Input>
+          <Select v-model="formValidate.college" @on-change="getCollegeVal">
+            <Option v-for="item in collegeList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+          </Select>
         </FormItem>
         <FormItem label="密码" prop="college" v-if="!formValidate.userId">
           <Input v-model="formValidate.password"></Input>
@@ -57,6 +68,7 @@ export default {
       pageSize: 10,
       loading: false,
       name: '',
+      college: '',
       modal: false,
       withdrawModal: false,
       formValidate: {
@@ -64,13 +76,51 @@ export default {
         name: '',
         college: '',
         password: '',
-        userId: ''
+        userId: '' // 新增&编辑标识
       },
       ruleValidate: {
         id: [{ required: true, message: '工号不能为空', trigger: 'blur' }],
         name: [{ required: true, message: '名字不能为空', trigger: 'blur' }],
         college: [{ required: true, message: '学院不能为空', trigger: 'blur' }]
       },
+      collegeList: [
+        {
+          value: '信息工程学院',
+          label: '信息工程学院'
+        },
+        {
+          value: '管理学院',
+          label: '管理学院'
+        },
+        {
+          value: '财经学院',
+          label: '财经学院'
+        },
+        {
+          value: '教育学院',
+          label: '教育学院'
+        },
+        {
+          value: '护理学院',
+          label: '护理学院'
+        },
+        {
+          value: '音乐舞蹈学院',
+          label: '音乐舞蹈学院'
+        },
+        {
+          value: '艺术设计学院',
+          label: '艺术设计学院'
+        },
+        {
+          value: '土木工程学院',
+          label: '土木工程学院'
+        },
+        {
+          value: '机械工程学院',
+          label: '机械工程学院'
+        }
+      ],
       columns: [
         {
           title: '工号',
@@ -159,6 +209,13 @@ export default {
         this.tableData = result.data.teachers
       }
     },
+    // 得到性别下拉框的值
+    getSearchCollegeVal(val) {
+      this.college = val
+    },
+    getCollegeVal(val) {
+      this.formValidate.college = val
+    },
     // 检索
     searchTeacher() {},
     async searchTeacher() {
@@ -166,13 +223,15 @@ export default {
       const result = await this.$service.teacher.getTeacher({
         pageNum: this.pageIndex,
         pageSize: this.pageSize,
-        name: this.name
+        name: this.name,
+        college: this.college
       })
       this.loading = false
       if (result.status) {
         this.total = result.data.totalCount
         this.tableData = result.data.teachers
         this.name = ''
+        this.college = ''
       }
     },
     // 编辑弹窗信息回显
@@ -197,23 +256,27 @@ export default {
       this.$refs.formValidate.validate(async valid => {
         if (valid) {
           if (this.formValidate.userId) {
+            this.loading = true
             const result = await this.$service.teacher.updateTeacher({
               id: this.formValidate.id,
               name: this.formValidate.name,
               college: this.formValidate.college
             })
+            this.loading = false
             if (result.status) {
               this.getTeacher()
               this.$Message.success('编辑成功！')
               this.modal = false
             }
           } else {
+            this.loading = true
             const result = await this.$service.teacher.insertTeacher({
               id: this.formValidate.id,
               name: this.formValidate.name,
               college: this.formValidate.college,
               password: this.formValidate.password
             })
+            this.loading = false
             if (result.status) {
               this.getTeacher()
               this.$Message.success('新增成功！')
@@ -225,9 +288,11 @@ export default {
     },
     // 删除教师信息
     async deleteTeacher() {
+      this.loading = true
       const result = await this.$service.teacher.deleteTeacher({
         id: this.formValidate.id
       })
+      this.loading = false
       if (result.status) {
         this.getTeacher()
         this.$Message.success('注销成功！')
@@ -255,6 +320,9 @@ export default {
 .queryWrap {
   display: flex;
   justify-content: space-between;
+}
+.queryWrap span {
+  margin-right: 15px;
 }
 .add {
   display: flex;

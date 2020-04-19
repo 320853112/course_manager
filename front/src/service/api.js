@@ -14,12 +14,18 @@ const API = {
   },
   student: {
     getStuInfo: '/course_manage/getStuInfo', // 获取所有学生信息
-    deleteStuInfo: '/course_manage/deleteStuInfo' // 删除学生信息
+    insertStuInfo: '/course_manage/insertStuInfo', // 新增学生信息
+    deleteStuInfo: '/course_manage/deleteStuInfo', // 删除学生信息
+    updateStuInfo: '/course_manage/updateStuInfo' // 编辑学生信息
   },
   course: {
     getCourse: '/course_manage/getCourse', // 获取所有课程信息
     getStuCourse: '/course_manage/getStuCourse', // 学生已选课程
-    insertCourse: '/course_manage/insertCourse' // 新增课程
+    insertCourse: '/course_manage/insertCourse', // 新增课程
+    deleteCourse: '/course_manage/deleteCourse', // 删除课程
+    updateCourse: '/course_manage/updateCourse', // 编辑课程
+    selectCourse: '/course_manage/selectCourse', // 学生选课
+    removeCourse: '/course_manage/removeCourse'  // 退选课程
   }
 }
 

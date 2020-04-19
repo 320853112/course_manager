@@ -61,6 +61,7 @@ export default {
       this.modal1 = false
       localStorage.removeItem('name')
       localStorage.removeItem('role')
+      localStorage.removeItem('stuId')
       this.$Message.success('退出成功')
       this.$router.push({ path: '/login' })
     }

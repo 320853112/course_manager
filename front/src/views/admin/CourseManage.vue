@@ -40,6 +40,9 @@
         <FormItem label="授课教师" prop="teacher">
           <Input v-model="formValidate.teacher"></Input>
         </FormItem>
+        <FormItem label="教师工号" prop="teacher">
+          <Input v-model="formValidate.teacherId"></Input>
+        </FormItem>
         <FormItem label="上课时间" prop="timeWeek">
           <Select v-model="formValidate.timeWeek" @on-change="getWeekVal">
             <Option v-for="item in weekList" :value="item.value" :key="item.value">{{ item.label }}</Option>
@@ -82,6 +85,7 @@ export default {
       pageSize: 10,
       loading: false,
       courseName: '',
+      teacherId: '',
       category: '',
       modal: false,
       withdrawModal: false,
@@ -222,6 +226,7 @@ export default {
                         params.row.name,
                         params.row.category,
                         params.row.teacher,
+                        params.row.teacherId,
                         params.row.timeWeek,
                         params.row.place,
                         params.row.credit,
@@ -278,10 +283,10 @@ export default {
     async searchCourse() {
       this.loading = true
       const result = await this.$service.course.getCourse({
-        pageNum: this.pageIndex,
-        pageSize: this.pageSize,
         name: this.courseName,
-        category: this.category ? this.category : null
+        category: this.category ? this.category : null,
+        pageNum: this.pageIndex,
+        pageSize: this.pageSize
       })
       this.loading = false
       if (result.status) {
@@ -299,13 +304,14 @@ export default {
       this.formValidate.timeWeek = val
     },
     // 编辑弹窗信息回显
-    showCourse(id, name, category, teacher, timeWeek, place, credit, surplus, userId) {
+    showCourse(id, name, category, teacher, teacherId, timeWeek, place, credit, surplus, userId) {
       this.getCourse()
       this.modal = true
       this.formValidate.id = ''
       this.formValidate.name = ''
       this.formValidate.category = ''
       this.formValidate.teacher = ''
+      this.formValidate.teacherId = ''
       this.formValidate.timeWeek = ''
       this.formValidate.place = ''
       this.formValidate.credit = ''
@@ -315,6 +321,7 @@ export default {
         this.formValidate.name = name
         this.formValidate.category = category
         this.formValidate.teacher = teacher
+        this.formValidate.teacherId = teacherId
         this.formValidate.timeWeek = timeWeek
         this.formValidate.place = place
         this.formValidate.credit = credit
@@ -334,6 +341,7 @@ export default {
               name: this.formValidate.name,
               category: this.formValidate.category,
               teacher: this.formValidate.teacher,
+              teacherId: this.formValidate.teacherId,
               timeWeek: this.formValidate.timeWeek,
               place: this.formValidate.place,
               credit: this.formValidate.credit,
@@ -352,11 +360,11 @@ export default {
               name: this.formValidate.name,
               category: this.formValidate.category,
               teacher: this.formValidate.teacher,
+              teacherId: this.formValidate.teacherId,
               timeWeek: this.formValidate.timeWeek,
               place: this.formValidate.place,
               credit: this.formValidate.credit,
-              surplus: this.formValidate.surplus,
-              teacherId: this.formValidate.teacherId
+              surplus: this.formValidate.surplus
             })
             this.loading = false
             if (result.status) {

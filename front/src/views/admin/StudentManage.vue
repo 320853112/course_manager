@@ -48,7 +48,7 @@
         <FormItem label="班级" prop="className">
           <Input v-model="formValidate.className"></Input>
         </FormItem>
-        <FormItem label="密码" prop="password" v-if="!formValidate.userId">
+        <FormItem label="密码" prop="password">
           <Input v-model="formValidate.password"></Input>
         </FormItem>
       </Form>
@@ -221,6 +221,7 @@ export default {
                         params.row.college,
                         params.row.major,
                         params.row.className,
+                        params.row.password,
                         params.row.userId
                       )
                       this.formValidate.userId = params.row.id
@@ -287,7 +288,7 @@ export default {
       }
     },
     // 编辑弹窗信息回显
-    showStudent(id, name, gender, college, major, className, userId) {
+    showStudent(id, name, gender, college, major, className, password, userId) {
       this.getStuInfo()
       this.modal = true
       this.formValidate.id = ''
@@ -296,6 +297,7 @@ export default {
       this.formValidate.college = ''
       this.formValidate.major = ''
       this.formValidate.className = ''
+      this.formValidate.password = ''
       if (userId) {
         this.formValidate.id = id
         this.formValidate.name = name
@@ -303,6 +305,7 @@ export default {
         this.formValidate.college = college
         this.formValidate.major = major
         this.formValidate.className = className
+        this.formValidate.password = password
       } else {
         this.formValidate.userId = ''
       }
@@ -330,7 +333,8 @@ export default {
               gender: this.formValidate.gender,
               college: this.formValidate.college,
               major: this.formValidate.major,
-              className: this.formValidate.className
+              className: this.formValidate.className,
+              password: this.formValidate.password
             })
             this.loading = false
             if (result.status) {

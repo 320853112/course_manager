@@ -15,6 +15,20 @@ export default class TeacherService extends BaseService {
     return result;
   }
 
+  // 教师获取自己所授课程的学生
+  async getStuByCourse(data) {
+    const url = this.API.teacher.getStuByCourse;
+    const result = await this.get(url, data);
+    return result;
+  }
+
+  // 为课程打分 
+  async setScoreByStu(data = {}) {
+    const url = this.API.teacher.setScoreByStu;
+    const result = await this.get(url, data);
+    return result;
+  }
+
   // 新增教师信息
   async insertTeacher(data = {}) {
     const url = this.API.teacher.insertTeacher;

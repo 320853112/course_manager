@@ -1,19 +1,17 @@
 <template>
   <div class="changePassword">
     <Card>
-      <Form :model="formLeft" label-position="left" :label-width="100">
+      <Form ref="formCustom" :model="formCustom" :rules="ruleCustom" label-position="left" :label-width="100">
         <FormItem label="账号:">
-          <Input v-model="formLeft.userName" disabled></Input>
+          <Input v-model="formCustom.userName" disabled></Input>
         </FormItem>
-        <FormItem label="新密码:">
-          <Input type="password" v-model="formLeft.input3"></Input>
+        <FormItem label="新密码:" prop="passwd">
+          <Input type="password" v-model="formCustom.passwd"></Input>
         </FormItem>
-        <FormItem label="确认密码:">
-          <Input type="password" v-model="formLeft.input4"></Input>
+        <FormItem label="确认密码:" prop="passwdCheck">
+          <Input type="password" v-model="formCustom.passwdCheck"></Input>
         </FormItem>
-        <FormItem>
-          <Button type="primary" @click="submit">提交</Button>
-        </FormItem>
+        <Button type="primary" @click="submit">提交</Button>
       </Form>
     </Card>
   </div>
@@ -22,19 +20,65 @@
 <script>
 export default {
   data() {
+    const validatePass = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('请输入密码'))
+      } else {
+        if (this.formCustom.passwdCheck !== '') {
+          // 对第二个密码框单独验证
+          this.$refs.formCustom.validateField('passwdCheck')
+        }
+        callback()
+      }
+    }
+    const validatePassCheck = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('请输入确认密码'))
+      } else if (value !== this.formCustom.passwd) {
+        callback(new Error('两次输入密码不一致!'))
+      } else {
+        callback()
+      }
+    }
     return {
-      formLeft: {
+      formCustom: {
         userName: localStorage.getItem('stuId'),
-        input3: '',
-        input4: ''
+        passwd: '',
+        passwdCheck: ''
+      },
+      ruleCustom: {
+        passwd: [{ validator: validatePass, trigger: 'blur' }],
+        passwdCheck: [{ validator: validatePassCheck, trigger: 'blur' }]
       }
     }
   },
   methods: {
     submit() {
-      localStorage.removeItem('user')
-      this.$Message.success('密码修改成功，请重新登录！')
-      this.$router.push('/login')
+      this.$refs.formCustom.validate(async valid => {
+        if (valid) {
+          if (localStorage.getItem('role') === 'student') {
+            const result = await this.$service.student.updateStuInfo({
+              id: localStorage.getItem('stuId'),
+              password: this.formCustom.passwdCheck
+            })
+            if (result.status) {
+              this.$Message.success('密码修改成功，请重新登录~')
+              this.$router.push('/login')
+            }
+          } else if (localStorage.getItem('role') === 'teacher') {
+            const result = await this.$service.teacher.updateTeacher({
+              id: localStorage.getItem('stuId'),
+              password: this.formCustom.passwdCheck
+            })
+            if (result.status) {
+              this.$Message.success('密码修改成功，请重新登录~')
+              this.$router.push('/login')
+            }
+          } else if (localStorage.getItem('role') === 'admin') {
+            this.$Message.success('管理员更改密码')
+          }
+        }
+      })
     }
   }
 }
@@ -45,11 +89,9 @@ export default {
   width: 40%;
   margin: auto;
 }
-.ivu-form-item:last-child {
-  display: flex;
-  justify-content: center;
-  .ivu-btn {
-    width: 100px;
-  }
+.ivu-btn-primary {
+  width: 15%;
+  text-align: center;
+  margin-left: 40%;
 }
 </style>

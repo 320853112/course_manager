@@ -14,6 +14,8 @@ public class Teacher {
     private String password;
 
 
+    public Teacher() {
+    }
 
     public Teacher(String id, String name, String college, String password) {
         this.id = id;

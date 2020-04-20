@@ -14,11 +14,12 @@
             <p>{{ item.classesTime }}</p>
           </td>
           <td v-for='(week, index) in weeks' :key='index'>
-            {{item[week]  || '-'}}
+            {{item[week].courseName  || '-'}}
           </td>
         </tr>
       </tbody>
     </table>
+    <Spin v-if="loading" fix size="large"></Spin>
   </div>
 </template>
 
@@ -26,63 +27,75 @@
 export default {
   data() {
     return {
+      loading: false,
       weeks: ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'],
       classTableData: [
-        {
-          classesTime: '08:00-09:40',
-          monday: '物理',
-          tuesday: '英语',
-          wednesday: '政治',
-          thursday: '历史',
-          friday: '化学',
-          saturday: '历史',
-          sunday: '化学'
-        },
-        {
-          classesTime: '10:00-11:40',
-          monday: '生物',
-          tuesday: '物理',
-          wednesday: '化学',
-          thursday: '英语',
-          friday: '化学',
-          saturday: '生物',
-          sunday: '化学'
-        },
-        {
-          classesTime: '14:00-15:40',
-          monday: '化学',
-          tuesday: '英语',
-          wednesday: '物理',
-          thursday: '化学',
-          friday: '语文',
-          saturday: '物理',
-          sunday: '英语'
-        },
-        {
-          classesTime: '16:00-17:40',
-          monday: '历史',
-          tuesday: '历史',
-          wednesday: '语文',
-          thursday: '历史',
-          friday: '生物',
-          saturday: '英语',
-          sunday: ''
-        },
-        {
-          classesTime: '19:30-21:10',
-          monday: '物理',
-          tuesday: '生物',
-          wednesday: '英语',
-          thursday: '历史',
-          friday: '生物',
-          saturday: '语文',
-          sunday: ''
-        }
+        // {
+        //   classesTime: '08:00-09:40',
+        //   monday: '物理',
+        //   tuesday: '英语',
+        //   wednesday: '政治',
+        //   thursday: '历史',
+        //   friday: '化学',
+        //   saturday: '历史',
+        //   sunday: '化学'
+        // },
+        // {
+        //   classesTime: '10:00-11:40',
+        //   monday: '生物',
+        //   tuesday: '物理',
+        //   wednesday: '化学',
+        //   thursday: '英语',
+        //   friday: '化学',
+        //   saturday: '生物',
+        //   sunday: '化学'
+        // },
+        // {
+        //   classesTime: '14:00-15:40',
+        //   monday: '化学',
+        //   tuesday: '英语',
+        //   wednesday: '物理',
+        //   thursday: '化学',
+        //   friday: '语文',
+        //   saturday: '物理',
+        //   sunday: '英语'
+        // },
+        // {
+        //   classesTime: '16:00-17:40',
+        //   monday: '历史',
+        //   tuesday: '历史',
+        //   wednesday: '语文',
+        //   thursday: '历史',
+        //   friday: '生物',
+        //   saturday: '英语',
+        //   sunday: ''
+        // },
+        // {
+        //   classesTime: '19:30-21:10',
+        //   monday: '物理',
+        //   tuesday: '生物',
+        //   wednesday: '英语',
+        //   thursday: '历史',
+        //   friday: '生物',
+        //   saturday: '语文',
+        //   sunday: ''
+        // }
       ]
     }
   },
-  mounted() {},
+  mounted() {
+    this.getStuCourseTable()
+  },
   methods: {
+    // 查询学生课程表
+    async getStuCourseTable() {
+      this.loading = true
+      const result = await this.$service.course.getStuCourseTable({})
+      this.loading = false
+      if (result.status) {
+        this.classTableData = result.data
+      }
+    },
     digital2Chinese(num, identifier) {
       const character = ['零', '一', '二', '三', '四', '五', '六', '七', '八', '九', '十']
       return identifier === 'week' && (num === 0 || num === 7) ? '日' : character[num]

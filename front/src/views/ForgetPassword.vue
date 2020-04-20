@@ -3,26 +3,26 @@
     <Card>
       <div class="ID">
         <span style="marginRight: 15px">请输入您要找回密码的登录账号:</span>
-        <Input v-model="value" style="width: 220px" />
+        <Input v-model="username" style="width: 220px" />
       </div>
       <div class="btn">
-        <Button type="primary" @click="nexts">下一步</Button>
-        <Button @click="cancel">取消</Button>
+        <Button type="primary" :disabled="!username" @click="forgetPasswordModal = true">下一步</Button>
+        <Button @click="$router.push({ path: '/login'})">取消</Button>
       </div>
     </Card>
     <!-- 找回密码弹窗 -->
-    <Modal v-model="modal1" :closable="false" :footer-hide="true">
+    <Modal v-model="forgetPasswordModal" :closable="false" :footer-hide="true">
       <div class="user">
         <span style="marginRight: 15px">登录账号:</span>
-        <Input v-model="user" style="width: 60%" disabled />
+        <Input v-model="username" style="width: 60%" disabled />
       </div>
       <div class="id">
-        <span style="marginRight: 15px">身份证号:</span>
-        <Input v-model="id" style="width: 60%" />
+        <span style="marginRight: 15px">密码:</span>
+        <Input v-model="password" style="width: 60%" />
       </div>
       <div class="btn">
-        <Button type="primary" @click="prev">上一步</Button>
-        <Button type="primary" @click="reset">重置密码</Button>
+        <Button type="primary" @click="forgetPasswordModal = false">上一步</Button>
+        <Button type="primary" @click="resetPassword">重置密码</Button>
       </div>
     </Modal>
   </div>
@@ -33,36 +33,33 @@ export default {
   name: 'forgetPassword',
   data() {
     return {
-      value: '',
-      modal1: false,
-      user: '111',
-      id: ''
+      username: '',
+      password: '',
+      forgetPasswordModal: false
     }
   },
   methods: {
-    nexts() {
-      if (this.value === '') {
-        this.$Message.warning('请输入要找回密码的账号！')
-      } else if (this.value != '111' && this.value != '222' && this.value !== '333') {
-        this.$Message.warning('账号不存在！')
-      } else {
-        this.modal1 = true
-      }
-      console.log(typeof this.value)
-    },
-    cancel() {
-      this.value = ''
-      this.$router.push('/login')
-    },
-    prev() {
-      this.modal1 = false
-    },
-    reset() {
-      if (this.id !== '') {
-        this.$Message.success('密码已重置为身份证后6位！')
-        this.$router.push('/login')
-      } else {
-        this.$Message.warning('身份证号不能为空！')
+    async resetPassword() {
+      if (this.$route.query.identity === '学生') {
+        const result = await this.$service.student.updateStuInfo({
+          id: this.username,
+          password: this.password
+        })
+        if (result.status) {
+          this.$Message.success('密码重置成功，请登录~')
+          this.$router.push('/login')
+        }
+      } else if (this.$route.query.identity === '教师') {
+        const result = await this.$service.teacher.updateTeacher({
+          id: this.username,
+          password: this.password
+        })
+        if (result.status) {
+          this.$Message.success('密码重置成功，请登录~')
+          this.$router.push('/login')
+        }
+      } else if (this.$route.query.identity === '管理员') {
+        console.log('管理员')
       }
     }
   }
@@ -88,10 +85,6 @@ export default {
 .ivu-btn-primary {
   margin-right: 20px;
 }
-.ivu-btn-default {
-  background-color: rgb(233, 233, 233);
-}
-
 .ivu-modal {
   .user {
     text-align: center;

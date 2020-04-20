@@ -12,7 +12,7 @@
               <Input prefix="ios-lock" type="password" v-model="formStu.password" placeholder="请输入密码" style="width: auto" />
               </Input>
             </FormItem>
-            <div class="forgetPassword" @click="$router.push({ path: '/forgetPassword' })">忘记密码</div>
+            <div class="forgetPassword" @click="$router.push({ path: '/forgetPassword', query: {identity: '学生'} })">忘记密码</div>
             <FormItem>
               <Button type="primary" @click="handleStu()">登录</Button>
             </FormItem>
@@ -28,7 +28,7 @@
               <Input prefix="ios-lock" type="password" v-model="formTea.password" placeholder="请输入密码" style="width: auto" />
               </Input>
             </FormItem>
-            <div class="forgetPassword" @click="$router.push({ path: '/forgetPassword' })">忘记密码</div>
+            <div class="forgetPassword" @click="$router.push({ path: '/forgetPassword', query: {identity: '教师'} })">忘记密码</div>
             <FormItem>
               <Button type="primary" @click="handleTea()">登录</Button>
             </FormItem>
@@ -44,7 +44,7 @@
               <Input prefix="ios-lock" type="password" v-model="formAdmin.password" placeholder="请输入密码" style="width: auto" />
               </Input>
             </FormItem>
-            <div class="forgetPassword" @click="$router.push({ path: '/forgetPassword' })">忘记密码</div>
+            <div class="forgetPassword" @click="$router.push({ path: '/forgetPassword', query: {identity: '管理员'}})">忘记密码</div>
             <FormItem>
               <Button type="primary" @click="handleAdmin()">登录</Button>
             </FormItem>
@@ -94,7 +94,7 @@ export default {
           if (result.status) {
             this.$Message.success('登录成功')
             localStorage.setItem('stuId', this.formStu.id)
-            this.$router.push('/home')
+            this.$router.push('/index')
           } else {
             this.$Message.warning('登录失败')
           }
@@ -111,7 +111,7 @@ export default {
           if (result.status) {
             this.$Message.success('登录成功')
             localStorage.setItem('stuId', this.formTea.id)
-            this.$router.push('/home')
+            this.$router.push('/index')
           } else {
             this.$Message.warning('登录失败')
           }
@@ -128,7 +128,7 @@ export default {
           if (result.status) {
             this.$Message.success('登录成功')
             localStorage.setItem('stuId', this.formAdmin.username)
-            this.$router.push('/home')
+            this.$router.push('/index')
           } else {
             this.$Message.warning('登录失败')
           }

@@ -15,6 +15,13 @@ export default class CourseService extends BaseService {
     return result;
   }
 
+  // 查询学生课程表 
+  async getStuCourseTable(data) {
+    const url = this.API.course.getStuCourseTable;
+    const result = await this.get(url, data);
+    return result;
+  }
+
   // 新增课程
   async insertCourse(data = {}) {
     const url = this.API.course.insertCourse;

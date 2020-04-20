@@ -1,6 +1,6 @@
 <template>
   <div class="index">
-    <p>Student Course Management system</p>
+    <p>Student Course Management System</p>
   </div>
 </template>
 
@@ -14,10 +14,11 @@ export default {
 
 <style lang="less" scoped>
 .index {
+  height: calc(100vh - 240px);
   display: flex;
   justify-content: center;
   p {
-    margin-top: 10%;
+    margin-top: 18%;
     font-size: 40px;
     color: rgb(45, 140, 240);
     font-weight: 600;

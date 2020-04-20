@@ -124,4 +124,21 @@
         </trim>
     </select>
 
+    <select id="getStuCourseTable" resultType="CourseTableItemVO">
+        SELECT c.time_week timeWeek,c.`name` courseName,c.classes_time classesTime, c.id courseId
+        FROM sc ,course c
+        <trim prefix="where" prefixOverrides="and">
+            <if test="stuId!=null">
+                and sc.stu_id = #{stuId}
+            </if>
+            <if test="startTime!=null">
+                and start_time &lt;= #{startTime}
+            </if>
+            <if test="endTime!=null">
+                and end_time &lt;= #{endTime}
+            </if>
+            and sc.course_id = c.id
+        </trim>
+    </select>
+
 </mapper>

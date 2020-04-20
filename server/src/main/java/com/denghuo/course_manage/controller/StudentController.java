@@ -125,4 +125,12 @@ public class StudentController {
     public Object getCourse(Course course, Integer pageNum, Integer pageSize, HttpSession session){
         return courseService.getCourse(course,pageNum,pageSize,session);
     }
+
+    @RequestMapping(value = "/getStuCourseTable",method = RequestMethod.GET)
+    @ApiOperation("查询学生课程表")
+    @ApiImplicitParams({
+    })
+    public Object getStuCourseTable(HttpSession session,String startTime ,String endTime){
+        return studentService.getStuCourseTable(session,startTime,endTime);
+    }
 }

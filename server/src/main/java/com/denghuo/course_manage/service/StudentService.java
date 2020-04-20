@@ -17,4 +17,6 @@ public interface StudentService {
     Object getStuCourse(CourseScoreDTO courseScoreDTO, Integer pageNum, Integer pageSize);
 
     Object updateStuInfo(StudentDTO studentDTO);
+
+    Object getStuCourseTable(HttpSession session,String startTime ,String endTime);
 }

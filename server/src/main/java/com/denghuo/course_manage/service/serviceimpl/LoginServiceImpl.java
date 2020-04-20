@@ -1,5 +1,6 @@
 package com.denghuo.course_manage.service.serviceimpl;
 
+import com.denghuo.course_manage.DTO.StudentDTO;
 import com.denghuo.course_manage.dao.AdminDAO;
 import com.denghuo.course_manage.dao.LoginDAO;
 import com.denghuo.course_manage.dao.StudentDAO;
@@ -8,10 +9,7 @@ import com.denghuo.course_manage.model.Admin;
 import com.denghuo.course_manage.model.Student;
 import com.denghuo.course_manage.model.Teacher;
 import com.denghuo.course_manage.service.LoginService;
-import com.denghuo.course_manage.utils.CustomException;
-import com.denghuo.course_manage.utils.MD5util;
-import com.denghuo.course_manage.utils.MyExceptionEnum;
-import com.denghuo.course_manage.utils.RoleData;
+import com.denghuo.course_manage.utils.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -97,9 +95,30 @@ public class LoginServiceImpl implements LoginService {
 
     @Override
     public Boolean resetPassword(HttpSession session, String userType, String userId, String newPassword) {
+        Integer res = 0;
         switch (userType){
-            case "":
+            case "admin":
+                Admin admin = new Admin();
+                admin.setId(Integer.parseInt(userId));
+                admin.setPassword(MD5util.getMD5String(newPassword));
+                res= adminDAO.updateAdmin(admin);
+                break;
+            case "teacher":
+                Teacher teacher = new Teacher();
+                teacher.setId(userId);
+                teacher.setPassword(MD5util.getMD5String(newPassword));
+                res= teacherDAO.updateTeacher(teacher);
+                break;
+            case "student":
+                StudentDTO studentDTO = new StudentDTO();
+                studentDTO.setId(userId);
+                studentDTO.setPassword(MD5util.getMD5String(newPassword));
+                res= studentDAO.updateStuInfo(studentDTO);
+                break;
         }
-        return null;
+        if(res!=1){
+            throw new CustomException(MyExceptionEnum.ACCESS_FAIL);
+        }
+        return true;
     }
 }

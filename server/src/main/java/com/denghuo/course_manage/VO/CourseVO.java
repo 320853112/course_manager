@@ -23,4 +23,5 @@ public class CourseVO {
     private String studyType;
     private String place;
     private String teacherId;
+    private String classesTime;
 }

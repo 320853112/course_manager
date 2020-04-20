@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -80,6 +81,7 @@ public class StudentServiceImpl implements StudentService {
         }
         //查询课程
         List<CourseScoreVO> courseList = selectCourseDAO.getCourseByCondition(courseScoreDTO, (pageNum - 1) * pageSize, pageSize);
+        HashMap<String,CourseScoreVO> courseMap = new HashMap();
         //查询total
         Double totalCount = selectCourseDAO.getCourseTotalByCondition(courseScoreDTO);
         Double totalPage = Math.ceil(totalCount/pageSize);

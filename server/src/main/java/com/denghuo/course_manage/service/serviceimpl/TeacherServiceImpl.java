@@ -28,6 +28,9 @@ public class TeacherServiceImpl implements TeacherService {
 
     @Override
     public boolean updateTeacher(Teacher teacher) {
+        if(teacher.getPassword()!=null){
+            teacher.setPassword(MD5util.getMD5String(teacher.getPassword()));
+        }
         if(1!=teacherDAO.updateTeacher(teacher)){
             throw new CustomException(MyExceptionEnum.ACCESS_FAIL);
         }

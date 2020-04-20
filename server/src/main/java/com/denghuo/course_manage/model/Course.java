@@ -19,6 +19,7 @@ public class Course {
     private String studyType;
     private String place;
     private String teacherId;
+    private String classesTime;
 
     public Course() {
     }
@@ -42,6 +43,7 @@ public class Course {
         courseVO.setPlace(place);
         courseVO.setTeacherId(teacherId);
         courseVO.setUserId(userId);
+        courseVO.setClassesTime(classesTime);
         return courseVO;
     }
 }

@@ -150,8 +150,8 @@
             <if test="course.teacherId!=null">
                 teacher_id = #{course.teacherId}  and
             </if>
-            <if test="classesTime!=null">
-                classes_time = #{classesTime} and
+            <if test="course.classesTime!=null">
+                classes_time = #{course.classesTime} and
             </if>
         </trim>
         limit #{startNum},#{pageSize}

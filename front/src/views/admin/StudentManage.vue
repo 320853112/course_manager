@@ -104,11 +104,11 @@ export default {
       },
       genderList: [
         {
-          value: '男',
+          value: 'male',
           label: '男'
         },
         {
-          value: '女',
+          value: 'female',
           label: '女'
         }
       ],
@@ -276,7 +276,7 @@ export default {
         pageNum: this.pageIndex,
         pageSize: this.pageSize,
         name: this.value,
-        college: this.college
+        college: this.college ? this.college : null
       })
       this.loading = false
       if (result.status) {
@@ -299,7 +299,7 @@ export default {
       if (userId) {
         this.formValidate.id = id
         this.formValidate.name = name
-        this.formValidate.gender = gender === 'male' ? '男' : '女'
+        this.formValidate.gender = gender
         this.formValidate.college = college
         this.formValidate.major = major
         this.formValidate.className = className
@@ -312,6 +312,7 @@ export default {
       this.college = val
     },
     getGenderVal(val) {
+      console.log(val)
       this.formValidate.gender = val
     },
     getCollegeVal(val) {

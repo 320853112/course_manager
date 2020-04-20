@@ -16,14 +16,14 @@ const routes = [
     component: () => import('../views/Login.vue')
   },
   {
+    path: '*',
+    name: 'notFount',
+    component: () => import('../views/NotFount.vue')
+  },
+  {
     path: '/forgetPassword',
     name: 'forgetPassword',
     component: () => import('../views/ForgetPassword.vue')
-  },
-  {
-    path: '*',
-    name: 'login',
-    component: () => import('../views/Login.vue')
   },
   {
     path: '/home',
@@ -131,9 +131,8 @@ const routes = [
         component: () => import('../views/admin/TeacherManage.vue')
       }
     ]
-  },
+  }
 ]
-
 
 const router = new VueRouter({
   mode: 'history',
@@ -143,14 +142,14 @@ const router = new VueRouter({
 
 // 登录验证
 router.beforeEach((to, from, next) => {
-  if (to.matched.some(record => record.meta.requiresAuth)) { // 判断该路由是否需要登录权限
+  if (to.matched.some(record => record.meta.requiresAuth)) { // 判断该路由是否需要登录权限 some() 方法用于检测数组中的元素是否满足指定条件（函数提供）,满足条件返回true
     if (localStorage.getItem('stuId')) {
-      next();
+      next()
     } else {
-      next({ path: '/login' });
+      next({ path: '/login' })
     }
   } else {
-    next();
+    next()
   }
 })
 

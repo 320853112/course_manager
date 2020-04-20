@@ -36,7 +36,7 @@ export default {
   data() {
     return {
       user: {
-        name: '邓藿',
+        name: '',
         role: ''
       },
       modal1: false

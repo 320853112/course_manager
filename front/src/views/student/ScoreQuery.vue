@@ -1,15 +1,15 @@
 <template>
   <div class="scoreQuery">
     <div class="queryWrap">
+      <div class="courseName">
+        <span>课程名称</span>
+        <Input v-model="courseName" style="width: 220px" />
+      </div>
       <div class="courseNature">
         <span>课程类别</span>
         <Select v-model="category" @on-change="getCategoryVal" style="width:220px">
           <Option v-for="item in categoryList" :value="item.value" :key="item.value">{{ item.label }}</Option>
         </Select>
-      </div>
-      <div class="courseName">
-        <span>课程名称</span>
-        <Input v-model="courseName" style="width: 220px" />
       </div>
       <Button type="primary" @click="searchCourse">查询</Button>
     </div>
@@ -92,7 +92,7 @@ export default {
     // 学生已选课程
     async getStuCourse() {
       const result = await this.$service.course.getStuCourse({
-        id: '2016030594',
+        id: localStorage.getItem('stuId'),
         pageNum: this.pageIndex,
         pageSize: this.pageSize
       })
@@ -108,10 +108,11 @@ export default {
     // 检索
     async searchCourse() {
       this.loading = true
-      const result = await this.$service.course.getCourse({
+      const result = await this.$service.course.getStuCourse({
+        id: localStorage.getItem('stuId'),
         pageNum: this.pageIndex,
         pageSize: this.pageSize,
-        name: this.courseName,
+        name: this.courseName ? this.courseName : null,
         category: this.category
       })
       this.loading = false

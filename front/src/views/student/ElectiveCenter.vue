@@ -111,7 +111,8 @@ export default {
                 {
                   props: {
                     size: 'small',
-                    type: 'info'
+                    type: 'info',
+                    disabled: params.row.surplus === 0 ? true : false
                   },
                   style: {},
                   on: {

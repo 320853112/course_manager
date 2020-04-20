@@ -37,7 +37,7 @@
             <Option v-for="item in collegeList" :value="item.value" :key="item.value">{{ item.label }}</Option>
           </Select>
         </FormItem>
-        <FormItem label="密码" prop="college" v-if="!formValidate.userId">
+        <FormItem label="密码" prop="college">
           <Input v-model="formValidate.password"></Input>
         </FormItem>
       </Form>
@@ -260,7 +260,8 @@ export default {
             const result = await this.$service.teacher.updateTeacher({
               id: this.formValidate.id,
               name: this.formValidate.name,
-              college: this.formValidate.college
+              college: this.formValidate.college,
+              password: this.formValidate.password
             })
             this.loading = false
             if (result.status) {

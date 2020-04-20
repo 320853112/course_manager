@@ -1,6 +1,9 @@
 package com.denghuo.course_manage.service.serviceimpl;
 
+import com.denghuo.course_manage.dao.AdminDAO;
 import com.denghuo.course_manage.dao.LoginDAO;
+import com.denghuo.course_manage.dao.StudentDAO;
+import com.denghuo.course_manage.dao.TeacherDAO;
 import com.denghuo.course_manage.model.Admin;
 import com.denghuo.course_manage.model.Student;
 import com.denghuo.course_manage.model.Teacher;
@@ -25,6 +28,16 @@ public class LoginServiceImpl implements LoginService {
 
     @Autowired
     private HttpSession session;
+
+    @Autowired
+    private StudentDAO studentDAO;
+
+    @Autowired
+    private TeacherDAO teacherDAO;
+
+    @Autowired
+    private AdminDAO adminDAO;
+
 
     @Override
     public Boolean stuLogin(String stuId, String password) {
@@ -80,5 +93,13 @@ public class LoginServiceImpl implements LoginService {
         resMap.put("roleName",roleName);
         resMap.put("userName",userName);
         return resMap;
+    }
+
+    @Override
+    public Boolean resetPassword(HttpSession session, String userType, String userId, String newPassword) {
+        switch (userType){
+            case "":
+        }
+        return null;
     }
 }

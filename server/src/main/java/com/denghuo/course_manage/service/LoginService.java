@@ -14,4 +14,6 @@ public interface LoginService {
     Boolean adminLogin(String username,String password);
 
     HashMap getUserRole(HttpSession session);
+
+    Boolean resetPassword(HttpSession session, String userType, String userId, String newPassword);
 }

@@ -107,10 +107,10 @@ public class StudentServiceImpl implements StudentService {
 //        HashMap<String,CourseTableVO> tableMap = new HashMap();
         List<CourseTableVO> tableList = new ArrayList();
         CourseTableVO listOne= new CourseTableVO(ClassesTime.ONE);
-        CourseTableVO listTwo= new CourseTableVO(ClassesTime.ONE);
-        CourseTableVO listThree= new CourseTableVO(ClassesTime.ONE);
-        CourseTableVO listFour= new CourseTableVO(ClassesTime.ONE);
-        CourseTableVO listFive= new CourseTableVO(ClassesTime.ONE);
+        CourseTableVO listTwo= new CourseTableVO(ClassesTime.TWO);
+        CourseTableVO listThree= new CourseTableVO(ClassesTime.THREE);
+        CourseTableVO listFour= new CourseTableVO(ClassesTime.FOUR);
+        CourseTableVO listFive= new CourseTableVO(ClassesTime.FIVE);
         for (CourseTableItemVO courseTableItemVO : courseTableItemVOList) {
             switch (courseTableItemVO.getClassesTime()){
                 case ClassesTime.ONE :

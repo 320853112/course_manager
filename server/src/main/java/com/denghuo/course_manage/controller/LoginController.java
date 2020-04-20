@@ -63,4 +63,15 @@ public class LoginController {
     public Object getUserRole(HttpSession session){
         return Result.send(loginService.getUserRole(session));
     }
+
+    @ApiOperation("重置密码")
+    @ApiImplicitParams({
+            @ApiImplicitParam( name = "userType",value = "用户类型,admin,teacher,student", required = true, paramType = "body", dataType = "String"),
+            @ApiImplicitParam( name = "userId",value = "用户id", required = true, paramType = "body", dataType = "String"),
+            @ApiImplicitParam( name = "newPassword",value = "新密码", required = true, paramType = "body", dataType = "String")
+    })
+    @RequestMapping(value = "/resetPassword",method = RequestMethod.GET)
+    public Object resetPassword(HttpSession session,String userType,String userId,String newPassword){
+        return Result.send(loginService.resetPassword(session,userType,userId,newPassword));
+    }
 }

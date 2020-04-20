@@ -83,6 +83,10 @@ public class SelectCourseServiceImpl implements SelectCourseService {
     @Override
     @Transactional
     public boolean setScoreByStu(StuToCourse stuToCourse) {
+        //查询学生是否已经选择了这个课程
+        if(selectCourseDAO.stuExistCourse(stuToCourse)<1){
+            throw new CustomException(MyExceptionEnum.ACCESS_FAIL);
+        }
         if(selectCourseDAO.setScoreByStu(stuToCourse)<0){
             throw new CustomException(MyExceptionEnum.ACCESS_FAIL);
         }

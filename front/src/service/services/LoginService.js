@@ -39,4 +39,11 @@ export default class LoginService extends BaseService {
     const result = await this.get(url, data);
     return result;
   }
+
+  // 重置密码
+  async resetPassword(data) {
+    const url = this.API.login.resetPassword;
+    const result = await this.get(url, data);
+    return result;
+  }
 }

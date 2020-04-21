@@ -19,6 +19,7 @@
         </FormItem>
       </Form>
     </Card>
+    <Spin v-if="loading" fix size="large"></Spin>
   </div>
 </template>
 
@@ -26,6 +27,7 @@
 export default {
   data() {
     return {
+      loading: false,
       formInline: {}
     }
   },
@@ -35,11 +37,13 @@ export default {
   methods: {
     // 返回个人信息
     async getStuInfo() {
+      this.loading = true
       const result = await this.$service.student.getStuInfo({
         id: localStorage.getItem('stuId'),
         pageNum: 1,
         pageSize: 10
       })
+      this.loading = false
       if (result.status) {
         this.formInline = result.data.stuInfos[0]
       }

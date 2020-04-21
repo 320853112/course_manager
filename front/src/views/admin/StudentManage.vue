@@ -71,7 +71,6 @@
 </template>
 
 <script>
-import { ELOOP } from 'constants'
 export default {
   data() {
     return {
@@ -315,7 +314,6 @@ export default {
       this.college = val
     },
     getGenderVal(val) {
-      console.log(val)
       this.formValidate.gender = val
     },
     getCollegeVal(val) {
@@ -365,9 +363,11 @@ export default {
     },
     // 删除学生信息
     async deleteStuInfo() {
+      this.loading = true
       const result = await this.$service.student.deleteStuInfo({
         id: this.formValidate.id
       })
+      this.loading = false
       if (result.status) {
         this.getStuInfo()
         this.$Message.success('注销成功！')

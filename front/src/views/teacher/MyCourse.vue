@@ -4,6 +4,7 @@
       <Table border :columns="columns" :data="tableData"></Table>
       <Page :transfer="true" :total="total" :current="pageIndex" v-model="pageSize" show-elevator show-total size="small" @on-change="pageChange" @on-page-size-change="pageSizeChange" />
     </div>
+    <Spin v-if="loading" fix size="large"></Spin>
   </div>
 </template>
 
@@ -14,6 +15,7 @@ export default {
       total: 0,
       pageIndex: 1,
       pageSize: 10,
+      loading: false,
       columns: [
         {
           title: '课程名称',

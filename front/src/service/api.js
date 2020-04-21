@@ -3,7 +3,8 @@ const API = {
     adminLogin: '/course_manage/adminLogin', // 管理员登录
     stuLogin: '/course_manage/stuLogin', // 学生登录
     teacherLogin: '/course_manage/teacherLogin', // 教师登录
-    getUserRole: '/course_manage/getUserRole' // 获取用户角色
+    getUserRole: '/course_manage/getUserRole', // 获取用户角色
+    resetPassword: '/course_manage/resetPassword' // 重置密码
   },
   teacher: {
     getTeacher: '/course_manage/getTeacher', // 获取所有教师信息

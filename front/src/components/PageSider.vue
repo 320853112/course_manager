@@ -47,7 +47,7 @@
       <Icon type="ios-book"></Icon>
       <span>成绩查询</span>
       </MenuItem>
-      <MenuItem name="changePassword" :to="{path:'/changePassword'}">
+      <MenuItem name="changePassword" :to="{path:'/changePassword'}" v-if="role === 'admin' ? false : true">
       <Icon type="md-mail"></Icon>
       <span>修改密码</span>
       </MenuItem>

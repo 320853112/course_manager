@@ -41,25 +41,44 @@ export default {
   methods: {
     async resetPassword() {
       if (this.$route.query.identity === '学生') {
-        const result = await this.$service.student.updateStuInfo({
-          id: this.username,
-          password: this.password
+        const result = await this.$service.login.resetPassword({
+          userType: 'student',
+          userId: this.username,
+          newPassword: this.password
         })
         if (result.status) {
           this.$Message.success('密码重置成功，请登录~')
           this.$router.push('/login')
+        } else {
+          this.$Message.error('密码重置失败，请检查学号是否正确~')
+          this.forgetPasswordModal = false
         }
       } else if (this.$route.query.identity === '教师') {
-        const result = await this.$service.teacher.updateTeacher({
-          id: this.username,
-          password: this.password
+        const result = await this.$service.login.resetPassword({
+          userType: 'teacher',
+          userId: this.username,
+          newPassword: this.password
         })
         if (result.status) {
           this.$Message.success('密码重置成功，请登录~')
           this.$router.push('/login')
+        } else {
+          this.$Message.error('密码重置失败，请检查工号是否正确~')
+          this.forgetPasswordModal = false
         }
       } else if (this.$route.query.identity === '管理员') {
-        console.log('管理员')
+        const result = await this.$service.login.resetPassword({
+          userType: 'admin',
+          userId: this.username,
+          newPassword: this.password
+        })
+        if (result.status) {
+          this.$Message.success('密码重置成功，请登录~')
+          this.$router.push('/login')
+        } else {
+          this.$Message.error('密码重置失败，请检查账号是否正确~')
+          this.forgetPasswordModal = false
+        }
       }
     }
   }

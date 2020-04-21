@@ -14,7 +14,9 @@
             <p>{{ item.classesTime }}</p>
           </td>
           <td v-for='(week, index) in weeks' :key='index'>
-            {{item[week].courseName  || '-'}}
+            <Tooltip :content="`教师:${teacherName}---地点:${place}---类别:${category}`" :delay="1000" placement="top" @on-popper-show="getCourseInfo(item[week])">
+              {{item[week] ? item[week].courseName  : '-'}}
+            </Tooltip>
           </td>
         </tr>
       </tbody>
@@ -27,60 +29,12 @@
 export default {
   data() {
     return {
+      teacherName: '',
+      place: '',
+      category: '', // 课程类别
       loading: false,
       weeks: ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'],
-      classTableData: [
-        // {
-        //   classesTime: '08:00-09:40',
-        //   monday: '物理',
-        //   tuesday: '英语',
-        //   wednesday: '政治',
-        //   thursday: '历史',
-        //   friday: '化学',
-        //   saturday: '历史',
-        //   sunday: '化学'
-        // },
-        // {
-        //   classesTime: '10:00-11:40',
-        //   monday: '生物',
-        //   tuesday: '物理',
-        //   wednesday: '化学',
-        //   thursday: '英语',
-        //   friday: '化学',
-        //   saturday: '生物',
-        //   sunday: '化学'
-        // },
-        // {
-        //   classesTime: '14:00-15:40',
-        //   monday: '化学',
-        //   tuesday: '英语',
-        //   wednesday: '物理',
-        //   thursday: '化学',
-        //   friday: '语文',
-        //   saturday: '物理',
-        //   sunday: '英语'
-        // },
-        // {
-        //   classesTime: '16:00-17:40',
-        //   monday: '历史',
-        //   tuesday: '历史',
-        //   wednesday: '语文',
-        //   thursday: '历史',
-        //   friday: '生物',
-        //   saturday: '英语',
-        //   sunday: ''
-        // },
-        // {
-        //   classesTime: '19:30-21:10',
-        //   monday: '物理',
-        //   tuesday: '生物',
-        //   wednesday: '英语',
-        //   thursday: '历史',
-        //   friday: '生物',
-        //   saturday: '语文',
-        //   sunday: ''
-        // }
-      ]
+      classTableData: []
     }
   },
   mounted() {
@@ -94,6 +48,32 @@ export default {
       this.loading = false
       if (result.status) {
         this.classTableData = result.data
+      }
+    },
+    // 拿课程ID请求课程信息，获取教师与上课地点信息
+    getCourseInfo(item) {
+      if (!item) {
+        return
+      }
+      if (this.teacherName && this.place && this.category) {
+        this.getCourse(item.courseId)
+        this.teacherName = ''
+        this.place = ''
+        this.category = ''
+      } else {
+        this.getCourse(item.courseId)
+      }
+    },
+    async getCourse(courseId) {
+      const result = await this.$service.course.getCourse({
+        id: courseId,
+        pageNum: 1,
+        pageSize: 10
+      })
+      if (result.status) {
+        this.teacherName = result.data.courseList[0].teacher
+        this.place = result.data.courseList[0].place
+        this.category = result.data.courseList[0].category
       }
     },
     digital2Chinese(num, identifier) {
@@ -122,5 +102,6 @@ tr:nth-of-type(even) {
 }
 td {
   border: 1px solid #dcdee2;
+  width: 12.5%;
 }
 </style>

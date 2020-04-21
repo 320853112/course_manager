@@ -44,7 +44,7 @@
               <Input prefix="ios-lock" type="password" v-model="formAdmin.password" placeholder="请输入密码" style="width: auto" />
               </Input>
             </FormItem>
-            <div class="forgetPassword" @click="$router.push({ path: '/forgetPassword', query: {identity: '管理员'}})">忘记密码</div>
+            <!-- <div class="forgetPassword" @click="$router.push({ path: '/forgetPassword', query: {identity: '管理员'}})">忘记密码</div> -->
             <FormItem>
               <Button type="primary" @click="handleAdmin()">登录</Button>
             </FormItem>

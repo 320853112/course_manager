@@ -2,14 +2,14 @@
   <div class="studentManage">
     <div class="queryWrap">
       <div>
-        <span>姓名</span>
-        <Input v-model="value" placeholder="请输入姓名" style="width: 220px" />
-      </div>
-      <div>
         <span>学院</span>
         <Select v-model="college" style="width:220px" @on-change="getSearchCollegeVal">
           <Option v-for="item in collegeList" :value="item.value" :key="item.value">{{ item.label }}</Option>
         </Select>
+      </div>
+      <div>
+        <span>姓名</span>
+        <Input v-model="value" placeholder="请输入姓名" style="width: 220px" />
       </div>
       <Button type="primary" @click="searchStu">查询</Button>
     </div>
@@ -345,7 +345,7 @@ export default {
             const result = await this.$service.student.insertStuInfo({
               id: this.formValidate.id,
               name: this.formValidate.name,
-              gender: this.formValidate.gender,
+              gender: this.formValidate.gender === 'male' ? '男' : '女',
               college: this.formValidate.college,
               major: this.formValidate.major,
               className: this.formValidate.className,

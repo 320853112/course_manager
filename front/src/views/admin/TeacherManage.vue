@@ -2,14 +2,14 @@
   <div class="teacherManage">
     <div class="queryWrap">
       <div>
-        <span>姓名</span>
-        <Input v-model="name" placeholder="请输入教师姓名" style="width: 220px" />
-      </div>
-      <div>
         <span>学院</span>
         <Select v-model="college" style="width:220px" @on-change="getSearchCollegeVal">
           <Option v-for="item in collegeList" :value="item.value" :key="item.value">{{ item.label }}</Option>
         </Select>
+      </div>
+      <div>
+        <span>姓名</span>
+        <Input v-model="name" placeholder="请输入教师姓名" style="width: 220px" />
       </div>
       <Button type="primary" @click="searchTeacher">查询</Button>
     </div>

@@ -1,5 +1,5 @@
-import BaseService from './services/baseService';
-import LoginService from './services/loginService';
+import BaseService from './services/BaseService';
+import LoginService from './services/LoginService';
 import AdminService from './services/adminService';
 import TeacherService from './services/teacherService';
 import StudentService from './services/studentService';

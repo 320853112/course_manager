@@ -325,13 +325,14 @@ export default {
         this.formValidate.timeWeek = timeWeek
         this.formValidate.place = place
         this.formValidate.credit = credit
-        this.formValidate.surplus = surplus
+        this.formValidate.surplus = String(surplus)
       } else {
         this.formValidate.userId = ''
       }
     },
     // 新增&编辑课程信息
     async handleSubmit() {
+      console.log(this.formValidate, typeof this.formValidate.surplus)
       this.$refs.formValidate.validate(async valid => {
         if (valid) {
           if (this.formValidate.userId) {
@@ -345,7 +346,7 @@ export default {
               timeWeek: this.formValidate.timeWeek,
               place: this.formValidate.place,
               credit: this.formValidate.credit,
-              surplus: this.formValidate.surplus
+              surplus: Number(this.formValidate.surplus)
             })
             this.loading = false
             if (result.status) {

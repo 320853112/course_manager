@@ -1,4 +1,4 @@
-import BaseService from './baseService';
+import BaseService from './BaseService';
 
 export default class TeacherService extends BaseService {
   // 获取所有教师信息

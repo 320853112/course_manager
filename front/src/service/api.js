@@ -10,7 +10,7 @@ const API = {
     getTeacher: '/course_manage/getTeacher', // 获取所有教师信息
     getTeacherCourse: '/course_manage/getTeacherCourse', // 教师获取自己所授课程
     getStuByCourse: '/course_manage/getStuByCourse', // 教师获取自己所授课程的学生
-    setScoreByStu: '/course_manage/setScoreByStu', // 为课程打分 
+    setScoreByStu: '/course_manage/setScoreByStu', // 为课程打分
     insertTeacher: '/course_manage/insertTeacher', // 新增教师信息
     deleteTeacher: '/course_manage/deleteTeacher', // 删除教师信息
     updateTeacher: '/course_manage/updateTeacher' // 编辑教师信息
@@ -24,12 +24,12 @@ const API = {
   course: {
     getCourse: '/course_manage/getCourse', // 获取所有课程信息
     getStuCourse: '/course_manage/getStuCourse', // 学生已选课程
-    getStuCourseTable: '/course_manage/getStuCourseTable', // 查询学生课程表 
+    getStuCourseTable: '/course_manage/getStuCourseTable', // 查询学生课程表
     insertCourse: '/course_manage/insertCourse', // 新增课程
     deleteCourse: '/course_manage/deleteCourse', // 删除课程
     updateCourse: '/course_manage/updateCourse', // 编辑课程
     selectCourse: '/course_manage/selectCourse', // 学生选课
-    removeCourse: '/course_manage/removeCourse'  // 退选课程
+    removeCourse: '/course_manage/removeCourse' // 退选课程
   }
 }
 
